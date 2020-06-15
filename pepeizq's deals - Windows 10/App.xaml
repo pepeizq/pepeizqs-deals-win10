@@ -1,0 +1,21 @@
+﻿<Application
+    x:Class="pepeizq_s_deals___Windows_10.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Application.Resources>
+        <Color x:Key="ColorPrimero">#002033</Color>
+        <Color x:Key="ColorSegundo">#004e7a</Color>
+        <Color x:Key="ColorTercero">#2e4460</Color>
+        <Color x:Key="ColorCuarto">#1b2838</Color>
+
+        <SolidColorBrush x:Key="BrushPrimero" Color="{StaticResource ColorPrimero}"/>
+        <SolidColorBrush x:Key="BrushSegundo" Color="{StaticResource ColorSegundo}"/>
+        <SolidColorBrush x:Key="BrushTercero" Color="{StaticResource ColorTercero}"/>
+        <SolidColorBrush x:Key="BrushCuarto" Color="{StaticResource ColorCuarto}"/>
+
+        <SolidColorBrush x:Key="Fondo" Color="{StaticResource ColorPrimero}"/>
+
+        <AcrylicBrush x:Key="TituloFondo" BackgroundSource="Backdrop" TintColor="{StaticResource ColorPrimero}" TintOpacity=".7"/>
+    </Application.Resources> 
+</Application>
