@@ -1,4 +1,6 @@
-﻿Imports Windows.UI.Core
+﻿Imports Windows.ApplicationModel.Core
+Imports Windows.UI
+Imports Windows.UI.Core
 
 Public NotInheritable Class MainPage
     Inherits Page
@@ -11,8 +13,28 @@ Public NotInheritable Class MainPage
         Dim entradas As List(Of Entrada) = Await Wordpress.CargarEntradas
 
         For Each entrada In entradas
-            lvTest.Items.Add(entrada.Titulo.Texto)
+            lvTest.Items.Add(Interfaz.GenerarEntrada(entrada))
         Next
+
+        '--------------------------------------------------------
+
+        Dim barra As ApplicationViewTitleBar = ApplicationView.GetForCurrentView().TitleBar
+        barra.ButtonBackgroundColor = Colors.Transparent
+        Dim barra2 As CoreApplicationViewTitleBar = CoreApplication.GetCurrentView().TitleBar
+        barra2.ExtendViewIntoTitleBar = True
+
+    End Sub
+
+    Private Sub GridVisibilidad(grid As Grid, tag As String)
+
+        tbTitulo.Text = Package.Current.DisplayName + " (" + Package.Current.Id.Version.Major.ToString + "." + Package.Current.Id.Version.Minor.ToString + "." + Package.Current.Id.Version.Build.ToString + "." + Package.Current.Id.Version.Revision.ToString + ") - " + tag
+
+        'gridAñadirTile.Visibility = Visibility.Collapsed
+        'gridPersonalizarTiles.Visibility = Visibility.Collapsed
+        'gridConfig.Visibility = Visibility.Collapsed
+        'gridContactarAñadirJuegos.Visibility = Visibility.Collapsed
+
+        grid.Visibility = Visibility.Visible
 
     End Sub
 

@@ -17,5 +17,7 @@
         <SolidColorBrush x:Key="Fondo" Color="{StaticResource ColorPrimero}"/>
 
         <AcrylicBrush x:Key="TituloFondo" BackgroundSource="Backdrop" TintColor="{StaticResource ColorPrimero}" TintOpacity=".7"/>
+
+        <SolidColorBrush x:Key="ListViewItemBackgroundSelected" Color="Transparent"/>
     </Application.Resources> 
 </Application>

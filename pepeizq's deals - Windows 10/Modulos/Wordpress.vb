@@ -8,7 +8,7 @@ Module Wordpress
             .AuthMethod = Models.AuthMethod.JWT
         }
 
-        Dim entradas As List(Of Entrada) = Await cliente.CustomRequest.Get(Of List(Of Entrada))("wp/v2/posts")
+        Dim entradas As List(Of Entrada) = Await cliente.CustomRequest.Get(Of List(Of Entrada))("wp/v2/posts?per_page=100")
 
         Return entradas
     End Function
