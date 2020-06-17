@@ -31,6 +31,12 @@ Public Class Entrada
     <JsonProperty("title2")>
     Public SubTitulo As String
 
+    <JsonProperty("date")>
+    Public Fecha As String
+
+    <JsonProperty("link")>
+    Public Enlace As String
+
 End Class
 
 Public Class Titulo

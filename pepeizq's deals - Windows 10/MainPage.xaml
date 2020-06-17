@@ -32,7 +32,7 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0" Padding="30" Margin="30">
+            <Grid Grid.Column="0" Padding="20,15,20,20" Margin="15">
                 <Grid.Background>
                     <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                         <GradientStop Color="{StaticResource ColorTercero}" Offset="0.5" />
@@ -40,11 +40,71 @@
                     </LinearGradientBrush>
                 </Grid.Background>
 
-                <!--<controls:RadialProgressBar />-->
-                <ListView x:Name="lvTest"/>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Padding="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel x:Name="spBotonesSeleccion" Grid.Column="0" Orientation="Horizontal" Padding="10,0">
+                        <Button x:Name="botonSeleccionarTodo" Background="Transparent" BorderBrush="Transparent" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton" Style="{StaticResource ButtonRevealStyle}">
+                            <Button.Content>
+                                <StackPanel x:Name="spSeleccionarTodo" Orientation="Horizontal" BorderBrush="White" Padding="0,5" Margin="10,0">
+                                    <TextBlock x:Uid="All" Foreground="White" FontSize="17"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                        <Button x:Name="botonSeleccionarBundles" Background="Transparent" BorderBrush="Transparent" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton" Style="{StaticResource ButtonRevealStyle}">
+                            <Button.Content>
+                                <StackPanel x:Name="spSeleccionarBundles" Orientation="Horizontal" BorderBrush="White" Padding="0,5" Margin="10,0">
+                                    <TextBlock x:Uid="Bundles" Foreground="White" FontSize="17"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                        <Button x:Name="botonSeleccionarOfertas" Background="Transparent" BorderBrush="Transparent" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton" Style="{StaticResource ButtonRevealStyle}">
+                            <Button.Content>
+                                <StackPanel x:Name="spSeleccionarOfertas" Orientation="Horizontal" BorderBrush="White" Padding="0,5" Margin="10,0">
+                                    <TextBlock x:Uid="Deals" Foreground="White" FontSize="17"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                        <Button x:Name="botonSeleccionarGratis" Background="Transparent" BorderBrush="Transparent" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton" Style="{StaticResource ButtonRevealStyle}">
+                            <Button.Content>
+                                <StackPanel x:Name="spSeleccionarGratis" Orientation="Horizontal" BorderBrush="White" Padding="0,5" Margin="10,0">
+                                    <TextBlock x:Uid="Free" Foreground="White" FontSize="17"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                        <Button x:Name="botonSeleccionarSuscripciones" Background="Transparent" BorderBrush="Transparent" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton" Style="{StaticResource ButtonRevealStyle}">
+                            <Button.Content>
+                                <StackPanel x:Name="spSeleccionarSuscripciones" Orientation="Horizontal" BorderBrush="White" Padding="0,5" Margin="10,0">
+                                    <TextBlock x:Uid="Subscriptions" Foreground="White" FontSize="17"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                    </StackPanel>
+
+                    <Button x:Name="botonActualizar" Grid.Column="1" Margin="15,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton" Style="{StaticResource ButtonRevealStyle}">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal" Padding="5">
+                                <fa:FontAwesome Icon="Refresh" Foreground="White" FontSize="17"/>
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+                </Grid>
+                
+                <ProgressRing x:Name="prPrincipal" Grid.Row="1" Visibility="Collapsed" Width="50" Height="50" Foreground="White" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <ListView x:Name="lvPrincipal" Grid.Row="1" Padding="0,0,20,0"/>
             </Grid>
-            
-            
+
+            <Grid Grid.Column="1">
+                <ListView x:Name="lvAnuncios"/>
+            </Grid>
         </Grid>
         
     </Grid>
