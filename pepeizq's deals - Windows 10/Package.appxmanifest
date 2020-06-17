@@ -7,15 +7,15 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="7f45ae81-fa23-4bb9-bc62-7838605ff461"
-    Publisher="CN=pepeizq"
-    Version="1.0.0.0" />
+    Name="5078pepeizq.SteamDeals"
+    Publisher="CN=C91088FC-231C-4E13-86D1-5F9658173DA7"
+    Version="2.0.1.0" />
 
-  <mp:PhoneIdentity PhoneProductId="7f45ae81-fa23-4bb9-bc62-7838605ff461" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="882cd09f-c37d-481c-a1cd-233e69498d30" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>pepeizq's deals - Windows 10</DisplayName>
-    <PublisherDisplayName>pepeizq</PublisherDisplayName>
+    <DisplayName>pepeizq&apos;s deals • Digital Game Deals for PC • Steam, GOG, Epic Games, Origin, ...</DisplayName>
+    <PublisherDisplayName>pepeizq&apos;s apps</PublisherDisplayName>
     <Logo>Assets\Logos\StoreLogo.png</Logo>
   </Properties>
 
@@ -43,7 +43,7 @@
             <uap:ShowOn Tile="square310x310Logo"/>
           </uap:ShowNameOnTiles>
         </uap:DefaultTile >
-        <uap:SplashScreen Image="Assets\Logos\SplashScreen.png"  BackgroundColor="#002033"/>
+        <uap:SplashScreen Image="Assets\Logos\SplashScreen.png" BackgroundColor="#002033"/>
       </uap:VisualElements>
     </Application>
   </Applications>

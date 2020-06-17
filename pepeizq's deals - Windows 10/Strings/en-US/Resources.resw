@@ -141,10 +141,19 @@
   <data name="Share" xml:space="preserve">
     <value>Share</value>
   </data>
+  <data name="SocialLinks.Text" xml:space="preserve">
+    <value>You can follow the deals on these social networks:</value>
+  </data>
+  <data name="SourceCode.Text" xml:space="preserve">
+    <value>Source Code</value>
+  </data>
   <data name="Subscriptions.Text" xml:space="preserve">
     <value>Subscriptions</value>
   </data>
   <data name="Subscriptions2" xml:space="preserve">
     <value>Subscriptions</value>
+  </data>
+  <data name="Vote.Text" xml:space="preserve">
+    <value>Vote</value>
   </data>
 </root>

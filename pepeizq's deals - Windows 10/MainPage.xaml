@@ -97,15 +97,90 @@
                         </Button.Content>
                     </Button>
                 </Grid>
-                
+
                 <ProgressRing x:Name="prPrincipal" Grid.Row="1" Visibility="Collapsed" Width="50" Height="50" Foreground="White" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <ListView x:Name="lvPrincipal" Grid.Row="1" Padding="0,0,20,0"/>
             </Grid>
 
-            <Grid Grid.Column="1">
-                <ListView x:Name="lvAnuncios"/>
+            <Grid Grid.Column="1" Padding="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Vertical">
+                    <TextBlock x:Uid="SocialLinks" FontSize="17" Foreground="White" HorizontalAlignment="Center" Margin="10,0"/>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,15,0,20">
+                        <Button x:Name="botonTwitter" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton" Style="{StaticResource ButtonRevealStyle}">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal" Padding="5,7,5,5">
+                                    <TextBlock Text="&#xf099;" FontFamily="ms-appx:///Assets/Fuentes/Font Awesome 5 Brands-Regular-400.otf#Font Awesome 5 Brands" FontSize="22" Foreground="White"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                        <Button x:Name="botonSteam" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton" Style="{StaticResource ButtonRevealStyle}">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal" Padding="5,7,5,5">
+                                    <TextBlock Text="&#xf1b6;" FontFamily="ms-appx:///Assets/Fuentes/Font Awesome 5 Brands-Regular-400.otf#Font Awesome 5 Brands" FontSize="22" Foreground="White"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                        <Button x:Name="botonReddit" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton" Style="{StaticResource ButtonRevealStyle}">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal" Padding="5,7,5,5">
+                                    <TextBlock Text="&#xf1a1;" FontFamily="ms-appx:///Assets/Fuentes/Font Awesome 5 Brands-Regular-400.otf#Font Awesome 5 Brands" FontSize="22" Foreground="White"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                        <Button x:Name="botonDiscord" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton" Style="{StaticResource ButtonRevealStyle}">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal" Padding="5,7,5,5">
+                                    <TextBlock Text="&#xf392;" FontFamily="ms-appx:///Assets/Fuentes/Font Awesome 5 Brands-Regular-400.otf#Font Awesome 5 Brands" FontSize="22" Foreground="White"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                        <Button x:Name="botonTelegram" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton" Style="{StaticResource ButtonRevealStyle}">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal" Padding="5,7,5,5">
+                                    <TextBlock Text="&#xf2c6;" FontFamily="ms-appx:///Assets/Fuentes/Font Awesome 5 Brands-Regular-400.otf#Font Awesome 5 Brands" FontSize="22" Foreground="White"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                        <Button x:Name="botonRSS" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton" Style="{StaticResource ButtonRevealStyle}">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal" Padding="5,5,5,5">
+                                    <fa:FontAwesome Icon="Rss" FontSize="22" Foreground="White"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                    </StackPanel>
+
+                    <ListView x:Name="lvAnuncios"/>
+                </StackPanel>
+
+                <Grid Grid.Row="1" Margin="0,20,0,0">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button x:Name="botonVotar" Background="Transparent" BorderBrush="Transparent" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton" Style="{StaticResource ButtonRevealStyle}">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal" Padding="2,2,2,2">
+                                    <fa:FontAwesome Icon="ThumbsUp" FontSize="15" Foreground="White" Margin="0,0,10,0"/>
+                                    <TextBlock x:Uid="Vote" FontSize="15" Foreground="White"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                        
+                        <Button x:Name="botonGithub" Background="Transparent" BorderBrush="Transparent" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton" Style="{StaticResource ButtonRevealStyle}">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal" Padding="2,2,2,2">
+                                    <fa:FontAwesome Icon="Github" FontSize="15" Foreground="White" Margin="0,0,10,0"/>
+                                    <TextBlock x:Uid="SourceCode" FontSize="15" Foreground="White"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                    </StackPanel>
+                </Grid> 
             </Grid>
         </Grid>
-        
     </Grid>
 </Page>

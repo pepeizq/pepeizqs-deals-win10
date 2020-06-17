@@ -1,4 +1,5 @@
 ﻿Imports Windows.ApplicationModel.Core
+Imports Windows.System
 Imports Windows.UI
 Imports Windows.UI.Core
 
@@ -23,7 +24,7 @@ Public NotInheritable Class MainPage
 
     Public Async Sub CargaListado(categoria As String, tipo As Integer, sp As StackPanel)
 
-        tbTitulo.Text = Package.Current.DisplayName + " (" + Package.Current.Id.Version.Major.ToString + "." + Package.Current.Id.Version.Minor.ToString + "." + Package.Current.Id.Version.Build.ToString + "." + Package.Current.Id.Version.Revision.ToString + ")"
+        tbTitulo.Text = "pepeizq's deals (" + Package.Current.Id.Version.Major.ToString + "." + Package.Current.Id.Version.Minor.ToString + "." + Package.Current.Id.Version.Build.ToString + "." + Package.Current.Id.Version.Revision.ToString + ")"
 
         If Not categoria = Nothing Then
             tbTitulo.Text = tbTitulo.Text + " • " + categoria
@@ -44,11 +45,13 @@ Public NotInheritable Class MainPage
         '--------------------------------------
 
         lvPrincipal.IsItemClickEnabled = False
+        lvAnuncios.IsItemClickEnabled = False
 
         prPrincipal.Visibility = Visibility.Visible
         prPrincipal.IsActive = True
 
         lvPrincipal.Items.Clear()
+        lvAnuncios.Items.Clear()
 
         Dim entradas As List(Of Entrada) = Await Wordpress.CargarEntradas
 
@@ -92,6 +95,36 @@ Public NotInheritable Class MainPage
                     lvPrincipal.Items.Add(Interfaz.GenerarEntrada(entrada))
                     lvPrincipal.Items.Add(Interfaz.GenerarCompartir(entrada))
                 End If
+
+                Dim añadirAnuncio As Boolean = False
+
+                For Each categoria In entrada.Categorias
+                    If categoria = 1208 Then
+                        If lvAnuncios.Items.Count < 2 Then
+                            añadirAnuncio = True
+                        End If
+                    End If
+                Next
+
+                If añadirAnuncio = True Then
+                    lvAnuncios.Items.Add(Interfaz.GenerarAnuncio(entrada))
+                End If
+
+                Dim añadirWeb As Boolean = False
+
+                For Each categoria In entrada.Categorias
+                    If categoria = 1242 Then
+                        añadirWeb = True
+
+                        If lvAnuncios.Items.Count > 2 Then
+                            añadirWeb = False
+                        End If
+                    End If
+                Next
+
+                If añadirWeb = True Then
+                    lvAnuncios.Items.Add(Interfaz.GenerarAnuncio(entrada))
+                End If
             Next
         End If
 
@@ -100,7 +133,9 @@ Public NotInheritable Class MainPage
 
         botonActualizar.IsHitTestVisible = True
         spBotonesSeleccion.IsHitTestVisible = True
+
         lvPrincipal.IsItemClickEnabled = True
+        lvAnuncios.IsItemClickEnabled = True
 
     End Sub
 
@@ -153,6 +188,54 @@ Public NotInheritable Class MainPage
         Else
             CargaListado(Nothing, 0, spSeleccionarTodo)
         End If
+
+    End Sub
+
+    Private Async Sub BotonTwitter_Click(sender As Object, e As RoutedEventArgs) Handles botonTwitter.Click
+
+        Await Launcher.LaunchUriAsync(New Uri("https://twitter.com/pepeizqdeals"))
+
+    End Sub
+
+    Private Async Sub BotonSteam_Click(sender As Object, e As RoutedEventArgs) Handles botonSteam.Click
+
+        Await Launcher.LaunchUriAsync(New Uri("https://steamcommunity.com/groups/pepeizqdeals/"))
+
+    End Sub
+
+    Private Async Sub BotonReddit_Click(sender As Object, e As RoutedEventArgs) Handles botonReddit.Click
+
+        Await Launcher.LaunchUriAsync(New Uri("https://new.reddit.com/r/pepeizqdeals/new/"))
+
+    End Sub
+
+    Private Async Sub BotonDiscord_Click(sender As Object, e As RoutedEventArgs) Handles botonDiscord.Click
+
+        Await Launcher.LaunchUriAsync(New Uri("https://discord.gg/hsTfC9a"))
+
+    End Sub
+
+    Private Async Sub BotonTelegram_Click(sender As Object, e As RoutedEventArgs) Handles botonTelegram.Click
+
+        Await Launcher.LaunchUriAsync(New Uri("https://t.me/pepeizqdeals"))
+
+    End Sub
+
+    Private Async Sub BotonRSS_Click(sender As Object, e As RoutedEventArgs) Handles botonRSS.Click
+
+        Await Launcher.LaunchUriAsync(New Uri("https://pepeizqdeals.com/rss-2/"))
+
+    End Sub
+
+    Private Async Sub BotonGithub_Click(sender As Object, e As RoutedEventArgs) Handles botonGithub.Click
+
+        Await Launcher.LaunchUriAsync(New Uri("https://github.com/pepeizq/pepeizqs-deals-win10"))
+
+    End Sub
+
+    Private Async Sub BotonVotar_Click(sender As Object, e As RoutedEventArgs) Handles botonVotar.Click
+
+        Await Launcher.LaunchUriAsync(New Uri("ms-windows-store:REVIEW?PFN=" + Package.Current.Id.FamilyName))
 
     End Sub
 
