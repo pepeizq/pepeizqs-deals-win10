@@ -13,7 +13,8 @@ Public NotInheritable Class MainPage
 
         '--------------------------------------------------------
 
-        CargaListado(Nothing, 0, spSeleccionarTodo)
+        CargaListado(10, Nothing, 0, spSeleccionarTodo)
+        CargaListado(100, Nothing, 0, spSeleccionarTodo)
 
         Dim barra As ApplicationViewTitleBar = ApplicationView.GetForCurrentView().TitleBar
         barra.ButtonBackgroundColor = Colors.Transparent
@@ -22,7 +23,7 @@ Public NotInheritable Class MainPage
 
     End Sub
 
-    Public Async Sub CargaListado(categoria As String, tipo As Integer, sp As StackPanel)
+    Public Async Sub CargaListado(paginas As Integer, categoria As String, tipo As Integer, sp As StackPanel)
 
         tbTitulo.Text = "pepeizq's deals (" + Package.Current.Id.Version.Major.ToString + "." + Package.Current.Id.Version.Minor.ToString + "." + Package.Current.Id.Version.Build.ToString + "." + Package.Current.Id.Version.Revision.ToString + ")"
 
@@ -51,9 +52,26 @@ Public NotInheritable Class MainPage
         prPrincipal.IsActive = True
 
         lvPrincipal.Items.Clear()
-        lvAnuncios.Items.Clear()
 
-        Dim entradas As List(Of Entrada) = Await Wordpress.CargarEntradas
+        If categoria = Nothing Then
+            lvAnuncios.Items.Clear()
+        End If
+
+        Dim recursos As New Resources.ResourceLoader()
+
+        Dim categoriaNumero As Integer = Nothing
+
+        If categoria = recursos.GetString("Bundles2") Then
+            categoriaNumero = 4
+        ElseIf categoria = recursos.GetString("Deals2") Then
+            categoriaNumero = 3
+        ElseIf categoria = recursos.GetString("Free2") Then
+            categoriaNumero = 12
+        ElseIf categoria = recursos.GetString("Subscriptions2") Then
+            categoriaNumero = 13
+        End If
+
+        Dim entradas As List(Of Entrada) = Await Wordpress.CargarEntradas(paginas, categoriaNumero)
 
         If entradas.Count > 0 Then
             For Each entrada In entradas
@@ -91,6 +109,19 @@ Public NotInheritable Class MainPage
                     Next
                 End If
 
+                If lvPrincipal.Items.Count > 0 Then
+                    For Each item In lvPrincipal.Items
+                        If TypeOf item Is Button Then
+                            Dim boton As Button = item
+                            Dim botonEntrada As Entrada = boton.Tag
+
+                            If entrada.Enlace = botonEntrada.Enlace Then
+                                añadirPrincipal = False
+                            End If
+                        End If
+                    Next
+                End If
+
                 If añadirPrincipal = True Then
                     lvPrincipal.Items.Add(Interfaz.GenerarEntrada(entrada))
                     lvPrincipal.Items.Add(Interfaz.GenerarCompartir(entrada))
@@ -105,6 +136,19 @@ Public NotInheritable Class MainPage
                         End If
                     End If
                 Next
+
+                If lvAnuncios.Items.Count > 0 Then
+                    For Each item In lvAnuncios.Items
+                        If TypeOf item Is Button Then
+                            Dim boton As Button = item
+                            Dim botonEntrada As Entrada = boton.Tag
+
+                            If entrada.Enlace = botonEntrada.Enlace Then
+                                añadirAnuncio = False
+                            End If
+                        End If
+                    Next
+                End If
 
                 If añadirAnuncio = True Then
                     lvAnuncios.Items.Add(Interfaz.GenerarAnuncio(entrada))
@@ -121,6 +165,19 @@ Public NotInheritable Class MainPage
                         End If
                     End If
                 Next
+
+                If lvAnuncios.Items.Count > 0 Then
+                    For Each item In lvAnuncios.Items
+                        If TypeOf item Is Button Then
+                            Dim boton As Button = item
+                            Dim botonEntrada As Entrada = boton.Tag
+
+                            If entrada.Enlace = botonEntrada.Enlace Then
+                                añadirWeb = False
+                            End If
+                        End If
+                    Next
+                End If
 
                 If añadirWeb = True Then
                     lvAnuncios.Items.Add(Interfaz.GenerarAnuncio(entrada))
@@ -141,35 +198,35 @@ Public NotInheritable Class MainPage
 
     Private Sub BotonSeleccionarTodo_Click(sender As Object, e As RoutedEventArgs) Handles botonSeleccionarTodo.Click
 
-        CargaListado(Nothing, 0, spSeleccionarTodo)
+        CargaListado(100, Nothing, 0, spSeleccionarTodo)
 
     End Sub
 
     Private Sub BotonSeleccionarBundles_Click(sender As Object, e As RoutedEventArgs) Handles botonSeleccionarBundles.Click
 
         Dim recursos As New Resources.ResourceLoader()
-        CargaListado(recursos.GetString("Bundles2"), 1, spSeleccionarBundles)
+        CargaListado(100, recursos.GetString("Bundles2"), 1, spSeleccionarBundles)
 
     End Sub
 
     Private Sub BotonSeleccionarOfertas_Click(sender As Object, e As RoutedEventArgs) Handles botonSeleccionarOfertas.Click
 
         Dim recursos As New Resources.ResourceLoader()
-        CargaListado(recursos.GetString("Deals2"), 2, spSeleccionarOfertas)
+        CargaListado(100, recursos.GetString("Deals2"), 2, spSeleccionarOfertas)
 
     End Sub
 
     Private Sub BotonSeleccionarGratis_Click(sender As Object, e As RoutedEventArgs) Handles botonSeleccionarGratis.Click
 
         Dim recursos As New Resources.ResourceLoader()
-        CargaListado(recursos.GetString("Free2"), 3, spSeleccionarGratis)
+        CargaListado(100, recursos.GetString("Free2"), 3, spSeleccionarGratis)
 
     End Sub
 
     Private Sub BotonSeleccionarSuscripciones_Click(sender As Object, e As RoutedEventArgs) Handles botonSeleccionarSuscripciones.Click
 
         Dim recursos As New Resources.ResourceLoader()
-        CargaListado(recursos.GetString("Subscriptions2"), 4, spSeleccionarSuscripciones)
+        CargaListado(100, recursos.GetString("Subscriptions2"), 4, spSeleccionarSuscripciones)
 
     End Sub
 
@@ -178,15 +235,15 @@ Public NotInheritable Class MainPage
         Dim recursos As New Resources.ResourceLoader()
 
         If tbTitulo.Text.Contains(recursos.GetString("Bundles2")) Then
-            CargaListado(recursos.GetString("Bundles2"), 1, spSeleccionarBundles)
+            CargaListado(100, recursos.GetString("Bundles2"), 1, spSeleccionarBundles)
         ElseIf tbTitulo.Text.Contains(recursos.GetString("Deals2")) Then
-            CargaListado(recursos.GetString("Deals2"), 2, spSeleccionarOfertas)
+            CargaListado(100, recursos.GetString("Deals2"), 2, spSeleccionarOfertas)
         ElseIf tbTitulo.Text.Contains(recursos.GetString("Free2")) Then
-            CargaListado(recursos.GetString("Free2"), 3, spSeleccionarGratis)
+            CargaListado(100, recursos.GetString("Free2"), 3, spSeleccionarGratis)
         ElseIf tbTitulo.Text.Contains(recursos.GetString("Subscriptions2")) Then
-            CargaListado(recursos.GetString("Subscriptions2"), 4, spSeleccionarSuscripciones)
+            CargaListado(100, recursos.GetString("Subscriptions2"), 4, spSeleccionarSuscripciones)
         Else
-            CargaListado(Nothing, 0, spSeleccionarTodo)
+            CargaListado(100, Nothing, 0, spSeleccionarTodo)
         End If
 
     End Sub
