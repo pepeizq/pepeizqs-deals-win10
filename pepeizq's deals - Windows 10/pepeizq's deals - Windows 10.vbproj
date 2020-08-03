@@ -136,11 +136,14 @@
     <Compile Include="App.xaml.vb">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Clases\Anuncio.vb" />
     <Compile Include="Clases\Entrada.vb" />
     <Compile Include="MainPage.xaml.vb">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modulos\Interfaz.vb" />
+    <Compile Include="Modulos\MasCosas.vb" />
+    <Compile Include="Modulos\NavigationViewItems.vb" />
     <Compile Include="Modulos\Notificaciones.vb" />
     <Compile Include="Modulos\Wordpress.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -196,7 +199,7 @@
     <Content Include="Assets\Logos\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\Logos\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Logos\Wide310x150Logo.scale-400.png" />
-    <Content Include="Assets\logo3.png" />
+    <Content Include="Assets\pepeizqsdeals_logo.png" />
     <Content Include="My Project\Default.rd.xml" />
     <None Include="Package.StoreAssociation.xml" />
   </ItemGroup>
@@ -247,6 +250,9 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.10</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.Services.Store.Engagement">
+      <Version>10.1901.28001</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp">
       <Version>6.1.0</Version>
     </PackageReference>
@@ -276,13 +282,12 @@
     <PRIResource Include="Strings\es-ES\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Fuentes\Font Awesome 5 Brands-Regular-400.otf" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Assets\Fuentes\Font Awesome 5 Free-Regular-400.otf" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Assets\Fuentes\Font Awesome 5 Free-Solid-900.otf" />
+    <SDKReference Include="Microsoft.Services.Store.Engagement, Version=10.0">
+      <Name>Microsoft Engagement Framework</Name>
+    </SDKReference>
+    <SDKReference Include="Microsoft.VCLibs, Version=14.0">
+      <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
+    </SDKReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

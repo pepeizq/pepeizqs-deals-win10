@@ -1,5 +1,5 @@
 ﻿Imports System.Net
-Imports FontAwesome.UWP
+Imports Microsoft.Toolkit.Uwp.UI.Animations
 Imports Microsoft.Toolkit.Uwp.UI.Controls
 Imports Windows.ApplicationModel.DataTransfer
 Imports Windows.Storage
@@ -13,13 +13,6 @@ Module Interfaz
 
         Dim gridMaestro As New Grid
 
-        Dim panelImagen As New DropShadowPanel With {
-            .BlurRadius = 10,
-            .ShadowOpacity = 0.9,
-            .Color = Colors.Black,
-            .Margin = New Thickness(0, 10, 0, 10)
-        }
-
         Dim gridImagen As New Grid With {
             .BorderBrush = New SolidColorBrush(App.Current.Resources("ColorTercero")),
             .BorderThickness = New Thickness(2, 2, 2, 2)
@@ -28,14 +21,12 @@ Module Interfaz
         Dim imagen As New ImageEx With {
             .Source = entrada.Imagen,
             .IsCacheEnabled = True,
-            .Stretch = Stretch.UniformToFill
+            .Stretch = Stretch.Uniform
         }
 
         gridImagen.Children.Add(imagen)
 
-        panelImagen.Content = gridImagen
-
-        gridMaestro.Children.Add(panelImagen)
+        gridMaestro.Children.Add(gridImagen)
 
         Dim tituloTexto As String = WebUtility.HtmlDecode(entrada.Titulo.Texto)
 
@@ -57,16 +48,25 @@ Module Interfaz
             .Background = New SolidColorBrush(Colors.Transparent),
             .Padding = New Thickness(0, 0, 0, 0),
             .BorderThickness = New Thickness(0, 0, 0, 0),
-            .Tag = entrada
+            .Tag = entrada,
+            .MaxWidth = 850,
+            .Content = gridMaestro
         }
 
         AddHandler boton.Click, AddressOf AbrirEnlaceClick
         AddHandler boton.PointerEntered, AddressOf UsuarioEntraBotonEntrada
         AddHandler boton.PointerExited, AddressOf UsuarioSaleBotonEntrada
 
-        boton.Content = gridMaestro
+        Dim panelSombra As New DropShadowPanel With {
+            .BlurRadius = 20,
+            .ShadowOpacity = 0.9,
+            .Color = Colors.Black,
+            .Margin = New Thickness(0, 10, 0, 10),
+            .Content = boton,
+            .Tag = entrada
+        }
 
-        Return boton
+        Return panelSombra
     End Function
 
     Private Async Sub AbrirEnlaceClick(sender As Object, e As RoutedEventArgs)
@@ -80,31 +80,33 @@ Module Interfaz
 
     Public Sub UsuarioEntraBotonEntrada(sender As Object, e As PointerRoutedEventArgs)
 
-        Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Hand, 1)
-
         Dim boton As Button = sender
         Dim grid As Grid = boton.Content
 
-        Dim panelImagen As DropShadowPanel = grid.Children(0)
-        panelImagen.Opacity = 0.2
+        Dim subgrid As Grid = grid.Children(0)
+        subgrid.Opacity = 0.2
+        subgrid.Saturation(1).Scale(1.01, 1.01, boton.ActualWidth / 2, boton.ActualHeight / 2).Start()
 
         Dim titulo As TextBlock = grid.Children(1)
         titulo.Opacity = 1
+
+        Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Hand, 1)
 
     End Sub
 
     Public Sub UsuarioSaleBotonEntrada(sender As Object, e As PointerRoutedEventArgs)
 
-        Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Arrow, 1)
-
         Dim boton As Button = sender
         Dim grid As Grid = boton.Content
 
-        Dim panelImagen As DropShadowPanel = grid.Children(0)
-        panelImagen.Opacity = 1
+        Dim subgrid As Grid = grid.Children(0)
+        subgrid.Opacity = 1
+        subgrid.Saturation(1).Scale(1, 1, boton.ActualWidth / 2, boton.ActualHeight / 2).Start()
 
         Dim titulo As TextBlock = grid.Children(1)
         titulo.Opacity = 0
+
+        Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Arrow, 1)
 
     End Sub
 
@@ -114,13 +116,10 @@ Module Interfaz
 
         Dim recursos As New Resources.ResourceLoader()
 
-        Dim item As New ListViewItem With {
+        Dim sp As New StackPanel With {
+            .Orientation = Orientation.Horizontal,
             .Margin = New Thickness(0, 0, 0, 20),
-            .Padding = New Thickness(10, 10, 10, 10)
-        }
-
-        Dim spMaestro As New StackPanel With {
-            .Orientation = Orientation.Horizontal
+            .Padding = New Thickness(0, 10, 10, 10)
         }
 
         '------------------------------
@@ -159,7 +158,7 @@ Module Interfaz
 
         panelCompartir.Content = compartir
 
-        spMaestro.Children.Add(panelCompartir)
+        sp.Children.Add(panelCompartir)
 
         '------------------------------
 
@@ -171,8 +170,8 @@ Module Interfaz
             .Tag = entrada
         }
 
-        Dim iconoTwitter As New FontAwesome.UWP.FontAwesome With {
-            .Icon = FontAwesomeIcon.Twitter,
+        Dim iconoTwitter As New FontAwesome5.FontAwesome With {
+            .Icon = FontAwesome5.EFontAwesomeIcon.Brands_Twitter,
             .Foreground = New SolidColorBrush(Colors.White),
             .Margin = New Thickness(12, 10, 12, 10)
         }
@@ -197,7 +196,7 @@ Module Interfaz
 
         panelTwitter.Content = twitter
 
-        spMaestro.Children.Add(panelTwitter)
+        sp.Children.Add(panelTwitter)
 
         '------------------------------
 
@@ -209,8 +208,8 @@ Module Interfaz
             .Tag = entrada
         }
 
-        Dim iconoReddit As New FontAwesome.UWP.FontAwesome With {
-            .Icon = FontAwesomeIcon.Reddit,
+        Dim iconoReddit As New FontAwesome5.FontAwesome With {
+            .Icon = FontAwesome5.EFontAwesomeIcon.Brands_Reddit,
             .Foreground = New SolidColorBrush(Colors.White),
             .Margin = New Thickness(12, 10, 12, 10)
         }
@@ -235,13 +234,11 @@ Module Interfaz
 
         panelReddit.Content = reddit
 
-        spMaestro.Children.Add(panelReddit)
+        sp.Children.Add(panelReddit)
 
         '------------------------------
 
-        item.Content = spMaestro
-
-        Return item
+        Return sp
     End Function
 
     Private Sub CompartirClick(sender As Object, e As RoutedEventArgs)
@@ -294,78 +291,36 @@ Module Interfaz
 
     Public Sub UsuarioEntraBotonCompartir(sender As Object, e As PointerRoutedEventArgs)
 
+        Dim boton As Button = sender
+        Dim sp As StackPanel = boton.Content
+
+        If TypeOf sp.Children(0) Is TextBlock Then
+            Dim tb As TextBlock = sp.Children(0)
+            tb.Saturation(1).Scale(1.1, 1.1, tb.ActualWidth / 2, tb.ActualHeight / 2).Start()
+        ElseIf TypeOf sp.Children(0) Is FontAwesome5.FontAwesome Then
+            Dim icono As FontAwesome5.FontAwesome = sp.Children(0)
+            icono.Saturation(1).Scale(1.1, 1.1, icono.ActualWidth / 2, icono.ActualHeight / 2).Start()
+        End If
+
         Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Hand, 1)
 
     End Sub
 
     Public Sub UsuarioSaleBotonCompartir(sender As Object, e As PointerRoutedEventArgs)
 
+        Dim boton As Button = sender
+        Dim sp As StackPanel = boton.Content
+
+        If TypeOf sp.Children(0) Is TextBlock Then
+            Dim tb As TextBlock = sp.Children(0)
+            tb.Saturation(1).Scale(1, 1, tb.ActualWidth / 2, tb.ActualHeight / 2).Start()
+        ElseIf TypeOf sp.Children(0) Is FontAwesome5.FontAwesome Then
+            Dim icono As FontAwesome5.FontAwesome = sp.Children(0)
+            icono.Saturation(1).Scale(1, 1, icono.ActualWidth / 2, icono.ActualHeight / 2).Start()
+        End If
+
         Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Arrow, 1)
 
     End Sub
-
-    '------------------------------------------------------------------------------------------------
-
-    Public Function GenerarAnuncio(entrada As Entrada)
-
-        Dim gridMaestro As New Grid
-
-        Dim panelImagen As New DropShadowPanel With {
-            .BlurRadius = 4,
-            .ShadowOpacity = 0.9,
-            .Color = App.Current.Resources("ColorSegundo"),
-            .Margin = New Thickness(0, 10, 0, 10)
-        }
-
-        Dim gridImagen As New Grid With {
-            .BorderBrush = New SolidColorBrush(App.Current.Resources("ColorPrimero")),
-            .BorderThickness = New Thickness(2, 2, 2, 2)
-        }
-
-        Dim imagen As New ImageEx With {
-            .Source = entrada.Imagen,
-            .IsCacheEnabled = True,
-            .Stretch = Stretch.UniformToFill,
-            .HorizontalAlignment = HorizontalAlignment.Center,
-            .VerticalAlignment = VerticalAlignment.Top
-        }
-
-        gridImagen.Children.Add(imagen)
-
-        panelImagen.Content = gridImagen
-
-        gridMaestro.Children.Add(panelImagen)
-
-        Dim tituloTexto As String = WebUtility.HtmlDecode(entrada.Titulo.Texto)
-
-        Dim titulo As New TextBlock With {
-            .Text = tituloTexto,
-            .TextWrapping = TextWrapping.Wrap,
-            .Opacity = 0,
-            .Margin = New Thickness(40, 40, 40, 40),
-            .FontSize = 30,
-            .Foreground = New SolidColorBrush(App.Current.Resources("ColorQuinto")),
-            .VerticalAlignment = VerticalAlignment.Center,
-            .HorizontalAlignment = HorizontalAlignment.Center,
-            .HorizontalTextAlignment = TextAlignment.Center
-        }
-
-        gridMaestro.Children.Add(titulo)
-
-        Dim boton As New Button With {
-            .Background = New SolidColorBrush(Colors.Transparent),
-            .Padding = New Thickness(0, 0, 0, 0),
-            .BorderThickness = New Thickness(0, 0, 0, 0),
-            .Tag = entrada
-        }
-
-        AddHandler boton.Click, AddressOf AbrirEnlaceClick
-        AddHandler boton.PointerEntered, AddressOf UsuarioEntraBotonEntrada
-        AddHandler boton.PointerExited, AddressOf UsuarioSaleBotonEntrada
-
-        boton.Content = gridMaestro
-
-        Return boton
-    End Function
 
 End Module

@@ -45,7 +45,7 @@ Module Notificaciones
 
     End Sub
 
-    Public Sub ToastOferta(titulo As String, enlace As String, imagen As String)
+    Public Sub ToastAnuncio(titulo As String, enlace As String, imagen As String)
 
         Dim textoTitulo As New AdaptiveText With {
             .Text = titulo,
@@ -53,7 +53,7 @@ Module Notificaciones
         }
 
         Dim logo As New ToastGenericAppLogo With {
-            .Source = "Assets/ImagenesEntradapepeizq/avatar_notificaciones.png",
+            .Source = "Assets/pepeizqsdeals_logo.png",
             .HintCrop = ToastGenericAppLogoCrop.Circle
         }
 
@@ -89,8 +89,9 @@ Module Notificaciones
         }
 
         Try
-            Dim notificacion As New ToastNotification(tostada.GetXml)
-            notificacion.ExpirationTime = DateTime.Now.AddSeconds(60)
+            Dim notificacion As New ToastNotification(tostada.GetXml) With {
+                .ExpirationTime = DateTime.Now.AddSeconds(180)
+            }
 
             Dim notificador As ToastNotifier = ToastNotificationManager.CreateToastNotifier()
             notificador.Show(notificacion)

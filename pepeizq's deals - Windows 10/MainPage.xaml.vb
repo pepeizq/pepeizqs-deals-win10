@@ -1,4 +1,6 @@
-﻿Imports Windows.ApplicationModel.Core
+﻿Imports Microsoft.Toolkit.Uwp.UI.Animations
+Imports Microsoft.Toolkit.Uwp.UI.Controls
+Imports Windows.ApplicationModel.Core
 Imports Windows.System
 Imports Windows.UI
 Imports Windows.UI.Core
@@ -6,24 +8,69 @@ Imports Windows.UI.Core
 Public NotInheritable Class MainPage
     Inherits Page
 
+    Private Sub Nv_Loaded(sender As Object, e As RoutedEventArgs)
+
+        Dim recursos As New Resources.ResourceLoader()
+
+        nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Home"), FontAwesome5.EFontAwesomeIcon.Solid_Home, 0))
+        nvPrincipal.MenuItems.Add(New NavigationViewItemSeparator)
+        nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Deals2"), Nothing, 1))
+        nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Bundles2"), Nothing, 2))
+        nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Free2"), Nothing, 3))
+        nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Subscriptions2"), Nothing, 4))
+        nvPrincipal.MenuItems.Add(New NavigationViewItemSeparator)
+        nvPrincipal.MenuItems.Add(MasCosas.Generar("https://github.com/pepeizq/pepeizqs-deals-win10", "https://poeditor.com/join/project/aKmScyB4QT"))
+
+    End Sub
+
+    Private Sub Nv_ItemInvoked(sender As NavigationView, args As NavigationViewItemInvokedEventArgs)
+
+        Dim recursos As New Resources.ResourceLoader()
+
+        Dim item As TextBlock = args.InvokedItem
+
+        If Not item Is Nothing Then
+            If item.Text = recursos.GetString("Home") Then
+                CargaListado(100, Nothing, 0)
+            ElseIf item.Text = recursos.GetString("Deals2") Then
+                CargaListado(100, recursos.GetString("Deals2"), 2)
+            ElseIf item.Text = recursos.GetString("Bundles2") Then
+                CargaListado(100, recursos.GetString("Bundles2"), 1)
+            ElseIf item.Text = recursos.GetString("Free2") Then
+                CargaListado(100, recursos.GetString("Free2"), 3)
+            ElseIf item.Text = recursos.GetString("Subscriptions2") Then
+                CargaListado(100, recursos.GetString("Subscriptions2"), 4)
+            ElseIf item.Text = recursos.GetString("MoreThings") Then
+                FlyoutBase.ShowAttachedFlyout(nvPrincipal.MenuItems.Item(nvPrincipal.MenuItems.Count - 1))
+            End If
+        End If
+
+    End Sub
+
     Private Sub Page_Loaded(sender As Object, e As RoutedEventArgs)
 
         'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "es-ES"
         'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "en-US"
 
-        '--------------------------------------------------------
+        tbTitulo.Text = Package.Current.DisplayName
 
-        CargaListado(10, Nothing, 0, spSeleccionarTodo)
-        CargaListado(100, Nothing, 0, spSeleccionarTodo)
+        Dim coreBarra As CoreApplicationViewTitleBar = CoreApplication.GetCurrentView.TitleBar
+        coreBarra.ExtendViewIntoTitleBar = True
 
         Dim barra As ApplicationViewTitleBar = ApplicationView.GetForCurrentView().TitleBar
         barra.ButtonBackgroundColor = Colors.Transparent
-        Dim barra2 As CoreApplicationViewTitleBar = CoreApplication.GetCurrentView().TitleBar
-        barra2.ExtendViewIntoTitleBar = True
+        barra.ButtonForegroundColor = Colors.White
+        barra.ButtonInactiveBackgroundColor = Colors.Transparent
+        barra.ButtonInactiveForegroundColor = Colors.White
+
+        '--------------------------------------------------------
+
+        CargaListado(10, Nothing, 0)
+        CargaListado(100, Nothing, 0)
 
     End Sub
 
-    Public Async Sub CargaListado(paginas As Integer, categoria As String, tipo As Integer, sp As StackPanel)
+    Public Async Sub CargaListado(paginas As Integer, categoria As String, tipo As Integer)
 
         tbTitulo.Text = "pepeizq's deals (" + Package.Current.Id.Version.Major.ToString + "." + Package.Current.Id.Version.Minor.ToString + "." + Package.Current.Id.Version.Build.ToString + "." + Package.Current.Id.Version.Revision.ToString + ")"
 
@@ -31,31 +78,12 @@ Public NotInheritable Class MainPage
             tbTitulo.Text = tbTitulo.Text + " • " + categoria
         End If
 
-        spBotonesSeleccion.IsHitTestVisible = False
-
-        spSeleccionarTodo.BorderThickness = New Thickness(0, 0, 0, 0)
-        spSeleccionarBundles.BorderThickness = New Thickness(0, 0, 0, 0)
-        spSeleccionarOfertas.BorderThickness = New Thickness(0, 0, 0, 0)
-        spSeleccionarGratis.BorderThickness = New Thickness(0, 0, 0, 0)
-        spSeleccionarSuscripciones.BorderThickness = New Thickness(0, 0, 0, 0)
-
-        sp.BorderThickness = New Thickness(0, 0, 0, 2)
-
-        botonActualizar.IsHitTestVisible = False
-
         '--------------------------------------
 
-        lvPrincipal.IsItemClickEnabled = False
-        lvAnuncios.IsItemClickEnabled = False
+        gridCarga.Visibility = Visibility.Visible
+        gridEntradas.Visibility = Visibility.Collapsed
 
-        prPrincipal.Visibility = Visibility.Visible
-        prPrincipal.IsActive = True
-
-        lvPrincipal.Items.Clear()
-
-        If categoria = Nothing Then
-            lvAnuncios.Items.Clear()
-        End If
+        spEntradas.Children.Clear()
 
         Dim recursos As New Resources.ResourceLoader()
 
@@ -75,64 +103,65 @@ Public NotInheritable Class MainPage
 
         If entradas.Count > 0 Then
             For Each entrada In entradas
-                Dim añadirPrincipal As Boolean = False
+                Dim añadir As Boolean = False
 
                 If tipo = 0 Then
                     For Each categoria In entrada.Categorias
                         If categoria = 4 Or categoria = 3 Or categoria = 12 Or categoria = 13 Then
-                            añadirPrincipal = True
+                            añadir = True
                         End If
                     Next
                 ElseIf tipo = 1 Then
                     For Each categoria In entrada.Categorias
                         If categoria = 4 Then
-                            añadirPrincipal = True
+                            añadir = True
                         End If
                     Next
                 ElseIf tipo = 2 Then
                     For Each categoria In entrada.Categorias
                         If categoria = 3 Then
-                            añadirPrincipal = True
+                            añadir = True
                         End If
                     Next
                 ElseIf tipo = 3 Then
                     For Each categoria In entrada.Categorias
                         If categoria = 12 Then
-                            añadirPrincipal = True
+                            añadir = True
                         End If
                     Next
                 ElseIf tipo = 4 Then
                     For Each categoria In entrada.Categorias
                         If categoria = 13 Then
-                            añadirPrincipal = True
+                            añadir = True
                         End If
                     Next
                 End If
 
-                If lvPrincipal.Items.Count > 0 Then
-                    For Each item In lvPrincipal.Items
-                        If TypeOf item Is Button Then
-                            Dim boton As Button = item
-                            Dim botonEntrada As Entrada = boton.Tag
+                If spEntradas.Children.Count > 0 Then
+                    For Each item In spEntradas.Children
+                        If TypeOf item Is DropShadowPanel Then
+                            Dim panel As DropShadowPanel = item
+                            Dim panelEntrada As Entrada = panel.Tag
 
-                            If entrada.Enlace = botonEntrada.Enlace Then
-                                añadirPrincipal = False
+                            If entrada.Enlace = panelEntrada.Enlace Then
+                                añadir = False
                             End If
                         End If
                     Next
                 End If
 
-                If añadirPrincipal = True Then
-                    lvPrincipal.Items.Add(Interfaz.GenerarEntrada(entrada))
-                    lvPrincipal.Items.Add(Interfaz.GenerarCompartir(entrada))
+                If añadir = True Then
+                    spEntradas.Children.Add(Interfaz.GenerarEntrada(entrada))
+                    spEntradas.Children.Add(Interfaz.GenerarCompartir(entrada))
                 End If
 
-                Dim añadirAnuncio As Boolean = False
+
+                Dim anuncio As Boolean = False
 
                 For Each categoria In entrada.Categorias
                     If categoria = 1208 Then
                         If lvAnuncios.Items.Count < 2 Then
-                            añadirAnuncio = True
+                            anuncio = True
                         End If
                     End If
                 Next
@@ -150,83 +179,38 @@ Public NotInheritable Class MainPage
                     Next
                 End If
 
-                If añadirAnuncio = True Then
-                    lvAnuncios.Items.Add(Interfaz.GenerarAnuncio(entrada))
-                End If
+                If anuncio = True Then
 
-                Dim añadirWeb As Boolean = False
-
-                For Each categoria In entrada.Categorias
-                    If categoria = 1242 Then
-                        añadirWeb = True
-
-                        If lvAnuncios.Items.Count > 2 Then
-                            añadirWeb = False
-                        End If
-                    End If
-                Next
-
-                If lvAnuncios.Items.Count > 0 Then
-                    For Each item In lvAnuncios.Items
-                        If TypeOf item Is Button Then
-                            Dim boton As Button = item
-                            Dim botonEntrada As Entrada = boton.Tag
-
-                            If entrada.Enlace = botonEntrada.Enlace Then
-                                añadirWeb = False
-                            End If
-                        End If
-                    Next
-                End If
-
-                If añadirWeb = True Then
-                    lvAnuncios.Items.Add(Interfaz.GenerarAnuncio(entrada))
                 End If
             Next
         End If
 
-        prPrincipal.Visibility = Visibility.Collapsed
-        prPrincipal.IsActive = False
-
-        botonActualizar.IsHitTestVisible = True
-        spBotonesSeleccion.IsHitTestVisible = True
-
-        lvPrincipal.IsItemClickEnabled = True
-        lvAnuncios.IsItemClickEnabled = True
+        gridCarga.Visibility = Visibility.Collapsed
+        gridEntradas.Visibility = Visibility.Visible
 
     End Sub
 
-    Private Sub BotonSeleccionarTodo_Click(sender As Object, e As RoutedEventArgs) Handles botonSeleccionarTodo.Click
+    Private Sub GridEntradas_SizeChanged(sender As Object, e As SizeChangedEventArgs) Handles gridEntradas.SizeChanged
 
-        CargaListado(100, Nothing, 0, spSeleccionarTodo)
+        Dim grid As Grid = sender
 
-    End Sub
-
-    Private Sub BotonSeleccionarBundles_Click(sender As Object, e As RoutedEventArgs) Handles botonSeleccionarBundles.Click
-
-        Dim recursos As New Resources.ResourceLoader()
-        CargaListado(100, recursos.GetString("Bundles2"), 1, spSeleccionarBundles)
-
-    End Sub
-
-    Private Sub BotonSeleccionarOfertas_Click(sender As Object, e As RoutedEventArgs) Handles botonSeleccionarOfertas.Click
-
-        Dim recursos As New Resources.ResourceLoader()
-        CargaListado(100, recursos.GetString("Deals2"), 2, spSeleccionarOfertas)
+        If grid.ActualWidth > 1000 Then
+            spControles.Visibility = Visibility.Visible
+        Else
+            spControles.Visibility = Visibility.Collapsed
+        End If
 
     End Sub
 
-    Private Sub BotonSeleccionarGratis_Click(sender As Object, e As RoutedEventArgs) Handles botonSeleccionarGratis.Click
+    Private Sub SvEntradas_ViewChanging(sender As Object, e As ScrollViewerViewChangingEventArgs) Handles svEntradas.ViewChanging
 
-        Dim recursos As New Resources.ResourceLoader()
-        CargaListado(100, recursos.GetString("Free2"), 3, spSeleccionarGratis)
+        Dim sv As ScrollViewer = sender
 
-    End Sub
-
-    Private Sub BotonSeleccionarSuscripciones_Click(sender As Object, e As RoutedEventArgs) Handles botonSeleccionarSuscripciones.Click
-
-        Dim recursos As New Resources.ResourceLoader()
-        CargaListado(100, recursos.GetString("Subscriptions2"), 4, spSeleccionarSuscripciones)
+        If sv.VerticalOffset > 50 Then
+            botonSubir.Visibility = Visibility.Visible
+        Else
+            botonSubir.Visibility = Visibility.Collapsed
+        End If
 
     End Sub
 
@@ -235,16 +219,22 @@ Public NotInheritable Class MainPage
         Dim recursos As New Resources.ResourceLoader()
 
         If tbTitulo.Text.Contains(recursos.GetString("Bundles2")) Then
-            CargaListado(100, recursos.GetString("Bundles2"), 1, spSeleccionarBundles)
+            CargaListado(100, recursos.GetString("Bundles2"), 1)
         ElseIf tbTitulo.Text.Contains(recursos.GetString("Deals2")) Then
-            CargaListado(100, recursos.GetString("Deals2"), 2, spSeleccionarOfertas)
+            CargaListado(100, recursos.GetString("Deals2"), 2)
         ElseIf tbTitulo.Text.Contains(recursos.GetString("Free2")) Then
-            CargaListado(100, recursos.GetString("Free2"), 3, spSeleccionarGratis)
+            CargaListado(100, recursos.GetString("Free2"), 3)
         ElseIf tbTitulo.Text.Contains(recursos.GetString("Subscriptions2")) Then
-            CargaListado(100, recursos.GetString("Subscriptions2"), 4, spSeleccionarSuscripciones)
+            CargaListado(100, recursos.GetString("Subscriptions2"), 4)
         Else
-            CargaListado(100, Nothing, 0, spSeleccionarTodo)
+            CargaListado(100, Nothing, 0)
         End If
+
+    End Sub
+
+    Private Sub BotonSubir_Click(sender As Object, e As RoutedEventArgs) Handles botonSubir.Click
+
+        svEntradas.ChangeView(Nothing, 0, Nothing)
 
     End Sub
 
@@ -284,18 +274,6 @@ Public NotInheritable Class MainPage
 
     End Sub
 
-    Private Async Sub BotonGithub_Click(sender As Object, e As RoutedEventArgs) Handles botonGithub.Click
-
-        Await Launcher.LaunchUriAsync(New Uri("https://github.com/pepeizq/pepeizqs-deals-win10"))
-
-    End Sub
-
-    Private Async Sub BotonVotar_Click(sender As Object, e As RoutedEventArgs) Handles botonVotar.Click
-
-        Await Launcher.LaunchUriAsync(New Uri("ms-windows-store:REVIEW?PFN=" + Package.Current.Id.FamilyName))
-
-    End Sub
-
     Public Sub UsuarioEntraBoton(sender As Object, e As PointerRoutedEventArgs)
 
         Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Hand, 1)
@@ -303,6 +281,28 @@ Public NotInheritable Class MainPage
     End Sub
 
     Public Sub UsuarioSaleBoton(sender As Object, e As PointerRoutedEventArgs)
+
+        Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Arrow, 1)
+
+    End Sub
+
+    Public Sub UsuarioEntraBoton2(sender As Object, e As PointerRoutedEventArgs)
+
+        Dim boton As Button = sender
+        Dim sp As StackPanel = boton.Content
+        Dim icono As FontAwesome5.FontAwesome = sp.Children(0)
+        icono.Saturation(1).Scale(1.2, 1.2, icono.ActualWidth / 2, icono.ActualHeight / 2).Start()
+
+        Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Hand, 1)
+
+    End Sub
+
+    Public Sub UsuarioSaleBoton2(sender As Object, e As PointerRoutedEventArgs)
+
+        Dim boton As Button = sender
+        Dim sp As StackPanel = boton.Content
+        Dim icono As FontAwesome5.FontAwesome = sp.Children(0)
+        icono.Saturation(1).Scale(1, 1, icono.ActualWidth / 2, icono.ActualHeight / 2).Start()
 
         Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Arrow, 1)
 

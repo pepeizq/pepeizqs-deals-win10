@@ -138,22 +138,40 @@
   <data name="Free2" xml:space="preserve">
     <value>Free</value>
   </data>
+  <data name="Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="Loading.Text" xml:space="preserve">
+    <value>Loading</value>
+  </data>
+  <data name="MoreThings" xml:space="preserve">
+    <value>More Things</value>
+  </data>
+  <data name="MoreThings_Contact" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="MoreThings_HelpTranslate" xml:space="preserve">
+    <value>Help to Translate</value>
+  </data>
+  <data name="MoreThings_ReportBug" xml:space="preserve">
+    <value>Report a Bug</value>
+  </data>
+  <data name="MoreThings_SourceCode" xml:space="preserve">
+    <value>Source Code</value>
+  </data>
+  <data name="MoreThings_VoteApp" xml:space="preserve">
+    <value>Vote the App</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
   <data name="Share" xml:space="preserve">
     <value>Share</value>
-  </data>
-  <data name="SocialLinks.Text" xml:space="preserve">
-    <value>You can follow the deals on these social networks:</value>
-  </data>
-  <data name="SourceCode.Text" xml:space="preserve">
-    <value>Source Code</value>
   </data>
   <data name="Subscriptions.Text" xml:space="preserve">
     <value>Subscriptions</value>
   </data>
   <data name="Subscriptions2" xml:space="preserve">
     <value>Subscriptions</value>
-  </data>
-  <data name="Vote.Text" xml:space="preserve">
-    <value>Vote</value>
   </data>
 </root>
