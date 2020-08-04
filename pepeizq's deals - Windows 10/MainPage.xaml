@@ -33,42 +33,42 @@
                     <Button x:Name="botonTwitter" Margin="0,0,5,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" PointerEntered="UsuarioEntraBoton2" PointerExited="UsuarioSaleBoton2" Style="{StaticResource ButtonRevealStyle}">
                         <Button.Content>
                             <StackPanel Orientation="Horizontal">
-                                <iconos:FontAwesome Icon="Brands_Twitter" Foreground="{StaticResource BrushPrimero}"/>
+                                <iconos:FontAwesome Icon="Brands_Twitter" Foreground="{StaticResource BrushPrimero}" FontSize="17"/>
                             </StackPanel>
                         </Button.Content>
                     </Button>
                     <Button x:Name="botonSteam" Margin="0,0,5,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" PointerEntered="UsuarioEntraBoton2" PointerExited="UsuarioSaleBoton2" Style="{StaticResource ButtonRevealStyle}">
                         <Button.Content>
                             <StackPanel Orientation="Horizontal">
-                                <iconos:FontAwesome Icon="Brands_Steam" Foreground="{StaticResource BrushPrimero}"/>
+                                <iconos:FontAwesome Icon="Brands_Steam" Foreground="{StaticResource BrushPrimero}" FontSize="17"/>
                             </StackPanel>
                         </Button.Content>
                     </Button>
                     <Button x:Name="botonReddit" Margin="0,0,5,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" PointerEntered="UsuarioEntraBoton2" PointerExited="UsuarioSaleBoton2" Style="{StaticResource ButtonRevealStyle}">
                         <Button.Content>
                             <StackPanel Orientation="Horizontal">
-                                <iconos:FontAwesome Icon="Brands_Reddit" Foreground="{StaticResource BrushPrimero}"/>
+                                <iconos:FontAwesome Icon="Brands_Reddit" Foreground="{StaticResource BrushPrimero}" FontSize="17"/>
                             </StackPanel>
                         </Button.Content>
                     </Button>
                     <Button x:Name="botonDiscord" Margin="0,0,5,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" PointerEntered="UsuarioEntraBoton2" PointerExited="UsuarioSaleBoton2" Style="{StaticResource ButtonRevealStyle}">
                         <Button.Content>
                             <StackPanel Orientation="Horizontal">
-                                <iconos:FontAwesome Icon="Brands_Discord" Foreground="{StaticResource BrushPrimero}"/>
+                                <iconos:FontAwesome Icon="Brands_Discord" Foreground="{StaticResource BrushPrimero}" FontSize="17"/>
                             </StackPanel>
                         </Button.Content>
                     </Button>
                     <Button x:Name="botonTelegram" Margin="0,0,5,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" PointerEntered="UsuarioEntraBoton2" PointerExited="UsuarioSaleBoton2" Style="{StaticResource ButtonRevealStyle}">
                         <Button.Content>
                             <StackPanel Orientation="Horizontal">
-                                <iconos:FontAwesome Icon="Brands_Telegram" Foreground="{StaticResource BrushPrimero}"/>
+                                <iconos:FontAwesome Icon="Brands_Telegram" Foreground="{StaticResource BrushPrimero}" FontSize="17"/>
                             </StackPanel>
                         </Button.Content>
                     </Button>
                     <Button x:Name="botonRSS" Margin="0,0,10,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" PointerEntered="UsuarioEntraBoton2" PointerExited="UsuarioSaleBoton2" Style="{StaticResource ButtonRevealStyle}">
                         <Button.Content>
                             <StackPanel Orientation="Horizontal">
-                                <iconos:FontAwesome Icon="Solid_Rss" Foreground="{StaticResource BrushPrimero}"/>
+                                <iconos:FontAwesome Icon="Solid_Rss" Foreground="{StaticResource BrushPrimero}" FontSize="17"/>
                             </StackPanel>
                         </Button.Content>
                     </Button>

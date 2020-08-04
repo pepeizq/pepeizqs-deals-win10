@@ -1,4 +1,5 @@
-﻿Imports Microsoft.Toolkit.Uwp.UI.Animations
+﻿Imports Microsoft.Toolkit.Uwp.Helpers
+Imports Microsoft.Toolkit.Uwp.UI.Animations
 Imports Microsoft.Toolkit.Uwp.UI.Controls
 Imports Windows.ApplicationModel.Core
 Imports Windows.System
@@ -13,17 +14,18 @@ Public NotInheritable Class MainPage
         Dim recursos As New Resources.ResourceLoader()
 
         nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Home"), FontAwesome5.EFontAwesomeIcon.Solid_Home, 0))
+        nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Search"), FontAwesome5.EFontAwesomeIcon.Solid_Search, 1))
         nvPrincipal.MenuItems.Add(New NavigationViewItemSeparator)
-        nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Deals2"), Nothing, 1))
-        nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Bundles2"), Nothing, 2))
-        nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Free2"), Nothing, 3))
-        nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Subscriptions2"), Nothing, 4))
+        nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Deals2"), Nothing, 2))
+        nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Bundles2"), Nothing, 3))
+        nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Free2"), Nothing, 4))
+        nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Subscriptions2"), Nothing, 5))
         nvPrincipal.MenuItems.Add(New NavigationViewItemSeparator)
         nvPrincipal.MenuItems.Add(MasCosas.Generar("https://github.com/pepeizq/pepeizqs-deals-win10", "https://poeditor.com/join/project/aKmScyB4QT"))
 
     End Sub
 
-    Private Sub Nv_ItemInvoked(sender As NavigationView, args As NavigationViewItemInvokedEventArgs)
+    Private Async Sub Nv_ItemInvoked(sender As NavigationView, args As NavigationViewItemInvokedEventArgs)
 
         Dim recursos As New Resources.ResourceLoader()
 
@@ -32,6 +34,8 @@ Public NotInheritable Class MainPage
         If Not item Is Nothing Then
             If item.Text = recursos.GetString("Home") Then
                 CargaListado(100, Nothing, 0)
+            ElseIf item.Text = recursos.GetString("Search") Then
+                Await Launcher.LaunchUriAsync(New Uri("https://pepeizqdeals.com/search/"))
             ElseIf item.Text = recursos.GetString("Deals2") Then
                 CargaListado(100, recursos.GetString("Deals2"), 2)
             ElseIf item.Text = recursos.GetString("Bundles2") Then
@@ -155,32 +159,46 @@ Public NotInheritable Class MainPage
                     spEntradas.Children.Add(Interfaz.GenerarCompartir(entrada))
                 End If
 
+                '-------------------------------------------------------------
 
-                Dim anuncio As Boolean = False
+                Dim mostrarAnuncio As Boolean = False
 
                 For Each categoria In entrada.Categorias
                     If categoria = 1208 Then
-                        If lvAnuncios.Items.Count < 2 Then
-                            anuncio = True
-                        End If
+                        mostrarAnuncio = True
                     End If
                 Next
 
-                If lvAnuncios.Items.Count > 0 Then
-                    For Each item In lvAnuncios.Items
-                        If TypeOf item Is Button Then
-                            Dim boton As Button = item
-                            Dim botonEntrada As Entrada = boton.Tag
+                If mostrarAnuncio = True Then
+                    Dim mostrarAnuncio2 As Boolean = True
 
-                            If entrada.Enlace = botonEntrada.Enlace Then
-                                añadirAnuncio = False
-                            End If
+                    Dim helper As New LocalObjectStorageHelper
+                    Dim listaAnuncios As New List(Of Anuncio)
+
+                    If Await helper.FileExistsAsync("listaAnuncios") Then
+                        listaAnuncios = Await helper.ReadFileAsync(Of List(Of Anuncio))("listaAnuncios")
+                    End If
+
+                    If Not listaAnuncios Is Nothing Then
+                        If listaAnuncios.Count > 0 Then
+                            For Each item In listaAnuncios
+                                If entrada.Enlace = item.Enlace Then
+                                    mostrarAnuncio2 = False
+                                End If
+                            Next
                         End If
-                    Next
-                End If
+                    End If
 
-                If anuncio = True Then
+                    If mostrarAnuncio2 = True Then
+                        Notificaciones.ToastAnuncio(entrada.Titulo.Texto, entrada.Enlace, entrada.Imagen)
+                        listaAnuncios.Add(New Anuncio(entrada.Titulo.Texto, entrada.Enlace, entrada.Imagen))
 
+                        Try
+                            Await helper.SaveFileAsync(Of List(Of Anuncio))("listaAnuncios", listaAnuncios)
+                        Catch ex As Exception
+
+                        End Try
+                    End If
                 End If
             Next
         End If
