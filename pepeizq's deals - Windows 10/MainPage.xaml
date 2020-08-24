@@ -100,11 +100,34 @@
                 </Grid>
 
                 <Grid x:Name="gridEntradas" Visibility="Collapsed">
-                    <ScrollViewer x:Name="svEntradas" VerticalScrollBarVisibility="Visible" Padding="0,0,25,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <ScrollViewer x:Name="svEntradas" Grid.Column="0" VerticalScrollBarVisibility="Visible" Padding="0,0,25,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <StackPanel x:Name="spEntradas" Orientation="Vertical" Padding="20"/>
                     </ScrollViewer>
 
-                    <StackPanel x:Name="spControles" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="20">
+                    <StackPanel Orientation="Vertical" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <controls:AdaptiveGridView x:Name="gvNuevosJuegos" Padding="20">
+                            <GridView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <ItemsWrapGrid MaximumRowsOrColumns="3" Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </GridView.ItemsPanel>
+                        </controls:AdaptiveGridView>
+
+                        <Button x:Name="botonAbrirNuevosJuegos" Margin="0,10,0,0" HorizontalAlignment="Center" Background="Transparent" BorderBrush="Transparent" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton" Style="{StaticResource ButtonRevealStyle}">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal" Padding="5">
+                                    <TextBlock x:Uid="OpenIncomingGames" Foreground="White"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                    </StackPanel>
+                                      
+                    <StackPanel x:Name="spControles" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20">
                         <Button x:Name="botonActualizar" Margin="0,0,10,0" Background="Transparent" BorderBrush="Transparent" PointerEntered="UsuarioEntraBoton2" PointerExited="UsuarioSaleBoton2" Style="{StaticResource ButtonRevealStyle}">
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal" Padding="5">

@@ -323,4 +323,71 @@ Module Interfaz
 
     End Sub
 
+    '------------------------------------------------------------------------------------------------
+
+    Public Function GenerarNuevoJuego(entrada As Entrada)
+
+        Dim gridImagen As New Grid With {
+            .BorderBrush = New SolidColorBrush(App.Current.Resources("ColorTercero")),
+            .BorderThickness = New Thickness(2, 2, 2, 2)
+        }
+
+        Dim imagen As New ImageEx With {
+            .Source = entrada.Imagen,
+            .IsCacheEnabled = True,
+            .Stretch = Stretch.Uniform
+        }
+
+        gridImagen.Children.Add(imagen)
+
+        Dim boton As New Button With {
+            .Background = New SolidColorBrush(Colors.Transparent),
+            .Padding = New Thickness(0, 0, 0, 0),
+            .BorderThickness = New Thickness(0, 0, 0, 0),
+            .Tag = entrada,
+            .MaxWidth = 150,
+            .Content = gridImagen
+        }
+
+        AddHandler boton.Click, AddressOf AbrirEnlaceClick
+        AddHandler boton.PointerEntered, AddressOf UsuarioEntraBotonNuevoJuego
+        AddHandler boton.PointerExited, AddressOf UsuarioSaleBotonNuevoJuego
+
+        Dim panelSombra As New DropShadowPanel With {
+            .BlurRadius = 20,
+            .ShadowOpacity = 0.9,
+            .Color = Colors.Black,
+            .Margin = New Thickness(5, 10, 5, 10),
+            .Content = boton,
+            .Tag = entrada
+        }
+
+        Return panelSombra
+
+    End Function
+
+    Public Sub UsuarioEntraBotonNuevoJuego(sender As Object, e As PointerRoutedEventArgs)
+
+        Dim boton As Button = sender
+        Dim grid As Grid = boton.Content
+
+        Dim imagen As ImageEx = grid.Children(0)
+        imagen.Saturation(1).Scale(1.01, 1.01, boton.ActualWidth / 2, boton.ActualHeight / 2).Start()
+
+        Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Hand, 1)
+
+    End Sub
+
+    Public Sub UsuarioSaleBotonNuevoJuego(sender As Object, e As PointerRoutedEventArgs)
+
+        Dim boton As Button = sender
+        Dim grid As Grid = boton.Content
+
+        Dim imagen As ImageEx = grid.Children(0)
+        imagen.Saturation(1).Scale(1, 1, boton.ActualWidth / 2, boton.ActualHeight / 2).Start()
+
+        Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Arrow, 1)
+
+    End Sub
+
 End Module

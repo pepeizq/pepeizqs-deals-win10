@@ -200,6 +200,37 @@ Public NotInheritable Class MainPage
                         End Try
                     End If
                 End If
+
+                '-------------------------------------------------------------
+
+                Dim mostrarNuevoJuego As Boolean = False
+
+                For Each categoria In entrada.Categorias
+                    If categoria = 1258 Then
+                        mostrarNuevoJuego = True
+                    End If
+                Next
+
+                If gvNuevosJuegos.Items.Count > 0 Then
+                    For Each item In gvNuevosJuegos.Items
+                        If TypeOf item Is DropShadowPanel Then
+                            Dim panel As DropShadowPanel = item
+                            Dim panelEntrada As Entrada = panel.Tag
+
+                            If entrada.Enlace = panelEntrada.Enlace Then
+                                mostrarNuevoJuego = False
+                            End If
+                        End If
+                    Next
+                End If
+
+                If gvNuevosJuegos.Items.Count > 5 Then
+                    mostrarNuevoJuego = False
+                End If
+
+                If mostrarNuevoJuego = True Then
+                    gvNuevosJuegos.Items.Add(Interfaz.GenerarNuevoJuego(entrada))
+                End If
             Next
         End If
 
@@ -253,6 +284,12 @@ Public NotInheritable Class MainPage
     Private Sub BotonSubir_Click(sender As Object, e As RoutedEventArgs) Handles botonSubir.Click
 
         svEntradas.ChangeView(Nothing, 0, Nothing)
+
+    End Sub
+
+    Private Async Sub BotonAbrirNuevosJuegos_Click(sender As Object, e As RoutedEventArgs) Handles botonAbrirNuevosJuegos.Click
+
+        Await Launcher.LaunchUriAsync(New Uri("https://pepeizqdeals.com/incoming/"))
 
     End Sub
 
