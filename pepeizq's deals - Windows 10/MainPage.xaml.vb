@@ -104,6 +104,7 @@ Public NotInheritable Class MainPage
         End If
 
         Dim entradas As List(Of Entrada) = Await Wordpress.CargarEntradas(paginas, categoriaNumero)
+        Dim nuevosJuegos As New List(Of Entrada)
 
         If entradas.Count > 0 Then
             For Each entrada In entradas
@@ -211,27 +212,36 @@ Public NotInheritable Class MainPage
                     End If
                 Next
 
-                If gvNuevosJuegos.Items.Count > 0 Then
-                    For Each item In gvNuevosJuegos.Items
-                        If TypeOf item Is DropShadowPanel Then
-                            Dim panel As DropShadowPanel = item
-                            Dim panelEntrada As Entrada = panel.Tag
-
-                            If entrada.Enlace = panelEntrada.Enlace Then
-                                mostrarNuevoJuego = False
-                            End If
+                If nuevosJuegos.Count > 0 Then
+                    For Each nuevoJuego In nuevosJuegos
+                        If nuevoJuego.Enlace = entrada.Enlace Then
+                            mostrarNuevoJuego = False
                         End If
                     Next
                 End If
 
-                If gvNuevosJuegos.Items.Count > 5 Then
-                    mostrarNuevoJuego = False
-                End If
-
                 If mostrarNuevoJuego = True Then
-                    gvNuevosJuegos.Items.Add(Interfaz.GenerarNuevoJuego(entrada))
+                    nuevosJuegos.Add(entrada)
                 End If
             Next
+
+            If nuevosJuegos.Count > 0 Then
+                gvNuevosJuegos.Items.Clear()
+
+                Dim r As Random = New Random
+                Dim exclusive() As Integer = Enumerable.Range(0, nuevosJuegos.Count).OrderBy(Function(n) r.Next(nuevosJuegos.Count + 1)).ToArray()
+                Dim shuffled As New List(Of Entrada)
+
+                Array.ForEach(exclusive, Sub(e) shuffled.Add(nuevosJuegos(e)))
+
+                Dim i As Integer = 0
+                For Each nuevoJuego In shuffled
+                    If i < 6 Then
+                        gvNuevosJuegos.Items.Add(Interfaz.GenerarNuevoJuego(nuevoJuego))
+                    End If
+                    i += 1
+                Next
+            End If
         End If
 
         gridCarga.Visibility = Visibility.Collapsed
