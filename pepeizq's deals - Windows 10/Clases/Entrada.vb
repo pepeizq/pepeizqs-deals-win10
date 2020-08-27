@@ -25,6 +25,9 @@ Public Class Entrada
     <JsonProperty("redirect")>
     Public Redireccion As String
 
+    <JsonProperty("imagen_v2")>
+    Public Imagen2 As String
+
     <JsonProperty("imagen_v2_anuncios")>
     Public ImagenAnuncio As String
 
