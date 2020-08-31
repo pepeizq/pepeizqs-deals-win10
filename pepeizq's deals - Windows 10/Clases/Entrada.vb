@@ -25,10 +25,10 @@ Public Class Entrada
     <JsonProperty("redirect")>
     Public Redireccion As String
 
-    <JsonProperty("imagen_v2")>
+    <JsonProperty("image_v2")>
     Public Imagen2 As String
 
-    <JsonProperty("imagen_v2_anuncios")>
+    <JsonProperty("image_v2_announcements")>
     Public ImagenAnuncio As String
 
     <JsonProperty("title2")>

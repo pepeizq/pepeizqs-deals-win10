@@ -109,7 +109,7 @@
                         <StackPanel x:Name="spEntradas" Orientation="Vertical" Padding="20"/>
                     </ScrollViewer>
 
-                    <StackPanel Orientation="Vertical" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel Visibility="Collapsed" Orientation="Vertical" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <controls:AdaptiveGridView x:Name="gvNuevosJuegos" Padding="20">
                             <GridView.ItemsPanel>
                                 <ItemsPanelTemplate>

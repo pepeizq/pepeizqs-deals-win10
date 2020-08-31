@@ -237,11 +237,13 @@ Public NotInheritable Class MainPage
                 Dim i As Integer = 0
                 For Each nuevoJuego In shuffled
                     If i < 6 Then
-                        nuevoJuego.Imagen2 = nuevoJuego.Imagen2.Replace("<img src=" + ChrW(34), Nothing)
-                        nuevoJuego.Imagen2 = nuevoJuego.Imagen2.Replace(ChrW(34) + " class=" + ChrW(34) + "ajustarImagen" + ChrW(34) + "/>", Nothing)
-                        nuevoJuego.Imagen = nuevoJuego.Imagen2
+                        If Not nuevoJuego.Imagen2 = Nothing Then
+                            nuevoJuego.Imagen2 = nuevoJuego.Imagen2.Replace("<img src=" + ChrW(34), Nothing)
+                            nuevoJuego.Imagen2 = nuevoJuego.Imagen2.Replace(ChrW(34) + " class=" + ChrW(34) + "ajustarImagen" + ChrW(34) + "/>", Nothing)
+                            nuevoJuego.Imagen = nuevoJuego.Imagen2
 
-                        gvNuevosJuegos.Items.Add(Interfaz.GenerarNuevoJuego(nuevoJuego))
+                            gvNuevosJuegos.Items.Add(Interfaz.GenerarNuevoJuego(nuevoJuego))
+                        End If
                     End If
                     i += 1
                 Next
