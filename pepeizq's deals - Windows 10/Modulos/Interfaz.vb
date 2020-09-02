@@ -325,11 +325,13 @@ Module Interfaz
 
     '------------------------------------------------------------------------------------------------
 
-    Public Function GenerarNuevoJuego(entrada As Entrada)
+    Public Function GenerarJuego(entrada As Entrada)
 
-        Dim gridImagen As New Grid With {
-            .BorderBrush = New SolidColorBrush(App.Current.Resources("ColorTercero")),
-            .BorderThickness = New Thickness(2, 2, 2, 2)
+        Dim spJuego As New StackPanel With {
+            .BorderBrush = New SolidColorBrush(App.Current.Resources("ColorCuarto")),
+            .BorderThickness = New Thickness(2, 2, 2, 2),
+            .Orientation = Orientation.Vertical,
+            .Background = New SolidColorBrush(App.Current.Resources("ColorTercero"))
         }
 
         Dim imagen As New ImageEx With {
@@ -338,7 +340,17 @@ Module Interfaz
             .Stretch = Stretch.Uniform
         }
 
-        gridImagen.Children.Add(imagen)
+        spJuego.Children.Add(imagen)
+
+        Dim tbPrecio As New TextBlock With {
+            .Text = entrada.JuegoPrecioMinimo,
+            .Foreground = New SolidColorBrush(Colors.White),
+            .HorizontalAlignment = HorizontalAlignment.Center,
+            .FontSize = 17,
+            .Margin = New Thickness(5, 5, 5, 5)
+        }
+
+        spJuego.Children.Add(tbPrecio)
 
         Dim boton As New Button With {
             .Background = New SolidColorBrush(Colors.Transparent),
@@ -346,7 +358,7 @@ Module Interfaz
             .BorderThickness = New Thickness(0, 0, 0, 0),
             .Tag = entrada,
             .MaxWidth = 150,
-            .Content = gridImagen
+            .Content = spJuego
         }
 
         AddHandler boton.Click, AddressOf AbrirEnlaceClick
@@ -369,9 +381,9 @@ Module Interfaz
     Public Sub UsuarioEntraBotonNuevoJuego(sender As Object, e As PointerRoutedEventArgs)
 
         Dim boton As Button = sender
-        Dim grid As Grid = boton.Content
+        Dim sp As StackPanel = boton.Content
 
-        Dim imagen As ImageEx = grid.Children(0)
+        Dim imagen As ImageEx = sp.Children(0)
         imagen.Saturation(1).Scale(1.01, 1.01, boton.ActualWidth / 2, boton.ActualHeight / 2).Start()
 
         Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Hand, 1)
@@ -381,9 +393,9 @@ Module Interfaz
     Public Sub UsuarioSaleBotonNuevoJuego(sender As Object, e As PointerRoutedEventArgs)
 
         Dim boton As Button = sender
-        Dim grid As Grid = boton.Content
+        Dim sp As StackPanel = boton.Content
 
-        Dim imagen As ImageEx = grid.Children(0)
+        Dim imagen As ImageEx = sp.Children(0)
         imagen.Saturation(1).Scale(1, 1, boton.ActualWidth / 2, boton.ActualHeight / 2).Start()
 
         Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Arrow, 1)

@@ -40,6 +40,9 @@ Public Class Entrada
     <JsonProperty("link")>
     Public Enlace As String
 
+    <JsonProperty("game_price_lowest")>
+    Public JuegoPrecioMinimo As String
+
 End Class
 
 Public Class Titulo

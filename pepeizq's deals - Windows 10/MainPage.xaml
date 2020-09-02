@@ -109,7 +109,7 @@
                         <StackPanel x:Name="spEntradas" Orientation="Vertical" Padding="20"/>
                     </ScrollViewer>
 
-                    <StackPanel Visibility="Collapsed" Orientation="Vertical" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel Orientation="Vertical" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <controls:AdaptiveGridView x:Name="gvNuevosJuegos" Padding="20">
                             <GridView.ItemsPanel>
                                 <ItemsPanelTemplate>
@@ -125,23 +125,23 @@
                                 </StackPanel>
                             </Button.Content>
                         </Button>
-                    </StackPanel>
-                                      
-                    <StackPanel x:Name="spControles" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20">
-                        <Button x:Name="botonActualizar" Margin="0,0,10,0" Background="Transparent" BorderBrush="Transparent" PointerEntered="UsuarioEntraBoton2" PointerExited="UsuarioSaleBoton2" Style="{StaticResource ButtonRevealStyle}">
-                            <Button.Content>
-                                <StackPanel Orientation="Horizontal" Padding="5">
-                                    <iconos:FontAwesome Icon="Solid_Sync" Foreground="White" FontSize="17"/>
-                                </StackPanel>
-                            </Button.Content>
-                        </Button>
-                        <Button x:Name="botonSubir" Visibility="Collapsed" Background="Transparent" BorderBrush="Transparent" PointerEntered="UsuarioEntraBoton2" PointerExited="UsuarioSaleBoton2" Style="{StaticResource ButtonRevealStyle}">
-                            <Button.Content>
-                                <StackPanel Orientation="Horizontal" Padding="5">
-                                    <iconos:FontAwesome Icon="Solid_ArrowUp" Foreground="White" FontSize="17"/>
-                                </StackPanel>
-                            </Button.Content>
-                        </Button>
+
+                        <StackPanel x:Name="spControles" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20">
+                            <Button x:Name="botonActualizar" Margin="0,0,10,0" Background="Transparent" BorderBrush="Transparent" PointerEntered="UsuarioEntraBoton2" PointerExited="UsuarioSaleBoton2" Style="{StaticResource ButtonRevealStyle}">
+                                <Button.Content>
+                                    <StackPanel Orientation="Horizontal" Padding="5">
+                                        <iconos:FontAwesome Icon="Solid_Sync" Foreground="White" FontSize="17"/>
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+                            <Button x:Name="botonSubir" Visibility="Collapsed" Background="Transparent" BorderBrush="Transparent" PointerEntered="UsuarioEntraBoton2" PointerExited="UsuarioSaleBoton2" Style="{StaticResource ButtonRevealStyle}">
+                                <Button.Content>
+                                    <StackPanel Orientation="Horizontal" Padding="5">
+                                        <iconos:FontAwesome Icon="Solid_ArrowUp" Foreground="White" FontSize="17"/>
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+                        </StackPanel>
                     </StackPanel>
                 </Grid>
             </Grid> 

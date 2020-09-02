@@ -9,6 +9,9 @@ Imports Windows.UI.Core
 Public NotInheritable Class MainPage
     Inherits Page
 
+    Dim entradas As List(Of Entrada)
+    Dim juegos As List(Of Entrada)
+
     Private Sub Nv_Loaded(sender As Object, e As RoutedEventArgs)
 
         Dim recursos As New Resources.ResourceLoader()
@@ -33,17 +36,17 @@ Public NotInheritable Class MainPage
 
         If Not item Is Nothing Then
             If item.Text = recursos.GetString("Home") Then
-                CargaListado(100, Nothing, 0)
+                CargarEntradas(entradas, 100, Nothing, 0, False)
             ElseIf item.Text = recursos.GetString("Search") Then
                 Await Launcher.LaunchUriAsync(New Uri("https://pepeizqdeals.com/search/"))
             ElseIf item.Text = recursos.GetString("Deals2") Then
-                CargaListado(100, recursos.GetString("Deals2"), 2)
+                CargarEntradas(entradas, 100, recursos.GetString("Deals2"), 2, False)
             ElseIf item.Text = recursos.GetString("Bundles2") Then
-                CargaListado(100, recursos.GetString("Bundles2"), 1)
+                CargarEntradas(entradas, 100, recursos.GetString("Bundles2"), 1, False)
             ElseIf item.Text = recursos.GetString("Free2") Then
-                CargaListado(100, recursos.GetString("Free2"), 3)
+                CargarEntradas(entradas, 100, recursos.GetString("Free2"), 3, False)
             ElseIf item.Text = recursos.GetString("Subscriptions2") Then
-                CargaListado(100, recursos.GetString("Subscriptions2"), 4)
+                CargarEntradas(entradas, 100, recursos.GetString("Subscriptions2"), 4, False)
             ElseIf item.Text = recursos.GetString("MoreThings") Then
                 FlyoutBase.ShowAttachedFlyout(nvPrincipal.MenuItems.Item(nvPrincipal.MenuItems.Count - 1))
             End If
@@ -69,12 +72,15 @@ Public NotInheritable Class MainPage
 
         '--------------------------------------------------------
 
-        CargaListado(10, Nothing, 0)
-        CargaListado(100, Nothing, 0)
+        entradas = New List(Of Entrada)
+        juegos = New List(Of Entrada)
+
+        CargarEntradas(entradas, 100, Nothing, 0, True)
+        CargarJuegos(juegos, 20)
 
     End Sub
 
-    Public Async Sub CargaListado(paginas As Integer, categoria As String, tipo As Integer)
+    Public Async Sub CargarEntradas(entradas As List(Of Entrada), paginas As Integer, categoria As String, tipo As Integer, actualizar As Boolean)
 
         tbTitulo.Text = "pepeizq's deals (" + Package.Current.Id.Version.Major.ToString + "." + Package.Current.Id.Version.Minor.ToString + "." + Package.Current.Id.Version.Build.ToString + "." + Package.Current.Id.Version.Revision.ToString + ")"
 
@@ -103,8 +109,23 @@ Public NotInheritable Class MainPage
             categoriaNumero = 13
         End If
 
-        Dim entradas As List(Of Entrada) = Await Wordpress.CargarEntradas(paginas, categoriaNumero)
-        Dim nuevosJuegos As New List(Of Entrada)
+        If actualizar = True Then
+            Dim nuevasEntradas As List(Of Entrada) = Await Wordpress.Cargar("posts", paginas, categoriaNumero)
+
+            For Each nuevaEntrada In nuevasEntradas
+                Dim añadir As Boolean = True
+
+                For Each viejaEntrada In entradas
+                    If viejaEntrada.ID = nuevaEntrada.ID Then
+                        añadir = False
+                    End If
+                Next
+
+                If añadir = True Then
+                    entradas.Add(nuevaEntrada)
+                End If
+            Next
+        End If
 
         If entradas.Count > 0 Then
             For Each entrada In entradas
@@ -201,53 +222,7 @@ Public NotInheritable Class MainPage
                         End Try
                     End If
                 End If
-
-                '-------------------------------------------------------------
-
-                Dim mostrarNuevoJuego As Boolean = False
-
-                For Each categoria In entrada.Categorias
-                    If categoria = 1258 Then
-                        mostrarNuevoJuego = True
-                    End If
-                Next
-
-                If nuevosJuegos.Count > 0 Then
-                    For Each nuevoJuego In nuevosJuegos
-                        If nuevoJuego.Enlace = entrada.Enlace Then
-                            mostrarNuevoJuego = False
-                        End If
-                    Next
-                End If
-
-                If mostrarNuevoJuego = True Then
-                    nuevosJuegos.Add(entrada)
-                End If
             Next
-
-            If nuevosJuegos.Count > 0 Then
-                gvNuevosJuegos.Items.Clear()
-
-                Dim r As Random = New Random
-                Dim exclusive() As Integer = Enumerable.Range(0, nuevosJuegos.Count).OrderBy(Function(n) r.Next(nuevosJuegos.Count + 1)).ToArray()
-                Dim shuffled As New List(Of Entrada)
-
-                Array.ForEach(exclusive, Sub(e) shuffled.Add(nuevosJuegos(e)))
-
-                Dim i As Integer = 0
-                For Each nuevoJuego In shuffled
-                    If i < 6 Then
-                        If Not nuevoJuego.Imagen2 = Nothing Then
-                            nuevoJuego.Imagen2 = nuevoJuego.Imagen2.Replace("<img src=" + ChrW(34), Nothing)
-                            nuevoJuego.Imagen2 = nuevoJuego.Imagen2.Replace(ChrW(34) + " class=" + ChrW(34) + "ajustarImagen" + ChrW(34) + "/>", Nothing)
-                            nuevoJuego.Imagen = nuevoJuego.Imagen2
-
-                            gvNuevosJuegos.Items.Add(Interfaz.GenerarNuevoJuego(nuevoJuego))
-                        End If
-                    End If
-                    i += 1
-                Next
-            End If
         End If
 
         gridCarga.Visibility = Visibility.Collapsed
@@ -255,6 +230,49 @@ Public NotInheritable Class MainPage
 
     End Sub
 
+    Public Async Sub CargarJuegos(juegos As List(Of Entrada), paginas As Integer)
+
+        Dim nuevosJuegos As List(Of Entrada) = Await Wordpress.Cargar("us_portfolio", paginas, Nothing)
+
+        For Each nuevoJuego In nuevosJuegos
+            Dim añadir As Boolean = True
+
+            For Each viejoJuego In juegos
+                If viejoJuego.ID = nuevoJuego.ID Then
+                    añadir = False
+                End If
+            Next
+
+            If añadir = True Then
+                juegos.Add(nuevoJuego)
+            End If
+        Next
+
+        If juegos.Count > 0 Then
+            gvNuevosJuegos.Items.Clear()
+
+            Dim r As Random = New Random
+            Dim exclusive() As Integer = Enumerable.Range(0, juegos.Count).OrderBy(Function(n) r.Next(juegos.Count + 1)).ToArray()
+            Dim shuffled As New List(Of Entrada)
+
+            Array.ForEach(exclusive, Sub(e) shuffled.Add(juegos(e)))
+
+            Dim i As Integer = 0
+            For Each subjuego In shuffled
+                If i < 6 Then
+                    If Not subjuego.Imagen2 = Nothing Then
+                        subjuego.Imagen2 = subjuego.Imagen2.Replace("<img src=" + ChrW(34), Nothing)
+                        subjuego.Imagen2 = subjuego.Imagen2.Replace(ChrW(34) + " class=" + ChrW(34) + "ajustarImagen" + ChrW(34) + "/>", Nothing)
+                        subjuego.Imagen = subjuego.Imagen2
+
+                        gvNuevosJuegos.Items.Add(Interfaz.GenerarJuego(subjuego))
+                    End If
+                End If
+                i += 1
+            Next
+        End If
+
+    End Sub
     Private Sub GridEntradas_SizeChanged(sender As Object, e As SizeChangedEventArgs) Handles gridEntradas.SizeChanged
 
         Dim grid As Grid = sender
@@ -284,15 +302,15 @@ Public NotInheritable Class MainPage
         Dim recursos As New Resources.ResourceLoader()
 
         If tbTitulo.Text.Contains(recursos.GetString("Bundles2")) Then
-            CargaListado(100, recursos.GetString("Bundles2"), 1)
+            CargarEntradas(entradas, 100, recursos.GetString("Bundles2"), 1, True)
         ElseIf tbTitulo.Text.Contains(recursos.GetString("Deals2")) Then
-            CargaListado(100, recursos.GetString("Deals2"), 2)
+            CargarEntradas(entradas, 100, recursos.GetString("Deals2"), 2, True)
         ElseIf tbTitulo.Text.Contains(recursos.GetString("Free2")) Then
-            CargaListado(100, recursos.GetString("Free2"), 3)
+            CargarEntradas(entradas, 100, recursos.GetString("Free2"), 3, True)
         ElseIf tbTitulo.Text.Contains(recursos.GetString("Subscriptions2")) Then
-            CargaListado(100, recursos.GetString("Subscriptions2"), 4)
+            CargarEntradas(entradas, 100, recursos.GetString("Subscriptions2"), 4, True)
         Else
-            CargaListado(100, Nothing, 0)
+            CargarEntradas(entradas, 100, Nothing, 0, True)
         End If
 
     End Sub
