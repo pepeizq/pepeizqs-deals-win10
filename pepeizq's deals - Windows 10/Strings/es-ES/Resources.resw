@@ -165,6 +165,9 @@
   <data name="MoreThings_VoteApp" xml:space="preserve">
     <value>Vota la App</value>
   </data>
+  <data name="NoResults.Text" xml:space="preserve">
+    <value>No se han encontrado resultados</value>
+  </data>
   <data name="Open" xml:space="preserve">
     <value>Abrir</value>
   </data>
@@ -173,6 +176,9 @@
   </data>
   <data name="Search" xml:space="preserve">
     <value>Buscar</value>
+  </data>
+  <data name="Searching.Text" xml:space="preserve">
+    <value>Buscando</value>
   </data>
   <data name="Share" xml:space="preserve">
     <value>Compartir</value>

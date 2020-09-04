@@ -110,7 +110,7 @@
                     </ScrollViewer>
 
                     <StackPanel Orientation="Vertical" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <controls:AdaptiveGridView x:Name="gvNuevosJuegos" Padding="20">
+                        <controls:AdaptiveGridView x:Name="gvNuevosJuegos" Padding="15">
                             <GridView.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <ItemsWrapGrid MaximumRowsOrColumns="3" Orientation="Horizontal"/>
@@ -118,7 +118,7 @@
                             </GridView.ItemsPanel>
                         </controls:AdaptiveGridView>
 
-                        <Button x:Name="botonAbrirNuevosJuegos" Margin="0,10,0,0" HorizontalAlignment="Center" Background="Transparent" BorderBrush="Transparent" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton" Style="{StaticResource ButtonRevealStyle}">
+                        <Button x:Name="botonAbrirNuevosJuegos" Margin="0,5,0,0" HorizontalAlignment="Center" Background="Transparent" BorderBrush="Transparent" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton" Style="{StaticResource ButtonRevealStyle}">
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal" Padding="5">
                                     <TextBlock x:Uid="OpenIncomingGames" Foreground="White"/>
@@ -143,6 +143,26 @@
                             </Button>
                         </StackPanel>
                     </StackPanel>
+                </Grid>
+
+                <Grid x:Name="gridBusqueda" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Top" Width="650" MinHeight="100" BorderBrush="{StaticResource ColorCuarto}" BorderThickness="0,0,2,2">
+                    <Grid.Background>
+                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                            <GradientStop Color="{StaticResource ColorTercero}" Offset="0.5" />
+                            <GradientStop Color="{StaticResource ColorCuarto}" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Grid.Background>
+
+                    <StackPanel x:Name="spBusquedaCarga" Orientation="Vertical" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock x:Uid="Searching" Foreground="White" Margin="0,0,0,20" HorizontalAlignment="Center"/>
+                        <ProgressRing FontSize="30" IsActive="True" Foreground="White" HorizontalAlignment="Center"/>
+                    </StackPanel>
+
+                    <ScrollViewer x:Name="svBusquedaEntradas" VerticalScrollBarVisibility="Visible" Padding="0,0,25,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <StackPanel x:Name="spBusquedaEntradas" Orientation="Vertical" Padding="20"/>
+                    </ScrollViewer>
+
+                    <TextBlock x:Name="tbBusquedaNoResultados" x:Uid="NoResults" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed"/>
                 </Grid>
             </Grid> 
         </NavigationView> 

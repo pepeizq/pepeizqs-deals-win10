@@ -347,7 +347,7 @@ Module Interfaz
             .Foreground = New SolidColorBrush(Colors.White),
             .HorizontalAlignment = HorizontalAlignment.Center,
             .FontSize = 17,
-            .Margin = New Thickness(5, 5, 5, 5)
+            .Margin = New Thickness(5, 8, 5, 8)
         }
 
         spJuego.Children.Add(tbPrecio)
@@ -401,5 +401,34 @@ Module Interfaz
         Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Arrow, 1)
 
     End Sub
+
+    '------------------------------------------------------------------------------------------------
+
+    Public Function Busqueda()
+
+        Dim sp As New StackPanel With {
+            .Orientation = Orientation.Horizontal
+        }
+
+        Dim icono As New FontAwesome5.FontAwesome With {
+            .Icon = FontAwesome5.EFontAwesomeIcon.Solid_Search,
+            .Foreground = New SolidColorBrush(App.Current.Resources("ColorPrimero")),
+            .Margin = New Thickness(0, 0, 10, 0)
+        }
+
+        sp.Children.Add(icono)
+
+        Dim tb As New TextBox With {
+            .MinWidth = 150
+        }
+
+        RemoveHandler tb.TextChanged, AddressOf Buscador.Busca
+        AddHandler tb.TextChanged, AddressOf Buscador.Busca
+
+        sp.Children.Add(tb)
+
+        Return sp
+
+    End Function
 
 End Module

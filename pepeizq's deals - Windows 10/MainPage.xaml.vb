@@ -17,7 +17,7 @@ Public NotInheritable Class MainPage
         Dim recursos As New Resources.ResourceLoader()
 
         nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Home"), FontAwesome5.EFontAwesomeIcon.Solid_Home, 0))
-        nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Search"), FontAwesome5.EFontAwesomeIcon.Solid_Search, 1))
+        nvPrincipal.MenuItems.Add(Interfaz.Busqueda)
         nvPrincipal.MenuItems.Add(New NavigationViewItemSeparator)
         nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Deals2"), Nothing, 2))
         nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Bundles2"), Nothing, 3))
