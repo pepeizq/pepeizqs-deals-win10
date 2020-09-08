@@ -171,8 +171,8 @@
   <data name="Open" xml:space="preserve">
     <value>Open</value>
   </data>
-  <data name="OpenIncomingGames.Text" xml:space="preserve">
-    <value>Open All Incoming Games</value>
+  <data name="OpenMoreGames.Text" xml:space="preserve">
+    <value>Open More Games</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>

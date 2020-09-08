@@ -251,14 +251,14 @@ Public NotInheritable Class MainPage
         If juegos.Count > 0 Then
             gvNuevosJuegos.Items.Clear()
 
-            Dim r As Random = New Random
-            Dim exclusive() As Integer = Enumerable.Range(0, juegos.Count).OrderBy(Function(n) r.Next(juegos.Count + 1)).ToArray()
-            Dim shuffled As New List(Of Entrada)
+            'Dim r As Random = New Random
+            'Dim exclusive() As Integer = Enumerable.Range(0, juegos.Count).OrderBy(Function(n) r.Next(juegos.Count + 1)).ToArray()
+            'Dim shuffled As New List(Of Entrada)
 
-            Array.ForEach(exclusive, Sub(e) shuffled.Add(juegos(e)))
+            'Array.ForEach(exclusive, Sub(e) shuffled.Add(juegos(e)))
 
             Dim i As Integer = 0
-            For Each subjuego In shuffled
+            For Each subjuego In juegos
                 If i < 6 Then
                     If Not subjuego.Imagen2 = Nothing Then
                         subjuego.Imagen2 = subjuego.Imagen2.Replace("<img src=" + ChrW(34), Nothing)
@@ -323,7 +323,7 @@ Public NotInheritable Class MainPage
 
     Private Async Sub BotonAbrirNuevosJuegos_Click(sender As Object, e As RoutedEventArgs) Handles botonAbrirNuevosJuegos.Click
 
-        Await Launcher.LaunchUriAsync(New Uri("https://pepeizqdeals.com/incoming/"))
+        Await Launcher.LaunchUriAsync(New Uri("https://pepeizqdeals.com/games/"))
 
     End Sub
 

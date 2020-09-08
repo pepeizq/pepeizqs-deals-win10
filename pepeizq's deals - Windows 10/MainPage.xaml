@@ -121,7 +121,7 @@
                         <Button x:Name="botonAbrirNuevosJuegos" Margin="0,5,0,0" HorizontalAlignment="Center" Background="Transparent" BorderBrush="Transparent" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton" Style="{StaticResource ButtonRevealStyle}">
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal" Padding="5">
-                                    <TextBlock x:Uid="OpenIncomingGames" Foreground="White"/>
+                                    <TextBlock x:Uid="OpenMoreGames" Foreground="White" FontSize="17"/>
                                 </StackPanel>
                             </Button.Content>
                         </Button>
