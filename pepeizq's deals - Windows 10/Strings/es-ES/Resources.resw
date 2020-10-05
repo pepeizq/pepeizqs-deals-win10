@@ -172,7 +172,7 @@
     <value>Abrir</value>
   </data>
   <data name="OpenMoreGames.Text" xml:space="preserve">
-    <value>Abrir más juegos</value>
+    <value>Abrir Beta de base de datos de juegos</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Buscar</value>
@@ -183,10 +183,19 @@
   <data name="Share" xml:space="preserve">
     <value>Compartir</value>
   </data>
+  <data name="SteamAccount.Text" xml:space="preserve">
+    <value>Cuenta de Steam</value>
+  </data>
+  <data name="SteamAccountWishlist.Text" xml:space="preserve">
+    <value>Si pones un enlace a tu perfil de Steam la app leerá tus juegos en deseados y te enseñara en que tiendas están rebajados.</value>
+  </data>
   <data name="Subscriptions.Text" xml:space="preserve">
     <value>Suscripciones</value>
   </data>
   <data name="Subscriptions2" xml:space="preserve">
     <value>Suscripciones</value>
+  </data>
+  <data name="WishlistFilter.Text" xml:space="preserve">
+    <value>Filtro de Juegos Deseados</value>
   </data>
 </root>

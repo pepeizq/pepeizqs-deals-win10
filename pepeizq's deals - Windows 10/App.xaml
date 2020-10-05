@@ -23,5 +23,8 @@
 
         <SolidColorBrush x:Key="ListViewItemBackgroundSelected" Color="Transparent"/>
         <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Transparent"/>
+
+        <SolidColorBrush x:Key="SystemControlBackgroundChromeMediumLowBrush" Color="Transparent"/>
+        <SolidColorBrush x:Key="SystemControlPageBackgroundChromeLowBrush" Color="Transparent"/>
     </Application.Resources> 
 </Application>

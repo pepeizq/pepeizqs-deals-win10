@@ -5,7 +5,10 @@
 Public Class Entrada
 
     <JsonProperty("title")>
-    Public Titulo As Titulo
+    Public Titulo As EntradaTitulo
+
+    <JsonProperty("content")>
+    Public Contenido As EntradaContenido
 
     <JsonProperty("status")>
     Public Estado As String
@@ -45,7 +48,14 @@ Public Class Entrada
 
 End Class
 
-Public Class Titulo
+Public Class EntradaTitulo
+
+    <JsonProperty("rendered")>
+    Public Texto As String
+
+End Class
+
+Public Class EntradaContenido
 
     <JsonProperty("rendered")>
     Public Texto As String

@@ -172,7 +172,7 @@
     <value>Open</value>
   </data>
   <data name="OpenMoreGames.Text" xml:space="preserve">
-    <value>Open More Games</value>
+    <value>Open Game Database Beta</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>
@@ -183,10 +183,19 @@
   <data name="Share" xml:space="preserve">
     <value>Share</value>
   </data>
+  <data name="SteamAccount.Text" xml:space="preserve">
+    <value>Steam Account</value>
+  </data>
+  <data name="SteamAccountWishlist.Text" xml:space="preserve">
+    <value>If you put a link to your Steam profile the app will read your wishlist games and show you in which stores are on sale</value>
+  </data>
   <data name="Subscriptions.Text" xml:space="preserve">
     <value>Subscriptions</value>
   </data>
   <data name="Subscriptions2" xml:space="preserve">
     <value>Subscriptions</value>
+  </data>
+  <data name="WishlistFilter.Text" xml:space="preserve">
+    <value>Wishlist Games Filter</value>
   </data>
 </root>

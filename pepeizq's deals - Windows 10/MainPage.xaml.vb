@@ -2,6 +2,7 @@
 Imports Microsoft.Toolkit.Uwp.UI.Animations
 Imports Microsoft.Toolkit.Uwp.UI.Controls
 Imports Windows.ApplicationModel.Core
+Imports Windows.Storage
 Imports Windows.System
 Imports Windows.UI
 Imports Windows.UI.Core
@@ -76,7 +77,13 @@ Public NotInheritable Class MainPage
         juegos = New List(Of Entrada)
 
         CargarEntradas(entradas, 100, Nothing, 0, True)
-        CargarJuegos(juegos, 20)
+        'CargarJuegos(juegos, 20)
+
+        Dim config As ApplicationDataContainer = ApplicationData.Current.LocalSettings
+
+        If Not config.Values("Cuenta_Steam") = Nothing Then
+            tbFavoritosSteam.Text = config.Values("Cuenta_Steam")
+        End If
 
     End Sub
 
@@ -228,51 +235,54 @@ Public NotInheritable Class MainPage
         gridCarga.Visibility = Visibility.Collapsed
         gridEntradas.Visibility = Visibility.Visible
 
-    End Sub
-
-    Public Async Sub CargarJuegos(juegos As List(Of Entrada), paginas As Integer)
-
-        Dim nuevosJuegos As List(Of Entrada) = Await Wordpress.Cargar("us_portfolio", paginas, Nothing)
-
-        For Each nuevoJuego In nuevosJuegos
-            Dim añadir As Boolean = True
-
-            For Each viejoJuego In juegos
-                If viejoJuego.ID = nuevoJuego.ID Then
-                    añadir = False
-                End If
-            Next
-
-            If añadir = True Then
-                juegos.Add(nuevoJuego)
-            End If
-        Next
-
-        If juegos.Count > 0 Then
-            gvNuevosJuegos.Items.Clear()
-
-            'Dim r As Random = New Random
-            'Dim exclusive() As Integer = Enumerable.Range(0, juegos.Count).OrderBy(Function(n) r.Next(juegos.Count + 1)).ToArray()
-            'Dim shuffled As New List(Of Entrada)
-
-            'Array.ForEach(exclusive, Sub(e) shuffled.Add(juegos(e)))
-
-            Dim i As Integer = 0
-            For Each subjuego In juegos
-                If i < 6 Then
-                    If Not subjuego.Imagen2 = Nothing Then
-                        subjuego.Imagen2 = subjuego.Imagen2.Replace("<img src=" + ChrW(34), Nothing)
-                        subjuego.Imagen2 = subjuego.Imagen2.Replace(ChrW(34) + " class=" + ChrW(34) + "ajustarImagen" + ChrW(34) + "/>", Nothing)
-                        subjuego.Imagen = subjuego.Imagen2
-
-                        gvNuevosJuegos.Items.Add(Interfaz.GenerarJuego(subjuego))
-                    End If
-                End If
-                i += 1
-            Next
-        End If
+        SteamDeseados.Cargar(tbFavoritosSteam.Text, entradas)
 
     End Sub
+
+    'Public Async Sub CargarJuegos(juegos As List(Of Entrada), paginas As Integer)
+
+    'Dim nuevosJuegos As List(Of Entrada) = Await Wordpress.Cargar("us_portfolio", paginas, Nothing)
+
+    'For Each nuevoJuego In nuevosJuegos
+    '    Dim añadir As Boolean = True
+
+    '    For Each viejoJuego In juegos
+    '        If viejoJuego.ID = nuevoJuego.ID Then
+    '            añadir = False
+    '        End If
+    '    Next
+
+    '    If añadir = True Then
+    '        juegos.Add(nuevoJuego)
+    '    End If
+    'Next
+
+    'If juegos.Count > 0 Then
+    '    gvNuevosJuegos.Items.Clear()
+
+    '    Dim r As Random = New Random
+    '    Dim exclusive() As Integer = Enumerable.Range(0, juegos.Count).OrderBy(Function(n) r.Next(juegos.Count + 1)).ToArray()
+    '    Dim shuffled As New List(Of Entrada)
+
+    '    Array.ForEach(exclusive, Sub(e) shuffled.Add(juegos(e)))
+
+    '    Dim i As Integer = 0
+    '    For Each subjuego In juegos
+    '        If i < 6 Then
+    '            If Not subjuego.Imagen2 = Nothing Then
+    '                subjuego.Imagen2 = subjuego.Imagen2.Replace("<img src=" + ChrW(34), Nothing)
+    '                subjuego.Imagen2 = subjuego.Imagen2.Replace(ChrW(34) + " class=" + ChrW(34) + "ajustarImagen" + ChrW(34) + "/>", Nothing)
+    '                subjuego.Imagen = subjuego.Imagen2
+
+    '                gvNuevosJuegos.Items.Add(Interfaz.GenerarJuego(subjuego))
+    '            End If
+    '        End If
+    '        i += 1
+    '    Next
+    'End If
+
+    'End Sub
+
     Private Sub GridEntradas_SizeChanged(sender As Object, e As SizeChangedEventArgs) Handles gridEntradas.SizeChanged
 
         Dim grid As Grid = sender
@@ -394,6 +404,26 @@ Public NotInheritable Class MainPage
         icono.Saturation(1).Scale(1, 1, icono.ActualWidth / 2, icono.ActualHeight / 2).Start()
 
         Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Arrow, 1)
+
+    End Sub
+
+    Private Sub TbFavoritosSteam_TextChanged(sender As Object, e As TextChangedEventArgs) Handles tbFavoritosSteam.TextChanged
+
+        Dim config As ApplicationDataContainer = ApplicationData.Current.LocalSettings
+        config.Values("Cuenta_Steam") = tbFavoritosSteam.Text.Trim
+        SteamDeseados.Cargar(tbFavoritosSteam.Text, entradas)
+
+    End Sub
+
+    Private Sub ExpanderFiltroJuegosDeseados_Expanded(sender As Object, e As EventArgs) Handles expanderFiltroJuegosDeseados.Expanded
+
+        gvJuegosDeseados.Visibility = Visibility.Visible
+
+    End Sub
+
+    Private Sub ExpanderFiltroJuegosDeseados_Collapsed(sender As Object, e As EventArgs) Handles expanderFiltroJuegosDeseados.Collapsed
+
+        gvJuegosDeseados.Visibility = Visibility.Collapsed
 
     End Sub
 

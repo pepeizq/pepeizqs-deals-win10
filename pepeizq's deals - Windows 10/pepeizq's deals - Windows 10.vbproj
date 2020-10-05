@@ -139,14 +139,18 @@
     <Compile Include="Clases\Anuncio.vb" />
     <Compile Include="Clases\Busqueda.vb" />
     <Compile Include="Clases\Entrada.vb" />
+    <Compile Include="Clases\FiltroDeseado.vb" />
+    <Compile Include="Clases\SteamJuegoDeseado.vb" />
     <Compile Include="MainPage.xaml.vb">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modulos\Buscador.vb" />
+    <Compile Include="Modulos\Decompiladores.vb" />
     <Compile Include="Modulos\Interfaz.vb" />
     <Compile Include="Modulos\MasCosas.vb" />
     <Compile Include="Modulos\NavigationViewItems.vb" />
     <Compile Include="Modulos\Notificaciones.vb" />
+    <Compile Include="Modulos\SteamDeseados.vb" />
     <Compile Include="Modulos\Wordpress.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
   </ItemGroup>

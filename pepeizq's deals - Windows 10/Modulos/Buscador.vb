@@ -50,8 +50,8 @@ Module Buscador
     Private Function InterfazResultado(resultado As Busqueda)
 
         Dim spJuego As New StackPanel With {
-            .BorderBrush = New SolidColorBrush(Colors.White),
-            .BorderThickness = New Thickness(0, 0, 0, 0),
+            .BorderBrush = New SolidColorBrush(Colors.Transparent),
+            .BorderThickness = New Thickness(0, 0, 0, 2),
             .Orientation = Orientation.Vertical,
             .Padding = New Thickness(5, 0, 5, 0)
         }
@@ -97,7 +97,7 @@ Module Buscador
 
         Dim boton As Button = sender
         Dim sp As StackPanel = boton.Content
-        sp.BorderThickness = New Thickness(0, 0, 0, 2)
+        sp.BorderBrush = New SolidColorBrush(Colors.White)
 
         Dim tb As TextBlock = sp.Children(0)
         tb.Saturation(1).Scale(1.05, 1.05, boton.ActualWidth / 2, boton.ActualHeight / 2).Start()
@@ -110,7 +110,7 @@ Module Buscador
 
         Dim boton As Button = sender
         Dim sp As StackPanel = boton.Content
-        sp.BorderThickness = New Thickness(0, 0, 0, 0)
+        sp.BorderBrush = New SolidColorBrush(Colors.Transparent)
 
         Dim tb As TextBlock = sp.Children(0)
         tb.Saturation(1).Scale(1, 1, boton.ActualWidth / 2, boton.ActualHeight / 2).Start()
