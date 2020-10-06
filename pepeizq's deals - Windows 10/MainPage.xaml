@@ -166,7 +166,7 @@
                             </Button.Content>
                         </Button>
 
-                        <StackPanel x:Name="spControles" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20">
+                        <StackPanel x:Name="spControles" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,20,0,0">
                             <Button x:Name="botonActualizar" Margin="0,0,10,0" Background="Transparent" BorderBrush="Transparent" PointerEntered="UsuarioEntraBoton2" PointerExited="UsuarioSaleBoton2" Style="{StaticResource ButtonRevealStyle}">
                                 <Button.Content>
                                     <StackPanel Orientation="Horizontal" Padding="5">
