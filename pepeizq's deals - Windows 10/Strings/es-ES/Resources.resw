@@ -138,6 +138,9 @@
   <data name="Free2" xml:space="preserve">
     <value>Gratis</value>
   </data>
+  <data name="Giveaways" xml:space="preserve">
+    <value>Sorteos</value>
+  </data>
   <data name="Home" xml:space="preserve">
     <value>Inicio</value>
   </data>
@@ -197,5 +200,8 @@
   </data>
   <data name="WishlistFilter.Text" xml:space="preserve">
     <value>Filtro de Juegos Deseados</value>
+  </data>
+  <data name="WishlistNoGames.Text" xml:space="preserve">
+    <value>Actualmente no hay juegos de tu lista de deseados en oferta o en bundles.</value>
   </data>
 </root>

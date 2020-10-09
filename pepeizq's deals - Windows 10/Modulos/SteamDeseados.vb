@@ -45,30 +45,46 @@ Module SteamDeseados
 
                     For Each juego In juegosDeseados
                         For Each entrada In entradas
-                            If entrada.Contenido.Texto.Contains(">" + juego.Value.Titulo + "<") Then
-                                Dim añadir As Boolean = True
+                            Dim añadir As Boolean = False
 
-                                Dim k As Integer = 0
-                                While k < filtros.Count
-                                    If filtros(k).Titulo = juego.Value.Titulo Then
-                                        añadir = False
-                                        filtros(k).Enlaces.Add(entrada.Enlace)
-                                    End If
-                                    k += 1
-                                End While
+                            If Not entrada.Contenido Is Nothing Then
+                                If entrada.Contenido.Texto.Contains(">" + juego.Value.Titulo.Trim + "<") Then
+                                    añadir = True
 
-                                If añadir = True Then
-                                    Dim enlaces As New List(Of String) From {
-                                        entrada.Enlace
-                                    }
-
-                                    filtros.Add(New FiltroDeseado(juego.Value.Titulo, enlaces, juego.Value.Imagen))
+                                    Dim k As Integer = 0
+                                    While k < filtros.Count
+                                        If filtros(k).Titulo = juego.Value.Titulo Then
+                                            añadir = False
+                                            filtros(k).Enlaces.Add(entrada.Enlace)
+                                        End If
+                                        k += 1
+                                    End While
                                 End If
+                            ElseIf Not entrada.Titulo Is Nothing Then
+                                If entrada.Titulo.Texto.Contains(juego.Value.Titulo.Trim + " •") Then
+                                    añadir = True
+                                End If
+                            ElseIf Not entrada.subTitulo = Nothing Then
+                                If entrada.SubTitulo.Contains(juego.Value.Titulo.Trim + " ,") Or entrada.SubTitulo.Contains(", " + juego.Value.Titulo.Trim) Or entrada.SubTitulo.Contains("and " + juego.Value.Titulo.Trim) Then
+                                    añadir = True
+                                End If
+                            End If
+
+                            If añadir = True Then
+                                Dim enlaces As New List(Of String) From {
+                                    entrada.Enlace
+                                }
+
+                                filtros.Add(New FiltroDeseado(juego.Value.Titulo, enlaces, juego.Value.Imagen))
                             End If
                         Next
                     Next
 
+                    Dim tbDeseadosNoHay As TextBlock = pagina.FindName("tbJuegosDeseadosNoHay")
+
                     If filtros.Count > 0 Then
+                        tbDeseadosNoHay.Visibility = Visibility.Collapsed
+
                         filtros.Sort(Function(x As FiltroDeseado, y As FiltroDeseado)
                                          Dim resultado As Integer = x.Titulo.CompareTo(y.Titulo)
                                          If resultado = 0 Then
@@ -95,6 +111,8 @@ Module SteamDeseados
 
                             gvFiltro.Items.Add(botonFiltro)
                         Next
+                    Else
+                        tbDeseadosNoHay.Visibility = Visibility.Visible
                     End If
                 Else
                     expanderCuenta.IsExpanded = True

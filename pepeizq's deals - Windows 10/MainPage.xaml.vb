@@ -25,6 +25,7 @@ Public NotInheritable Class MainPage
         nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Free2"), Nothing, 4))
         nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Subscriptions2"), Nothing, 5))
         nvPrincipal.MenuItems.Add(New NavigationViewItemSeparator)
+        nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Giveaways"), Nothing, 6))
         nvPrincipal.MenuItems.Add(MasCosas.Generar("https://github.com/pepeizq/pepeizqs-deals-win10", Nothing, "https://www.youtube.com/watch?v=uF6zm8cTakE"))
 
     End Sub
@@ -48,6 +49,8 @@ Public NotInheritable Class MainPage
                 CargarEntradas(entradas, 100, recursos.GetString("Free2"), 3, False)
             ElseIf item.Text = recursos.GetString("Subscriptions2") Then
                 CargarEntradas(entradas, 100, recursos.GetString("Subscriptions2"), 4, False)
+            ElseIf item.Text = recursos.GetString("Giveaways") Then
+                Await Launcher.LaunchUriAsync(New Uri("https://pepeizqdeals.com/giveaways/"))
             ElseIf item.Text = recursos.GetString("MoreThings") Then
                 FlyoutBase.ShowAttachedFlyout(nvPrincipal.MenuItems.Item(nvPrincipal.MenuItems.Count - 1))
             End If

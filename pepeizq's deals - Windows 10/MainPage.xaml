@@ -135,7 +135,7 @@
                             </controls:Expander.Header>
 
                             <StackPanel Orientation="Vertical" Padding="20">
-                                <TextBlock x:Uid="SteamAccountWishlist" Foreground="White" FontSize="16" Margin="0,0,0,20" MaxWidth="340" TextWrapping="Wrap"/>
+                                <TextBlock x:Uid="SteamAccountWishlist" Foreground="White" FontSize="16" LineHeight="25" Margin="0,0,0,20" MaxWidth="340" TextWrapping="Wrap"/>
                                 <TextBox x:Name="tbFavoritosSteam"/>
                             </StackPanel>
                         </controls:Expander>
@@ -156,6 +156,8 @@
                                 </ItemsPanelTemplate>
                             </GridView.ItemsPanel>
                         </controls:AdaptiveGridView>
+
+                        <TextBlock x:Name="tbJuegosDeseadosNoHay" x:Uid="WishlistNoGames" Grid.Row="2" Padding="15" FontSize="16" LineHeight="25" Foreground="White" Visibility="Collapsed" MaxWidth="340" TextWrapping="Wrap"/>
 
                         <Button x:Name="botonAbrirNuevosJuegos" Grid.Row="3" Margin="0,30,0,0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Background="Transparent" BorderBrush="Transparent" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton" Style="{StaticResource ButtonRevealStyle}">
                             <Button.Content>

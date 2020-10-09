@@ -138,6 +138,9 @@
   <data name="Free2" xml:space="preserve">
     <value>Free</value>
   </data>
+  <data name="Giveaways" xml:space="preserve">
+    <value>Giveaways</value>
+  </data>
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
@@ -197,5 +200,8 @@
   </data>
   <data name="WishlistFilter.Text" xml:space="preserve">
     <value>Wishlist Games Filter</value>
+  </data>
+  <data name="WishlistNoGames.Text" xml:space="preserve">
+    <value>There are currently no games on your wishlist on sale or in bundles.</value>
   </data>
 </root>
