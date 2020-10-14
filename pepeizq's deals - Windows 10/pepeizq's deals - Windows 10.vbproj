@@ -137,14 +137,25 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Clases\Anuncio.vb" />
-    <Compile Include="Clases\Busqueda.vb" />
+    <Compile Include="Clases\Buscador\pepeizqdeals.vb" />
+    <Compile Include="Clases\Buscador\Referidos.vb" />
+    <Compile Include="Clases\Buscador\SteamWeb.vb" />
+    <Compile Include="Clases\Buscador\Tienda.vb" />
     <Compile Include="Clases\Entrada.vb" />
     <Compile Include="Clases\FiltroDeseado.vb" />
     <Compile Include="Clases\SteamJuegoDeseado.vb" />
     <Compile Include="MainPage.xaml.vb">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Modulos\Buscador.vb" />
+    <Compile Include="Modulos\Buscador\Interfaz.vb" />
+    <Compile Include="Modulos\Buscador\Limpieza.vb" />
+    <Compile Include="Modulos\Buscador\Motor.vb" />
+    <Compile Include="Modulos\Buscador\Tiendas\Fanatical.vb" />
+    <Compile Include="Modulos\Buscador\Tiendas\GamersGate.vb" />
+    <Compile Include="Modulos\Buscador\Tiendas\Gamesplanet.vb" />
+    <Compile Include="Modulos\Buscador\Tiendas\Humble.vb" />
+    <Compile Include="Modulos\Buscador\Tiendas\SteamAPI.vb" />
+    <Compile Include="Modulos\Buscador\Tiendas\SteamWeb.vb" />
     <Compile Include="Modulos\Decompiladores.vb" />
     <Compile Include="Modulos\Interfaz.vb" />
     <Compile Include="Modulos\MasCosas.vb" />
@@ -206,6 +217,11 @@
     <Content Include="Assets\Logos\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Logos\Wide310x150Logo.scale-400.png" />
     <Content Include="Assets\pepeizqsdeals_logo.png" />
+    <Content Include="Assets\Tiendas\fanatical3.png" />
+    <Content Include="Assets\Tiendas\gamersgate3.png" />
+    <Content Include="Assets\Tiendas\gamesplanet3.png" />
+    <Content Include="Assets\Tiendas\humble3.png" />
+    <Content Include="Assets\Tiendas\steam3.png" />
     <Content Include="My Project\Default.rd.xml" />
     <None Include="Package.StoreAssociation.xml" />
   </ItemGroup>
@@ -295,6 +311,7 @@
       <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
     </SDKReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

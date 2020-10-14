@@ -19,13 +19,13 @@ Module Wordpress
         Return entradas
     End Function
 
-    Public Async Function Buscar(texto As String) As Task(Of List(Of Busqueda))
+    Public Async Function Buscar(texto As String) As Task(Of List(Of Buscador.pepeizqdeals))
 
         Dim cliente As New WordPressClient("https://pepeizqdeals.com/wp-json/") With {
             .AuthMethod = Models.AuthMethod.JWT
         }
 
-        Dim resultados As List(Of Busqueda) = Await cliente.CustomRequest.Get(Of List(Of Busqueda))("wp/v2/search/?search=" + texto)
+        Dim resultados As List(Of Buscador.pepeizqdeals) = Await cliente.CustomRequest.Get(Of List(Of Buscador.pepeizqdeals))("wp/v2/search/?search=" + texto)
 
         Return resultados
     End Function

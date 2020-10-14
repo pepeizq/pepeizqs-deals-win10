@@ -169,13 +169,10 @@
     <value>Vota la App</value>
   </data>
   <data name="NoResults.Text" xml:space="preserve">
-    <value>No se han encontrado resultados</value>
+    <value>No se han encontrado resultados en pepeizqdeals.com</value>
   </data>
   <data name="Open" xml:space="preserve">
     <value>Abrir</value>
-  </data>
-  <data name="OpenMoreGames.Text" xml:space="preserve">
-    <value>Abrir Beta de base de datos de juegos</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Buscar</value>

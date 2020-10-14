@@ -422,8 +422,8 @@ Module Interfaz
             .MinWidth = 150
         }
 
-        RemoveHandler tb.TextChanged, AddressOf Buscador.Busca
-        AddHandler tb.TextChanged, AddressOf Buscador.Busca
+        RemoveHandler tb.TextChanged, AddressOf Buscador.BuscarWebSteam
+        AddHandler tb.TextChanged, AddressOf Buscador.BuscarWebSteam
 
         sp.Children.Add(tb)
 
