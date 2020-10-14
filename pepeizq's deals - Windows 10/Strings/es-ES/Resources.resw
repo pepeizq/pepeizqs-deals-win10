@@ -168,11 +168,11 @@
   <data name="MoreThings_VoteApp" xml:space="preserve">
     <value>Vota la App</value>
   </data>
-  <data name="NoResults.Text" xml:space="preserve">
-    <value>No se han encontrado resultados en pepeizqdeals.com</value>
-  </data>
   <data name="Open" xml:space="preserve">
     <value>Abrir</value>
+  </data>
+  <data name="Scanning" xml:space="preserve">
+    <value>Escaneando Tiendas</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Buscar</value>

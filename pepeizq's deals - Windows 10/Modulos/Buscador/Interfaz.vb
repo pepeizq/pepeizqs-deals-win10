@@ -191,7 +191,7 @@ Namespace Buscador
                 .Padding = New Thickness(10, 10, 10, 10),
                 .BorderThickness = New Thickness(0, 0, 0, 0),
                 .Tag = resultado,
-                .Margin = New Thickness(10, 5, 10, 5),
+                .Margin = New Thickness(15, 10, 15, 10),
                 .Content = sp
             }
 

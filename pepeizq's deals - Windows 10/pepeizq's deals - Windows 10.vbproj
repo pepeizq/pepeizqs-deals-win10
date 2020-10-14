@@ -153,9 +153,11 @@
     <Compile Include="Modulos\Buscador\Tiendas\Fanatical.vb" />
     <Compile Include="Modulos\Buscador\Tiendas\GamersGate.vb" />
     <Compile Include="Modulos\Buscador\Tiendas\Gamesplanet.vb" />
+    <Compile Include="Modulos\Buscador\Tiendas\GreenManGaming.vb" />
     <Compile Include="Modulos\Buscador\Tiendas\Humble.vb" />
     <Compile Include="Modulos\Buscador\Tiendas\SteamAPI.vb" />
     <Compile Include="Modulos\Buscador\Tiendas\SteamWeb.vb" />
+    <Compile Include="Modulos\Buscador\Tiendas\WinGameStore.vb" />
     <Compile Include="Modulos\Decompiladores.vb" />
     <Compile Include="Modulos\Interfaz.vb" />
     <Compile Include="Modulos\MasCosas.vb" />
@@ -220,8 +222,10 @@
     <Content Include="Assets\Tiendas\fanatical3.png" />
     <Content Include="Assets\Tiendas\gamersgate3.png" />
     <Content Include="Assets\Tiendas\gamesplanet3.png" />
+    <Content Include="Assets\Tiendas\gmg3.png" />
     <Content Include="Assets\Tiendas\humble3.png" />
     <Content Include="Assets\Tiendas\steam3.png" />
+    <Content Include="Assets\Tiendas\wingamestore3.png" />
     <Content Include="My Project\Default.rd.xml" />
     <None Include="Package.StoreAssociation.xml" />
   </ItemGroup>

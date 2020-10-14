@@ -31,12 +31,12 @@ Public NotInheritable Class MainPage
 
     Private Async Sub Nv_ItemInvoked(sender As NavigationView, args As NavigationViewItemInvokedEventArgs)
 
-        gridBusqueda.Visibility = Visibility.Collapsed
-        gridBusquedaJuego.Visibility = Visibility.Collapsed
-
         Dim recursos As New Resources.ResourceLoader()
 
         If TypeOf args.InvokedItem Is TextBlock Then
+            gridBusqueda.Visibility = Visibility.Collapsed
+            gridBusquedaJuego.Visibility = Visibility.Collapsed
+
             Dim item As TextBlock = args.InvokedItem
 
             If Not item Is Nothing Then

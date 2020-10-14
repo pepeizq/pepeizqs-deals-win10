@@ -5,6 +5,7 @@ Imports Windows.System.UserProfile
 
 Namespace Buscador.Tiendas
     Module Fanatical
+
         Public Async Function Buscar(titulo As String, id As String) As Task(Of Tienda)
 
             Dim html As String = Await Decompiladores.HttpClient(New Uri("https://feed.fanatical.com/feed"))

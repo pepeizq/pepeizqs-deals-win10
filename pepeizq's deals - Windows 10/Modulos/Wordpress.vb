@@ -25,7 +25,13 @@ Module Wordpress
             .AuthMethod = Models.AuthMethod.JWT
         }
 
-        Dim resultados As List(Of Buscador.pepeizqdeals) = Await cliente.CustomRequest.Get(Of List(Of Buscador.pepeizqdeals))("wp/v2/search/?search=" + texto)
+        Dim resultados As List(Of Buscador.pepeizqdeals) = Nothing
+
+        Try
+            resultados = Await cliente.CustomRequest.Get(Of List(Of Buscador.pepeizqdeals))("wp/v2/search/?search=" + texto)
+        Catch ex As Exception
+
+        End Try
 
         Return resultados
     End Function

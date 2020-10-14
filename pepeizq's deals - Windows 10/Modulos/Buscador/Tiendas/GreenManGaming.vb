@@ -1,40 +1,31 @@
 ﻿Imports System.Globalization
 Imports System.Xml.Serialization
 Imports Windows.Globalization.NumberFormatting
+Imports Windows.System.UserProfile
 
 Namespace Buscador.Tiendas
-    Module Gamesplanet
+    Module GreenManGaming
 
-        Public Async Function Buscar(titulo As String, id As String) As Task(Of Tienda)
+        Public Async Function Buscar(titulo As String) As Task(Of Tienda)
 
-            Dim pais As New Windows.Globalization.GeographicRegion
-
-            Dim paisLetras As String = String.Empty
-
-            If pais.CodeTwoLetter.ToLower = "uk" Or pais.CodeTwoLetter.ToLower = "fr" Or pais.CodeTwoLetter.ToLower = "de" Or pais.CodeTwoLetter.ToLower = "es" Or pais.CodeTwoLetter.ToLower = "it" Then
-                paisLetras = "uk"
-            Else
-                paisLetras = "us"
-            End If
-
-            Dim html As String = Await HttpClient(New Uri("https://" + paisLetras + ".gamesplanet.com/api/v1/products/feed.xml"))
+            Dim html As String = Await HttpClient(New Uri("https://api.greenmangaming.com/api/productfeed/prices/current?cc=es&cur=eur&lang=en"))
 
             If Not html = Nothing Then
                 Dim stream As New StringReader(html)
-                Dim xml As New XmlSerializer(GetType(GamesPlanetJuegos))
-                Dim listaJuegos As GamesPlanetJuegos = xml.Deserialize(stream)
+                Dim xml As New XmlSerializer(GetType(GreenManGamingJuegos))
+                Dim listaJuegos As GreenManGamingJuegos = xml.Deserialize(stream)
 
                 If Not listaJuegos Is Nothing Then
                     If listaJuegos.Juegos.Count > 0 Then
                         For Each juego In listaJuegos.Juegos
-                            If Limpieza.Limpiar(juego.Titulo) = Limpieza.Limpiar(titulo) Or id = juego.SteamID Then
+                            If Limpieza.Limpiar(juego.Titulo) = Limpieza.Limpiar(titulo) Then
 
                                 Dim enlace As String = juego.Enlace
 
                                 Dim precio As String = String.Empty
 
-                                If Not juego.PrecioDescontado = Nothing Then
-                                    precio = juego.PrecioDescontado
+                                If Not juego.PrecioRebajado = Nothing Then
+                                    precio = juego.PrecioRebajado
                                 End If
 
                                 If precio = String.Empty Then
@@ -44,11 +35,7 @@ Namespace Buscador.Tiendas
                                 If Not precio = String.Empty Then
                                     Dim tempDouble As Double = Double.Parse(precio, CultureInfo.InvariantCulture).ToString
 
-                                    Dim moneda As String = "USD"
-
-                                    If paisLetras = "uk" Then
-                                        moneda = "GBP"
-                                    End If
+                                    Dim moneda As String = GlobalizationPreferences.Currencies(0)
 
                                     Dim formateador As New CurrencyFormatter(moneda) With {
                                         .Mode = CurrencyFormatterMode.UseSymbol
@@ -56,7 +43,7 @@ Namespace Buscador.Tiendas
 
                                     precio = formateador.Format(tempDouble)
 
-                                    Dim tienda As New Tienda(pepeizq.Editor.pepeizqdeals.Referidos.Generar(enlace), precio, "Assets/Tiendas/gamesplanet3.png")
+                                    Dim tienda As New Tienda(pepeizq.Editor.pepeizqdeals.Referidos.Generar(enlace), precio, "Assets/Tiendas/gmg3.png")
                                     Return tienda
                                 End If
                             End If
@@ -72,28 +59,28 @@ Namespace Buscador.Tiendas
     End Module
 
     <XmlRoot("products")>
-    Public Class GamesPlanetJuegos
+    Public Class GreenManGamingJuegos
 
         <XmlElement("product")>
-        Public Juegos As List(Of GamesPlanetJuego)
+        Public Juegos As List(Of GreenManGamingJuego)
 
     End Class
 
-    Public Class GamesPlanetJuego
+    Public Class GreenManGamingJuego
 
-        <XmlElement("name")>
+        <XmlElement("product_name")>
         Public Titulo As String
 
-        <XmlElement("link")>
+        <XmlElement("deep_link")>
         Public Enlace As String
 
         <XmlElement("price")>
-        Public PrecioDescontado As String
+        Public PrecioRebajado As String
 
-        <XmlElement("price_base")>
+        <XmlElement("rrp_price")>
         Public PrecioBase As String
 
-        <XmlElement("steam_id")>
+        <XmlElement("steamapp_id")>
         Public SteamID As String
 
     End Class

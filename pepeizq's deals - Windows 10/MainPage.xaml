@@ -182,18 +182,16 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <Grid Grid.Row="0" Padding="40">
-                        <StackPanel x:Name="spBusquedaCarga" Orientation="Vertical" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <TextBlock x:Uid="Searching" Foreground="White" Margin="0,0,0,20" HorizontalAlignment="Center"/>
-                            <ProgressRing FontSize="30" IsActive="True" Foreground="White" HorizontalAlignment="Center"/>
-                        </StackPanel>
-
-                        <ScrollViewer x:Name="svBusquedaEntradas" VerticalScrollBarVisibility="Visible" Padding="0,0,25,0" MaxHeight="200" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid Grid.Row="0">
+                        <ScrollViewer x:Name="svBusquedaEntradas" VerticalScrollBarVisibility="Visible" Padding="0,0,25,0" Margin="40,40,40,20" MaxHeight="150" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <StackPanel x:Name="spBusquedaEntradas" Orientation="Vertical" Padding="20"/>
                         </ScrollViewer>
-
-                        <TextBlock x:Name="tbBusquedaNoResultados" x:Uid="NoResults" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed"/>
                     </Grid>
+
+                    <StackPanel x:Name="spBusquedaCarga" Grid.Row="1" Orientation="Vertical" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock x:Uid="Searching" Foreground="White" Margin="0,0,0,20" HorizontalAlignment="Center"/>
+                        <ProgressRing FontSize="40" IsActive="True" Foreground="White" HorizontalAlignment="Center"/>
+                    </StackPanel>
 
                     <Grid Grid.Row="1" Padding="40">
                         <controls:AdaptiveGridView x:Name="gvBuscadorJuegos" ItemHeight="350"/>
@@ -217,6 +215,8 @@
                         <controls:ImageEx x:Name="imagenBusquedaJuego" IsCacheEnabled="True" MaxHeight="400"/>
 
                         <ProgressBar x:Name="pbBusquedaJuego" IsIndeterminate="True" Foreground="White" Margin="0,30,0,0"/>
+
+                        <TextBlock x:Name="tbBusquedaJuego" Foreground="White" Margin="0,30,0,0" HorizontalAlignment="Center"/>
                     </StackPanel>
                     
                     <controls:AdaptiveGridView x:Name="gvBusquedaJuegoTiendas" Grid.Column="1" Margin="30"/>
