@@ -144,6 +144,9 @@
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="HumbleChoice" xml:space="preserve">
+    <value>You must have Humble Choice active to get this price</value>
+  </data>
   <data name="Loading.Text" xml:space="preserve">
     <value>Loading</value>
   </data>
@@ -156,6 +159,12 @@
   <data name="MoreThings_HelpTranslate" xml:space="preserve">
     <value>Help to Translate</value>
   </data>
+  <data name="MoreThings_RateApp" xml:space="preserve">
+    <value>Rate the App</value>
+  </data>
+  <data name="MoreThings_RateAppThanks" xml:space="preserve">
+    <value>Thanks for rating the app</value>
+  </data>
   <data name="MoreThings_ReportBug" xml:space="preserve">
     <value>Report a Bug</value>
   </data>
@@ -164,9 +173,6 @@
   </data>
   <data name="MoreThings_Video" xml:space="preserve">
     <value>Video on YouTube</value>
-  </data>
-  <data name="MoreThings_VoteApp" xml:space="preserve">
-    <value>Vote the App</value>
   </data>
   <data name="Open" xml:space="preserve">
     <value>Open</value>
@@ -186,19 +192,28 @@
   <data name="SteamAccount.Text" xml:space="preserve">
     <value>Steam Account</value>
   </data>
-  <data name="SteamAccountWishlist.Text" xml:space="preserve">
-    <value>If you put a link to your Steam profile the app will read your wishlist games and show you in which stores are on sale</value>
-  </data>
   <data name="Subscriptions.Text" xml:space="preserve">
     <value>Subscriptions</value>
   </data>
   <data name="Subscriptions2" xml:space="preserve">
     <value>Subscriptions</value>
   </data>
+  <data name="Wishlist" xml:space="preserve">
+    <value>Wishlist</value>
+  </data>
   <data name="WishlistFilter.Text" xml:space="preserve">
     <value>Wishlist Games Filter</value>
   </data>
+  <data name="WishlistGames.Text" xml:space="preserve">
+    <value>Wishlist Games</value>
+  </data>
+  <data name="WishlistGamesInfo.Text" xml:space="preserve">
+    <value>Click on the games to see in which stores it is available</value>
+  </data>
   <data name="WishlistNoGames.Text" xml:space="preserve">
     <value>There are currently no games on your wishlist on sale or in bundles.</value>
+  </data>
+  <data name="WishlistSteamAccount.Text" xml:space="preserve">
+    <value>If you put a link to your Steam profile the app will read your wishlist games and can load a filter on the entries.</value>
   </data>
 </root>

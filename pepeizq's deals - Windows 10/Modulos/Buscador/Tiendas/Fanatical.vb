@@ -1,4 +1,5 @@
 ﻿Imports System.Globalization
+Imports Microsoft.Toolkit.Uwp.UI.Controls
 Imports Newtonsoft.Json
 Imports Windows.Globalization.NumberFormatting
 Imports Windows.System.UserProfile
@@ -6,9 +7,26 @@ Imports Windows.System.UserProfile
 Namespace Buscador.Tiendas
     Module Fanatical
 
-        Public Async Function Buscar(titulo As String, id As String) As Task(Of Tienda)
+        Dim WithEvents bw As New BackgroundWorker
+        Dim titulo As String
+        Dim id As String
+        Dim tienda As Tienda
 
-            Dim html As String = Await Decompiladores.HttpClient(New Uri("https://feed.fanatical.com/feed"))
+        Public Sub Buscar(titulo_ As String, id_ As String)
+
+            titulo = titulo_
+            id = id_
+
+            If bw.IsBusy = False Then
+                bw.RunWorkerAsync()
+            End If
+
+        End Sub
+
+        Private Sub Bw_DoWork(sender As Object, e As DoWorkEventArgs) Handles bw.DoWork
+
+            Dim html_ As Task(Of String) = Decompiladores.HttpClient(New Uri("https://feed.fanatical.com/feed"))
+            Dim html As String = html_.Result
 
             If Not html = Nothing Then
                 html = "[" + html + "]"
@@ -61,8 +79,7 @@ Namespace Buscador.Tiendas
 
                                     precio = formateador.Format(tempDouble)
 
-                                    Dim tienda As New Tienda(pepeizq.Editor.pepeizqdeals.Referidos.Generar(enlace), precio, "Assets/Tiendas/fanatical3.png")
-                                    Return tienda
+                                    tienda = New Tienda(pepeizq.Editor.pepeizqdeals.Referidos.Generar(enlace), precio, "Assets/Tiendas/fanatical3.png")
                                 End If
                             End If
                         Next
@@ -70,9 +87,21 @@ Namespace Buscador.Tiendas
                 End If
             End If
 
-            Return Nothing
+        End Sub
 
-        End Function
+        Private Sub Bw_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles bw.RunWorkerCompleted
+
+            If Not tienda Is Nothing Then
+                Dim frame As Frame = Window.Current.Content
+                Dim pagina As Page = frame.Content
+
+                Dim gvTiendas As AdaptiveGridView = pagina.FindName("gvBusquedaJuegoTiendas")
+
+                gvTiendas.Items.Add(ResultadoTienda(tienda, Nothing, Nothing))
+            End If
+
+        End Sub
+
     End Module
 
     Public Class FanaticalJuego

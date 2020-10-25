@@ -2,6 +2,7 @@
 Imports Microsoft.Toolkit.Uwp.UI.Animations
 Imports Microsoft.Toolkit.Uwp.UI.Controls
 Imports Windows.ApplicationModel.Core
+Imports Windows.Services.Store
 Imports Windows.Storage
 Imports Windows.System
 Imports Windows.UI
@@ -14,6 +15,7 @@ Public NotInheritable Class MainPage
 
     Private Sub Nv_Loaded(sender As Object, e As RoutedEventArgs)
 
+        Dim config As ApplicationDataContainer = ApplicationData.Current.LocalSettings
         Dim recursos As New Resources.ResourceLoader()
 
         nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Home"), FontAwesome5.EFontAwesomeIcon.Solid_Home, 0))
@@ -24,7 +26,8 @@ Public NotInheritable Class MainPage
         nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Free2"), Nothing, 4))
         nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Subscriptions2"), Nothing, 5))
         nvPrincipal.MenuItems.Add(New NavigationViewItemSeparator)
-        nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Giveaways"), Nothing, 6))
+        nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Wishlist"), Nothing, 6))
+        nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Giveaways"), Nothing, 7))
         nvPrincipal.MenuItems.Add(MasCosas.Generar("https://github.com/pepeizq/pepeizqs-deals-win10", Nothing, "https://www.youtube.com/watch?v=uF6zm8cTakE"))
 
     End Sub
@@ -52,6 +55,8 @@ Public NotInheritable Class MainPage
                     CargarEntradas(entradas, 100, recursos.GetString("Free2"), 3, False)
                 ElseIf item.Text = recursos.GetString("Subscriptions2") Then
                     CargarEntradas(entradas, 100, recursos.GetString("Subscriptions2"), 4, False)
+                ElseIf item.Text = recursos.GetString("Wishlist") Then
+                    GridVisibilidad.Mostrar("gridDeseados")
                 ElseIf item.Text = recursos.GetString("Giveaways") Then
                     Await Launcher.LaunchUriAsync(New Uri("https://pepeizqdeals.com/giveaways/"))
                 ElseIf item.Text = recursos.GetString("MoreThings") Then
@@ -62,7 +67,7 @@ Public NotInheritable Class MainPage
 
     End Sub
 
-    Private Sub Page_Loaded(sender As Object, e As RoutedEventArgs)
+    Private Async Sub Page_Loaded(sender As Object, e As RoutedEventArgs)
 
         'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "es-ES"
         'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "en-US"
@@ -84,10 +89,49 @@ Public NotInheritable Class MainPage
 
         CargarEntradas(entradas, 100, Nothing, 0, True)
 
+        Deseados.Cargar()
+
         Dim config As ApplicationDataContainer = ApplicationData.Current.LocalSettings
 
-        If Not config.Values("Cuenta_Steam") = Nothing Then
-            tbFavoritosSteam.Text = config.Values("Cuenta_Steam")
+        Dim recursos As New Resources.ResourceLoader()
+        Dim mostrarCalificar As Boolean = True
+
+        If Not config.Values("Calificar_App") = Nothing Then
+            If config.Values("Calificar_App") = 1 Then
+                mostrarCalificar = False
+            End If
+        End If
+
+        If mostrarCalificar = True Then
+            botonCalificar.Visibility = Visibility.Visible
+            tbBotonCalificar.Text = recursos.GetString("MoreThings_RateApp")
+        End If
+
+        '--------------------------------------------------------
+
+        Dim usuarios As IReadOnlyList(Of User) = Await User.FindAllAsync
+
+        If Not usuarios Is Nothing Then
+            If usuarios.Count > 0 Then
+                Dim usuario As User = usuarios(0)
+
+                Dim contexto As StoreContext = StoreContext.GetForUser(usuario)
+                Dim licencia As StoreAppLicense = Await contexto.GetAppLicenseAsync
+
+                If licencia.IsActive = True And licencia.IsTrial = False Then
+                    config.Values("Estado_App") = 1
+                Else
+                    config.Values("Estado_App") = 0
+                End If
+            End If
+        End If
+
+        If config.Values("Estado_App") = 1 Then
+            Divisas.Generar()
+
+            spFiltroDeseados.Visibility = Visibility.Visible
+        Else
+            spFiltroDeseados.Visibility = Visibility.Collapsed
         End If
 
     End Sub
@@ -102,8 +146,7 @@ Public NotInheritable Class MainPage
 
         '--------------------------------------
 
-        gridCarga.Visibility = Visibility.Visible
-        gridEntradas.Visibility = Visibility.Collapsed
+        GridVisibilidad.Mostrar("gridCarga")
 
         spEntradas.Children.Clear()
 
@@ -237,10 +280,14 @@ Public NotInheritable Class MainPage
             Next
         End If
 
-        gridCarga.Visibility = Visibility.Collapsed
-        gridEntradas.Visibility = Visibility.Visible
+        Dim config As ApplicationDataContainer = ApplicationData.Current.LocalSettings
+        If config.Values("Estado_App") = 1 Then
+            gvFiltroJuegosDeseados.Tag = entradas
+        End If
 
-        SteamDeseados.Cargar(tbFavoritosSteam.Text, entradas)
+        GridVisibilidad.Mostrar("gridEntradas")
+
+        Deseados.CargarUsuario()
 
     End Sub
     Private Sub GridEntradas_SizeChanged(sender As Object, e As SizeChangedEventArgs) Handles gridEntradas.SizeChanged
@@ -288,6 +335,12 @@ Public NotInheritable Class MainPage
     Private Sub BotonSubir_Click(sender As Object, e As RoutedEventArgs) Handles botonSubir.Click
 
         svEntradas.ChangeView(Nothing, 0, Nothing)
+
+    End Sub
+
+    Private Sub BotonCalificar_Click(sender As Object, e As RoutedEventArgs) Handles botonCalificar.Click
+
+        MasCosas.CalificarApp()
 
     End Sub
 
@@ -358,26 +411,6 @@ Public NotInheritable Class MainPage
         icono.Saturation(1).Scale(1, 1, icono.ActualWidth / 2, icono.ActualHeight / 2).Start()
 
         Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Arrow, 1)
-
-    End Sub
-
-    Private Sub TbFavoritosSteam_TextChanged(sender As Object, e As TextChangedEventArgs) Handles tbFavoritosSteam.TextChanged
-
-        Dim config As ApplicationDataContainer = ApplicationData.Current.LocalSettings
-        config.Values("Cuenta_Steam") = tbFavoritosSteam.Text.Trim
-        SteamDeseados.Cargar(tbFavoritosSteam.Text, entradas)
-
-    End Sub
-
-    Private Sub ExpanderFiltroJuegosDeseados_Expanded(sender As Object, e As EventArgs) Handles expanderFiltroJuegosDeseados.Expanded
-
-        gvJuegosDeseados.Visibility = Visibility.Visible
-
-    End Sub
-
-    Private Sub ExpanderFiltroJuegosDeseados_Collapsed(sender As Object, e As EventArgs) Handles expanderFiltroJuegosDeseados.Collapsed
-
-        gvJuegosDeseados.Visibility = Visibility.Collapsed
 
     End Sub
 

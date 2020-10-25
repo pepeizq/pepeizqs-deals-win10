@@ -111,61 +111,58 @@
 
                     <Grid Grid.Column="1" HorizontalAlignment="Center" MinWidth="400" Padding="20">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <controls:Expander x:Name="expanderCuentaSteam" Grid.Row="0" Foreground="White" Background="Transparent" IsExpanded="True" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
-                            <controls:Expander.Header>
-                                <StackPanel Orientation="Horizontal" Background="Transparent">
-                                    <iconos:FontAwesome Icon="Brands_Steam" Foreground="White" FontSize="17"/>
-                                    <TextBlock x:Uid="SteamAccount" Foreground="White" FontSize="17" Margin="10,0,0,0"/>
-                                </StackPanel>
-                            </controls:Expander.Header>
+                        <StackPanel x:Name="spFiltroDeseados" Grid.Row="0" Orientation="Vertical">
+                            <Grid BorderBrush="White" BorderThickness="0,1,0,0"/>
 
-                            <StackPanel Orientation="Vertical" Padding="20">
-                                <TextBlock x:Uid="SteamAccountWishlist" Foreground="White" FontSize="16" LineHeight="25" Margin="0,0,0,20" MaxWidth="340" TextWrapping="Wrap"/>
-                                <TextBox x:Name="tbFavoritosSteam"/>
-                            </StackPanel>
-                        </controls:Expander>
+                            <TextBlock x:Uid="WishlistFilter" Foreground="White" FontSize="16" HorizontalAlignment="Center" Margin="0,20,0,10"/>
 
-                        <controls:Expander x:Name="expanderFiltroJuegosDeseados" Grid.Row="1" IsEnabled="False" IsExpanded="False" Margin="0,20,0,0" Foreground="White" Background="Transparent" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
-                            <controls:Expander.Header>
-                                <StackPanel Orientation="Horizontal" Background="Transparent">
-                                    <iconos:FontAwesome Icon="Solid_Sort" Foreground="White" FontSize="17"/>
-                                    <TextBlock x:Uid="WishlistFilter" Foreground="White" FontSize="17" Margin="10,0,0,0"/>
-                                </StackPanel>
-                            </controls:Expander.Header>
-                        </controls:Expander>
+                            <controls:AdaptiveGridView x:Name="gvFiltroJuegosDeseados" DesiredWidth="155" Padding="15">
+                                <GridView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <ItemsWrapGrid MaximumRowsOrColumns="2" Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </GridView.ItemsPanel>
+                            </controls:AdaptiveGridView>
 
-                        <controls:AdaptiveGridView x:Name="gvJuegosDeseados" Grid.Row="2" DesiredWidth="155" Padding="15" Visibility="Collapsed">
-                            <GridView.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <ItemsWrapGrid MaximumRowsOrColumns="2" Orientation="Horizontal"/>
-                                </ItemsPanelTemplate>
-                            </GridView.ItemsPanel>
-                        </controls:AdaptiveGridView>
+                            <ProgressRing x:Name="prDeseados" Foreground="White" Margin="15" HorizontalAlignment="Center" IsActive="True" Visibility="Collapsed"/>
 
-                        <TextBlock x:Name="tbJuegosDeseadosNoHay" x:Uid="WishlistNoGames" Grid.Row="2" Padding="15" FontSize="16" LineHeight="25" Foreground="White" Visibility="Collapsed" MaxWidth="340" TextWrapping="Wrap"/>
+                            <TextBlock x:Name="tbJuegosDeseadosNoHay" x:Uid="WishlistNoGames" Padding="15" FontSize="16" LineHeight="25" Foreground="White" Visibility="Collapsed" MaxWidth="340" TextWrapping="Wrap" HorizontalAlignment="Center"/>
+                        </StackPanel>
 
-                        <StackPanel x:Name="spControles" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,20,0,0">
-                            <Button x:Name="botonActualizar" Margin="0,0,10,0" Background="Transparent" BorderBrush="Transparent" PointerEntered="UsuarioEntraBoton2" PointerExited="UsuarioSaleBoton2" Style="{StaticResource ButtonRevealStyle}">
+                        <Grid x:Name="spControles" Grid.Row="1" VerticalAlignment="Bottom" Margin="0,20,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <Button x:Name="botonActualizar" Grid.Column="0" Margin="0,0,10,0" Background="Transparent" BorderBrush="Transparent" PointerEntered="UsuarioEntraBoton2" PointerExited="UsuarioSaleBoton2" Style="{StaticResource ButtonRevealStyle}">
                                 <Button.Content>
                                     <StackPanel Orientation="Horizontal" Padding="5">
                                         <iconos:FontAwesome Icon="Solid_Sync" Foreground="White" FontSize="17"/>
                                     </StackPanel>
                                 </Button.Content>
                             </Button>
-                            <Button x:Name="botonSubir" Visibility="Collapsed" Background="Transparent" BorderBrush="Transparent" PointerEntered="UsuarioEntraBoton2" PointerExited="UsuarioSaleBoton2" Style="{StaticResource ButtonRevealStyle}">
+                            <Button x:Name="botonSubir" Grid.Column="1" Visibility="Collapsed" Background="Transparent" BorderBrush="Transparent" PointerEntered="UsuarioEntraBoton2" PointerExited="UsuarioSaleBoton2" Style="{StaticResource ButtonRevealStyle}">
                                 <Button.Content>
                                     <StackPanel Orientation="Horizontal" Padding="5">
                                         <iconos:FontAwesome Icon="Solid_ArrowUp" Foreground="White" FontSize="17"/>
                                     </StackPanel>
                                 </Button.Content>
                             </Button>
-                        </StackPanel>
+                            <Button x:Name="botonCalificar" Grid.Column="3" Visibility="Collapsed" Background="Transparent" BorderBrush="Transparent" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton" Style="{StaticResource ButtonRevealStyle}">
+                                <Button.Content>
+                                    <StackPanel Orientation="Horizontal" Padding="5">
+                                        <TextBlock x:Name="tbBotonCalificar" Foreground="White" FontSize="17"/>
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+                        </Grid>
                     </Grid>
                 </Grid>
 
@@ -220,7 +217,40 @@
                     </StackPanel>
                     
                     <controls:AdaptiveGridView x:Name="gvBusquedaJuegoTiendas" Grid.Column="1" Margin="30"/>
-                </Grid> 
+                </Grid>
+
+                <Grid x:Name="gridDeseados" Visibility="Collapsed">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel Orientation="Vertical">
+                            <Grid BorderBrush="White" BorderThickness="0,1,0,0" Margin="40,40,40,30"/>
+
+                            <StackPanel Orientation="Horizontal" Margin="60,0,60,20">
+                                <iconos:FontAwesome Icon="Brands_Steam" Foreground="White" FontSize="17"/>
+                                <TextBlock x:Uid="SteamAccount" Foreground="White" FontSize="17" Margin="10,0,0,0"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Vertical" Margin="60,0,60,20">
+                                <TextBlock x:Uid="WishlistSteamAccount" Foreground="White" FontSize="15" Margin="0,0,0,20" TextWrapping="Wrap"/>
+                                <TextBox x:Name="tbDeseadosSteam"/>
+                            </StackPanel>
+
+                            <Grid BorderBrush="White" BorderThickness="0,1,0,0" Margin="40,30,40,30"/>
+
+                            <StackPanel Orientation="Horizontal" Margin="60,0,60,20">
+                                <iconos:FontAwesome Icon="Solid_Gamepad" Foreground="White" FontSize="17"/>
+                                <TextBlock x:Uid="WishlistGames" Foreground="White" FontSize="17" Margin="10,0,0,0"/>
+                            </StackPanel>
+
+                            <TextBlock x:Uid="WishlistGamesInfo" Foreground="White" FontSize="15" Margin="60,0,60,20" TextWrapping="Wrap"/>
+
+                            <Grid Padding="40,20">
+                                <controls:AdaptiveGridView x:Name="gvDeseadosJuegos" ItemHeight="350"/>
+                            </Grid>
+                        </StackPanel>
+                    </ScrollViewer>
+                    
+                    
+                </Grid>
             </Grid> 
         </NavigationView> 
     </Grid>

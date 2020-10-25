@@ -114,17 +114,28 @@ Namespace Buscador
             Dim frame As Frame = Window.Current.Content
             Dim pagina As Page = frame.Content
 
-            Dim gv As AdaptiveGridView = pagina.FindName("gvBuscadorJuegos")
-
             Dim imagen As ImageEx = sender
             Dim juego As SteamWeb = imagen.Tag
 
-            For Each item In gv.Items
+            Dim gv1 As AdaptiveGridView = pagina.FindName("gvBuscadorJuegos")
+
+            For Each item In gv1.Items
                 Dim sp As Button = item
                 Dim juegoItem As SteamWeb = sp.Tag
 
                 If juego.ID = juegoItem.ID Then
-                    gv.Items.Remove(item)
+                    gv1.Items.Remove(item)
+                End If
+            Next
+
+            Dim gv2 As AdaptiveGridView = pagina.FindName("gvDeseadosJuegos")
+
+            For Each item In gv2.Items
+                Dim sp As Button = item
+                Dim juegoItem As SteamWeb = sp.Tag
+
+                If juego.ID = juegoItem.ID Then
+                    gv2.Items.Remove(item)
                 End If
             Next
 
@@ -161,20 +172,37 @@ Namespace Buscador
 
         '---------------------------------------------------------------
 
-        Public Function ResultadoTienda(resultado As Tienda)
+        Public Function ResultadoTienda(resultado As Tienda, pais As String, mensaje As String)
 
             Dim sp As New StackPanel With {
                 .Orientation = Orientation.Vertical
             }
 
-            Dim imagen As New ImageEx With {
+            Dim gridImagen As New Grid
+
+            If Not pais = Nothing Then
+                Dim imagenPais As New ImageEx With {
+                    .Source = "Assets/Paises/" + pais + ".png",
+                    .IsCacheEnabled = True,
+                    .HorizontalAlignment = HorizontalAlignment.Right,
+                    .VerticalAlignment = VerticalAlignment.Bottom,
+                    .Width = 32,
+                    .Height = 24,
+                    .Opacity = 0.3
+                }
+                gridImagen.Children.Add(imagenPais)
+            End If
+
+            Dim imagenTienda As New ImageEx With {
                 .Source = resultado.Imagen,
                 .IsCacheEnabled = True,
                 .Tag = resultado,
                 .Width = 200
             }
 
-            sp.Children.Add(imagen)
+            gridImagen.Children.Add(imagenTienda)
+
+            sp.Children.Add(gridImagen)
 
             Dim tbPrecio As New TextBlock With {
                 .Text = resultado.Precio,
@@ -199,6 +227,16 @@ Namespace Buscador
             AddHandler boton.PointerEntered, AddressOf UsuarioEntraBotonBusquedaTienda
             AddHandler boton.PointerExited, AddressOf UsuarioSaleBotonBusquedaTienda
 
+            If Not mensaje = Nothing Then
+                Dim tbMensaje As New TextBlock With {
+                    .Text = mensaje,
+                    .TextWrapping = TextWrapping.Wrap
+                }
+
+                ToolTipService.SetToolTip(boton, mensaje)
+                ToolTipService.SetPlacement(boton, PlacementMode.Bottom)
+            End If
+
             Return boton
 
         End Function
@@ -217,7 +255,8 @@ Namespace Buscador
             Dim boton As Button = sender
             Dim sp As StackPanel = boton.Content
 
-            Dim imagen As ImageEx = sp.Children(0)
+            Dim grid As Grid = sp.Children(0)
+            Dim imagen As ImageEx = grid.Children(grid.Children.Count - 1)
             imagen.Saturation(1).Scale(1.05, 1.05, boton.ActualWidth / 2, boton.ActualHeight / 2).Start()
 
             Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Hand, 1)
@@ -229,7 +268,8 @@ Namespace Buscador
             Dim boton As Button = sender
             Dim sp As StackPanel = boton.Content
 
-            Dim imagen As ImageEx = sp.Children(0)
+            Dim grid As Grid = sp.Children(0)
+            Dim imagen As ImageEx = grid.Children(grid.Children.Count - 1)
             imagen.Saturation(1).Scale(1, 1, boton.ActualWidth / 2, boton.ActualHeight / 2).Start()
 
             Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Arrow, 1)

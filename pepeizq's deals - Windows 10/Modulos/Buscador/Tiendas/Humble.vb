@@ -1,4 +1,5 @@
 ﻿Imports System.Globalization
+Imports Microsoft.Toolkit.Uwp.UI.Controls
 Imports Newtonsoft.Json
 Imports Windows.Globalization.NumberFormatting
 Imports Windows.System.UserProfile
@@ -6,9 +7,25 @@ Imports Windows.System.UserProfile
 Namespace Buscador.Tiendas
     Module Humble
 
-        Public Async Function Buscar(titulo As String) As Task(Of Tienda)
+        Dim WithEvents bw As New BackgroundWorker
+        Dim titulo As String
+        Dim tienda As Tienda
+        Dim mensaje As String
 
-            Dim html As String = Await HttpClient(New Uri("https://www.humblebundle.com/store/api/search?filter=all&search=" + titulo + "&request=1"))
+        Public Sub Buscar(titulo_ As String)
+
+            titulo = titulo_
+
+            If bw.IsBusy = False Then
+                bw.RunWorkerAsync()
+            End If
+
+        End Sub
+
+        Private Sub Bw_DoWork(sender As Object, e As DoWorkEventArgs) Handles bw.DoWork
+
+            Dim html_ As Task(Of String) = HttpClient(New Uri("https://www.humblebundle.com/store/api/search?filter=all&search=" + titulo + "&request=1"))
+            Dim html As String = html_.Result
 
             If Not html = Nothing Then
                 Dim resultados As HumbleResultados = JsonConvert.DeserializeObject(Of HumbleResultados)(html)
@@ -52,15 +69,71 @@ Namespace Buscador.Tiendas
                             End If
 
                             If Not precio = String.Empty Then
-                                Dim tienda As New Tienda(pepeizq.Editor.pepeizqdeals.Referidos.Generar(enlace), precio, "Assets/Tiendas/humble3.png")
-                                Return tienda
+                                Dim cuponPorcentaje As String = String.Empty
+                                cuponPorcentaje = DescuentoChoice(resultados.Juegos(0).DescuentoChoice)
+
+                                If Not resultados.Juegos(0).CosasIncompatibles Is Nothing Then
+                                    If resultados.Juegos(0).CosasIncompatibles.Count > 0 Then
+                                        If resultados.Juegos(0).CosasIncompatibles(0) = "subscriber-discount-coupons" Then
+                                            cuponPorcentaje = String.Empty
+                                        End If
+                                    End If
+                                End If
+
+                                If Not cuponPorcentaje = String.Empty Then
+                                    Dim recursos As New Resources.ResourceLoader()
+                                    mensaje = recursos.GetString("HumbleChoice")
+
+                                    If Not precio = String.Empty Then
+                                        precio = precio.Replace(",", ".")
+                                        precio = precio.Replace("€", Nothing)
+                                        precio = precio.Trim
+
+                                        Dim dcupon As Double = Double.Parse(precio, CultureInfo.InvariantCulture) * cuponPorcentaje
+                                        Dim dprecio As Double = Double.Parse(precio, CultureInfo.InvariantCulture) - dcupon
+                                        precio = Math.Round(dprecio, 2).ToString + " €"
+                                    End If
+                                End If
+
+                                tienda = New Tienda(pepeizq.Editor.pepeizqdeals.Referidos.Generar(enlace), precio, "Assets/Tiendas/humble3.png")
                             End If
                         End If
                     End If
                 End If
             End If
 
-            Return Nothing
+        End Sub
+
+        Private Sub Bw_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles bw.RunWorkerCompleted
+
+            If Not tienda Is Nothing Then
+                Dim frame As Frame = Window.Current.Content
+                Dim pagina As Page = frame.Content
+
+                Dim gvTiendas As AdaptiveGridView = pagina.FindName("gvBusquedaJuegoTiendas")
+
+                gvTiendas.Items.Add(ResultadoTienda(tienda, Nothing, mensaje))
+            End If
+
+        End Sub
+
+        Private Function DescuentoChoice(descuento As Double)
+
+            Dim cuponPorcentaje As String = String.Empty
+
+            If descuento = 0.1 Then
+                cuponPorcentaje = "0,2"
+            ElseIf descuento = 0.05 Then
+                cuponPorcentaje = "0,15"
+            ElseIf descuento = 0.03 Then
+                cuponPorcentaje = "0,13"
+            ElseIf descuento = 0.02 Then
+                cuponPorcentaje = "0,12"
+            ElseIf descuento = 0 Then
+                cuponPorcentaje = "0,10"
+            End If
+
+            Return cuponPorcentaje
 
         End Function
 
@@ -86,6 +159,12 @@ Namespace Buscador.Tiendas
 
         <JsonProperty("human_url")>
         Public Enlace As String
+
+        <JsonProperty("rewards_split")>
+        Public DescuentoChoice As Double
+
+        <JsonProperty("incompatible_features")>
+        Public CosasIncompatibles As List(Of String)
 
     End Class
 
