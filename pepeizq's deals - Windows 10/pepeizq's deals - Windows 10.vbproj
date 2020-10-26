@@ -147,6 +147,9 @@
     <Compile Include="MainPage.xaml.vb">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Modulos\Buscador\Comparadores\GGdeals.vb" />
+    <Compile Include="Modulos\Buscador\Comparadores\Isthereanydeal.vb" />
+    <Compile Include="Modulos\Buscador\Comparadores\SteamDB.vb" />
     <Compile Include="Modulos\Buscador\Interfaz.vb" />
     <Compile Include="Modulos\Buscador\Limpieza.vb" />
     <Compile Include="Modulos\Buscador\Motor.vb" />

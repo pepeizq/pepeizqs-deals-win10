@@ -186,8 +186,8 @@
                     </Grid>
 
                     <StackPanel x:Name="spBusquedaCarga" Grid.Row="1" Orientation="Vertical" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock x:Uid="Searching" Foreground="White" Margin="0,0,0,20" HorizontalAlignment="Center"/>
-                        <ProgressRing FontSize="40" IsActive="True" Foreground="White" HorizontalAlignment="Center"/>
+                        <TextBlock x:Uid="Searching" FontSize="17" Foreground="White" Margin="0,0,0,20" HorizontalAlignment="Center"/>
+                        <ProgressRing Width="40" Height="40" IsActive="True" Foreground="White" HorizontalAlignment="Center"/>
                     </StackPanel>
 
                     <Grid Grid.Row="1" Padding="40">
@@ -208,15 +208,47 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <StackPanel Grid.Column="0" Orientation="Vertical" VerticalAlignment="Top" Padding="30">
+                    <StackPanel Grid.Column="0" Orientation="Vertical" VerticalAlignment="Top" Padding="30" MaxWidth="300">
                         <controls:ImageEx x:Name="imagenBusquedaJuego" IsCacheEnabled="True" MaxHeight="400"/>
 
-                        <ProgressBar x:Name="pbBusquedaJuego" IsIndeterminate="True" Foreground="White" Margin="0,30,0,0"/>
+                        <ProgressBar x:Name="pbBusquedaJuego" Foreground="White" Margin="0,30,0,10"/>
 
-                        <TextBlock x:Name="tbBusquedaJuego" Foreground="White" Margin="0,30,0,0" HorizontalAlignment="Center"/>
+                        <StackPanel x:Name="spComparadores" Orientation="Vertical" Margin="0,30,0,0">
+                            <TextBlock x:Uid="MininumPriceWebs" Foreground="White" TextWrapping="Wrap"/>
+
+                            <Grid x:Name="gridComparadorSteamDB" Margin="0,20,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="SteamDB" Grid.Column="0" Foreground="White" HorizontalAlignment="Left"/>
+                                <TextBlock x:Name="tbComparadorSteamDBPrecio" Grid.Column="1" Foreground="White"/>
+                            </Grid>
+
+                            <Grid x:Name="gridComparadorIsthereanydeal" Margin="0,20,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="Isthereanydeal" Grid.Column="0" Foreground="White" HorizontalAlignment="Left"/>
+                                <TextBlock x:Name="tbComparadorIsthereanydealPrecio" Grid.Column="1" Foreground="White"/>
+                            </Grid>
+
+                            <Grid x:Name="gridComparadorGGdeals" Margin="0,20,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="GGdeals" Grid.Column="0" Foreground="White" HorizontalAlignment="Left"/>
+                                <TextBlock x:Name="tbComparadorGGdealsPrecio" Grid.Column="1" Foreground="White"/>
+                            </Grid>
+                        </StackPanel>
                     </StackPanel>
                     
-                    <controls:AdaptiveGridView x:Name="gvBusquedaJuegoTiendas" Grid.Column="1" Margin="30"/>
+                    <controls:AdaptiveGridView x:Name="gvBusquedaJuegoTiendas" Grid.Column="1" Margin="30" HorizontalAlignment="Center"/>
                 </Grid>
 
                 <Grid x:Name="gridDeseados" Visibility="Collapsed">
@@ -250,6 +282,12 @@
                     </ScrollViewer>
                     
                     
+                </Grid>
+
+                <Grid Visibility="Collapsed">
+                    <WebView x:Name="wvSteamDB"/>
+                    <WebView x:Name="wvIsthereanydeal"/>
+                    <WebView x:Name="wvGGdeals"/>
                 </Grid>
             </Grid> 
         </NavigationView> 

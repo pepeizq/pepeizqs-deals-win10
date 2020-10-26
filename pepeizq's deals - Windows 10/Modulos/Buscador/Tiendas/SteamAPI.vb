@@ -34,7 +34,13 @@ Namespace Buscador.Tiendas
                 Dim datos As SteamAPIJson = JsonConvert.DeserializeObject(Of SteamAPIJson)(temp)
 
                 If Not datos.Datos.Precio Is Nothing Then
-                    tienda = New Tienda(pepeizq.Editor.pepeizqdeals.Referidos.Generar("https://store.steampowered.com/app/" + id + "/"), datos.Datos.Precio.Formateado, "Assets/Tiendas/steam3.png")
+                    Dim precio As String = datos.Datos.Precio.Formateado
+
+                    If Pais.DetectarEuro = True Then
+                        precio = precio.Replace("€", " €")
+                    End If
+
+                    tienda = New Tienda(pepeizq.Editor.pepeizqdeals.Referidos.Generar("https://store.steampowered.com/app/" + id + "/"), precio, "Assets/Tiendas/steam3.png")
                 End If
             End If
 
@@ -42,13 +48,19 @@ Namespace Buscador.Tiendas
 
         Private Sub Bw_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles bw.RunWorkerCompleted
 
+            Dim frame As Frame = Window.Current.Content
+            Dim pagina As Page = frame.Content
+
             If Not tienda Is Nothing Then
-                Dim frame As Frame = Window.Current.Content
-                Dim pagina As Page = frame.Content
-
                 Dim gvTiendas As AdaptiveGridView = pagina.FindName("gvBusquedaJuegoTiendas")
-
                 gvTiendas.Items.Add(ResultadoTienda(tienda, Nothing, Nothing))
+            End If
+
+            Dim pb As ProgressBar = pagina.FindName("pbBusquedaJuego")
+            pb.Value = pb.Value + 1
+
+            If pb.Value = pb.Maximum Then
+                pb.Visibility = Visibility.Collapsed
             End If
 
         End Sub

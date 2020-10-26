@@ -150,6 +150,9 @@
   <data name="Loading.Text" xml:space="preserve">
     <value>Cargando</value>
   </data>
+  <data name="MininumPriceWebs.Text" xml:space="preserve">
+    <value>Precio mínimo que ha tenido el juego según estas webs:</value>
+  </data>
   <data name="MoreThings" xml:space="preserve">
     <value>Más Cosas</value>
   </data>
@@ -176,9 +179,6 @@
   </data>
   <data name="Open" xml:space="preserve">
     <value>Abrir</value>
-  </data>
-  <data name="Scanning" xml:space="preserve">
-    <value>Escaneando Tiendas</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Buscar</value>

@@ -1,15 +1,30 @@
 ﻿Imports System.Net
+Imports Microsoft.Toolkit.Uwp.UI.Controls
 
 Namespace Buscador.Tiendas
     Module Steam
 
-        Public Async Function Buscar(tituloBuscar As String) As Task(Of List(Of SteamWeb))
+        Dim WithEvents bw As New BackgroundWorker
+        Dim listaJuegos As New List(Of SteamWeb)
+        Dim tituloBuscar As String
 
-            Dim listaJuegos As New List(Of SteamWeb)
+        Public Sub Buscar(tituloBuscar_ As String)
+
+            If bw.IsBusy = False Then
+                tituloBuscar = tituloBuscar_
+                listaJuegos.Clear()
+
+                bw.RunWorkerAsync()
+            End If
+
+        End Sub
+
+        Private Sub Bw_DoWork(sender As Object, e As DoWorkEventArgs) Handles bw.DoWork
 
             tituloBuscar = tituloBuscar.Replace(" ", "+")
 
-            Dim html As String = Await HttpClient(New Uri("https://store.steampowered.com/search/?sort_by=revelance&term=" + tituloBuscar + "&category1=998&ignore_preferences=1"))
+            Dim html_ As Task(Of String) = HttpClient(New Uri("https://store.steampowered.com/search/?sort_by=revelance&term=" + tituloBuscar + "&category1=998&ignore_preferences=1"))
+            Dim html As String = html_.Result
 
             If Not html = Nothing Then
                 Dim int0 As Integer
@@ -104,8 +119,24 @@ Namespace Buscador.Tiendas
                 End If
             End If
 
-            Return listaJuegos
-        End Function
+        End Sub
+
+        Private Sub Bw_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles bw.RunWorkerCompleted
+
+            Dim frame As Frame = Window.Current.Content
+            Dim pagina As Page = frame.Content
+
+            Dim gvResultados As AdaptiveGridView = pagina.FindName("gvBuscadorJuegos")
+
+            If listaJuegos.Count > 0 Then
+                gvResultados.Items.Clear()
+
+                For Each juego In listaJuegos
+                    gvResultados.Items.Add(ResultadoSteam(juego))
+                Next
+            End If
+
+        End Sub
 
     End Module
 End Namespace

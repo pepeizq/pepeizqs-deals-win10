@@ -72,13 +72,19 @@ Namespace Buscador.Tiendas
 
         Private Sub Bw_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles bw.RunWorkerCompleted
 
+            Dim frame As Frame = Window.Current.Content
+            Dim pagina As Page = frame.Content
+
             If Not tienda Is Nothing Then
-                Dim frame As Frame = Window.Current.Content
-                Dim pagina As Page = frame.Content
-
                 Dim gvTiendas As AdaptiveGridView = pagina.FindName("gvBusquedaJuegoTiendas")
-
                 gvTiendas.Items.Add(ResultadoTienda(tienda, "de", Nothing))
+            End If
+
+            Dim pb As ProgressBar = pagina.FindName("pbBusquedaJuego")
+            pb.Value = pb.Value + 1
+
+            If pb.Value = pb.Maximum Then
+                pb.Visibility = Visibility.Collapsed
             End If
 
         End Sub

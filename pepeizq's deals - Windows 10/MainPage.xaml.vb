@@ -1,6 +1,4 @@
-﻿Imports Microsoft.Toolkit.Uwp.Helpers
-Imports Microsoft.Toolkit.Uwp.UI.Animations
-Imports Microsoft.Toolkit.Uwp.UI.Controls
+﻿Imports Microsoft.Toolkit.Uwp.UI.Animations
 Imports Windows.ApplicationModel.Core
 Imports Windows.Services.Store
 Imports Windows.Storage
@@ -44,17 +42,17 @@ Public NotInheritable Class MainPage
 
             If Not item Is Nothing Then
                 If item.Text = recursos.GetString("Home") Then
-                    CargarEntradas(entradas, 100, Nothing, 0, False)
+                    CargarEntradas("posts", 100, Nothing, False)
                 ElseIf item.Text = recursos.GetString("Search") Then
                     Await Launcher.LaunchUriAsync(New Uri("https://pepeizqdeals.com/search/"))
                 ElseIf item.Text = recursos.GetString("Deals2") Then
-                    CargarEntradas(entradas, 100, recursos.GetString("Deals2"), 2, False)
+                    CargarEntradas("posts", 100, recursos.GetString("Deals2"), False)
                 ElseIf item.Text = recursos.GetString("Bundles2") Then
-                    CargarEntradas(entradas, 100, recursos.GetString("Bundles2"), 1, False)
+                    CargarEntradas("posts", 100, recursos.GetString("Bundles2"), False)
                 ElseIf item.Text = recursos.GetString("Free2") Then
-                    CargarEntradas(entradas, 100, recursos.GetString("Free2"), 3, False)
+                    CargarEntradas("posts", 100, recursos.GetString("Free2"), False)
                 ElseIf item.Text = recursos.GetString("Subscriptions2") Then
-                    CargarEntradas(entradas, 100, recursos.GetString("Subscriptions2"), 4, False)
+                    CargarEntradas("posts", 100, recursos.GetString("Subscriptions2"), False)
                 ElseIf item.Text = recursos.GetString("Wishlist") Then
                     GridVisibilidad.Mostrar("gridDeseados")
                 ElseIf item.Text = recursos.GetString("Giveaways") Then
@@ -87,7 +85,7 @@ Public NotInheritable Class MainPage
 
         entradas = New List(Of Entrada)
 
-        CargarEntradas(entradas, 100, Nothing, 0, True)
+        CargarEntradas("posts", 100, Nothing, True)
 
         Deseados.Cargar()
 
@@ -130,164 +128,11 @@ Public NotInheritable Class MainPage
             Divisas.Generar()
 
             spFiltroDeseados.Visibility = Visibility.Visible
+            spComparadores.Visibility = Visibility.Visible
         Else
             spFiltroDeseados.Visibility = Visibility.Collapsed
+            spComparadores.Visibility = Visibility.Collapsed
         End If
-
-    End Sub
-
-    Public Async Sub CargarEntradas(entradas As List(Of Entrada), paginas As Integer, categoria As String, tipo As Integer, actualizar As Boolean)
-
-        tbTitulo.Text = "pepeizq's deals (" + Package.Current.Id.Version.Major.ToString + "." + Package.Current.Id.Version.Minor.ToString + "." + Package.Current.Id.Version.Build.ToString + "." + Package.Current.Id.Version.Revision.ToString + ")"
-
-        If Not categoria = Nothing Then
-            tbTitulo.Text = tbTitulo.Text + " • " + categoria
-        End If
-
-        '--------------------------------------
-
-        GridVisibilidad.Mostrar("gridCarga")
-
-        spEntradas.Children.Clear()
-
-        Dim recursos As New Resources.ResourceLoader()
-
-        Dim categoriaNumero As Integer = Nothing
-
-        If categoria = recursos.GetString("Bundles2") Then
-            categoriaNumero = 4
-        ElseIf categoria = recursos.GetString("Deals2") Then
-            categoriaNumero = 3
-        ElseIf categoria = recursos.GetString("Free2") Then
-            categoriaNumero = 12
-        ElseIf categoria = recursos.GetString("Subscriptions2") Then
-            categoriaNumero = 13
-        End If
-
-        If actualizar = True Then
-            Dim nuevasEntradas As List(Of Entrada) = Await Wordpress.Cargar("posts", paginas, categoriaNumero)
-
-            For Each nuevaEntrada In nuevasEntradas
-                Dim añadir As Boolean = True
-
-                For Each viejaEntrada In entradas
-                    If viejaEntrada.ID = nuevaEntrada.ID Then
-                        añadir = False
-                    End If
-                Next
-
-                If añadir = True Then
-                    entradas.Add(nuevaEntrada)
-                End If
-            Next
-        End If
-
-        If entradas.Count > 0 Then
-            For Each entrada In entradas
-                Dim añadir As Boolean = False
-
-                If tipo = 0 Then
-                    For Each categoria In entrada.Categorias
-                        If categoria = 4 Or categoria = 3 Or categoria = 12 Or categoria = 13 Then
-                            añadir = True
-                        End If
-                    Next
-                ElseIf tipo = 1 Then
-                    For Each categoria In entrada.Categorias
-                        If categoria = 4 Then
-                            añadir = True
-                        End If
-                    Next
-                ElseIf tipo = 2 Then
-                    For Each categoria In entrada.Categorias
-                        If categoria = 3 Then
-                            añadir = True
-                        End If
-                    Next
-                ElseIf tipo = 3 Then
-                    For Each categoria In entrada.Categorias
-                        If categoria = 12 Then
-                            añadir = True
-                        End If
-                    Next
-                ElseIf tipo = 4 Then
-                    For Each categoria In entrada.Categorias
-                        If categoria = 13 Then
-                            añadir = True
-                        End If
-                    Next
-                End If
-
-                If spEntradas.Children.Count > 0 Then
-                    For Each item In spEntradas.Children
-                        If TypeOf item Is DropShadowPanel Then
-                            Dim panel As DropShadowPanel = item
-                            Dim panelEntrada As Entrada = panel.Tag
-
-                            If entrada.Enlace = panelEntrada.Enlace Then
-                                añadir = False
-                            End If
-                        End If
-                    Next
-                End If
-
-                If añadir = True Then
-                    spEntradas.Children.Add(Interfaz.GenerarEntrada(entrada))
-                    spEntradas.Children.Add(Interfaz.GenerarCompartir(entrada))
-                End If
-
-                '-------------------------------------------------------------
-
-                Dim mostrarAnuncio As Boolean = False
-
-                For Each categoria In entrada.Categorias
-                    If categoria = 1208 Then
-                        mostrarAnuncio = True
-                    End If
-                Next
-
-                If mostrarAnuncio = True Then
-                    Dim mostrarAnuncio2 As Boolean = True
-
-                    Dim helper As New LocalObjectStorageHelper
-                    Dim listaAnuncios As New List(Of Anuncio)
-
-                    If Await helper.FileExistsAsync("listaAnuncios") Then
-                        listaAnuncios = Await helper.ReadFileAsync(Of List(Of Anuncio))("listaAnuncios")
-                    End If
-
-                    If Not listaAnuncios Is Nothing Then
-                        If listaAnuncios.Count > 0 Then
-                            For Each item In listaAnuncios
-                                If entrada.Enlace = item.Enlace Then
-                                    mostrarAnuncio2 = False
-                                End If
-                            Next
-                        End If
-                    End If
-
-                    If mostrarAnuncio2 = True Then
-                        Notificaciones.ToastAnuncio(entrada.Titulo.Texto, entrada.Enlace, entrada.Imagen)
-                        listaAnuncios.Add(New Anuncio(entrada.Titulo.Texto, entrada.Enlace, entrada.Imagen))
-
-                        Try
-                            Await helper.SaveFileAsync(Of List(Of Anuncio))("listaAnuncios", listaAnuncios)
-                        Catch ex As Exception
-
-                        End Try
-                    End If
-                End If
-            Next
-        End If
-
-        Dim config As ApplicationDataContainer = ApplicationData.Current.LocalSettings
-        If config.Values("Estado_App") = 1 Then
-            gvFiltroJuegosDeseados.Tag = entradas
-        End If
-
-        GridVisibilidad.Mostrar("gridEntradas")
-
-        Deseados.CargarUsuario()
 
     End Sub
     Private Sub GridEntradas_SizeChanged(sender As Object, e As SizeChangedEventArgs) Handles gridEntradas.SizeChanged
@@ -319,15 +164,15 @@ Public NotInheritable Class MainPage
         Dim recursos As New Resources.ResourceLoader()
 
         If tbTitulo.Text.Contains(recursos.GetString("Bundles2")) Then
-            CargarEntradas(entradas, 100, recursos.GetString("Bundles2"), 1, True)
+            CargarEntradas("posts", 100, recursos.GetString("Bundles2"), True)
         ElseIf tbTitulo.Text.Contains(recursos.GetString("Deals2")) Then
-            CargarEntradas(entradas, 100, recursos.GetString("Deals2"), 2, True)
+            CargarEntradas("posts", 100, recursos.GetString("Deals2"), True)
         ElseIf tbTitulo.Text.Contains(recursos.GetString("Free2")) Then
-            CargarEntradas(entradas, 100, recursos.GetString("Free2"), 3, True)
+            CargarEntradas("posts", 100, recursos.GetString("Free2"), True)
         ElseIf tbTitulo.Text.Contains(recursos.GetString("Subscriptions2")) Then
-            CargarEntradas(entradas, 100, recursos.GetString("Subscriptions2"), 4, True)
+            CargarEntradas("posts", 100, recursos.GetString("Subscriptions2"), True)
         Else
-            CargarEntradas(entradas, 100, Nothing, 0, True)
+            CargarEntradas("posts", 100, Nothing, True)
         End If
 
     End Sub

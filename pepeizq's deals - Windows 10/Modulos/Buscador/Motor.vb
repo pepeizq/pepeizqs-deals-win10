@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.Toolkit.Uwp.UI.Controls
+Imports Windows.Storage
 
 Namespace Buscador
     Module Motor
@@ -54,15 +55,7 @@ Namespace Buscador
                         sv.Visibility = Visibility.Collapsed
                     End If
 
-                    Dim resultadosSteam As List(Of SteamWeb) = Await Tiendas.Steam.Buscar(tb.Text.Trim)
-
-                    If resultadosSteam.Count > 0 Then
-                        gvResultados.Items.Clear()
-
-                        For Each resultado In resultadosSteam
-                            gvResultados.Items.Add(ResultadoSteam(resultado))
-                        Next
-                    End If
+                    Tiendas.Steam.Buscar(tb.Text.Trim)
                 End If
             End If
 
@@ -70,10 +63,12 @@ Namespace Buscador
 
         Public Sub BuscarJuego(juego As SteamWeb)
 
+            GridVisibilidad.Mostrar("gridBusquedaJuego")
+
+            Dim config As ApplicationDataContainer = ApplicationData.Current.LocalSettings
+
             Dim frame As Frame = Window.Current.Content
             Dim pagina As Page = frame.Content
-
-            GridVisibilidad.Mostrar("gridBusquedaJuego")
 
             Dim imagen As ImageEx = pagina.FindName("imagenBusquedaJuego")
             imagen.Source = juego.Imagen
@@ -84,30 +79,49 @@ Namespace Buscador
             Dim pb As ProgressBar = pagina.FindName("pbBusquedaJuego")
             pb.Visibility = Visibility.Visible
 
-            Dim tbMensaje As TextBlock = pagina.FindName("tbBusquedaJuego")
-            Dim recursos As New Resources.ResourceLoader()
+            Dim i As Integer = 0
 
             '---------------------------------
 
-            tbMensaje.Text = recursos.GetString("Scanning") + " 0"
-
             Try
+                i += 1
                 Tiendas.SteamAPI.Buscar(juego.ID)
             Catch ex As Exception
 
             End Try
 
-            tbMensaje.Text = recursos.GetString("Scanning") + " 1"
+            If config.Values("Estado_App") = 1 Then
+                Try
+                    i += 1
+                    Comparadores.SteamDB.Buscar(juego.ID)
+                Catch ex As Exception
+
+                End Try
+
+                Try
+                    i += 1
+                    Comparadores.Isthereanydeal.Buscar(juego.ID)
+                Catch ex As Exception
+
+                End Try
+
+                Try
+                    i += 1
+                    Comparadores.GGdeals.Buscar(juego.Titulo)
+                Catch ex As Exception
+
+                End Try
+            End If
 
             Try
+                i += 1
                 Tiendas.Humble.Buscar(juego.Titulo)
             Catch ex As Exception
 
             End Try
 
-            tbMensaje.Text = recursos.GetString("Scanning") + " 2"
-
             Try
+                i += 1
                 Tiendas.GamersGate.Buscar(juego.Titulo)
             Catch ex As Exception
 
@@ -117,63 +131,57 @@ Namespace Buscador
 
             If Not pais.CodeTwoLetter.ToLower = "uk" Then
                 Try
+                    i += 1
                     Tiendas.GamersGateUK.Buscar(juego.Titulo)
                 Catch ex As Exception
 
                 End Try
             End If
 
-            tbMensaje.Text = recursos.GetString("Scanning") + " 3"
-
             Try
+                i += 1
                 Tiendas.Fanatical.Buscar(juego.Titulo, juego.ID)
             Catch ex As Exception
 
             End Try
 
-            tbMensaje.Text = recursos.GetString("Scanning") + " 4"
-
             Try
+                i += 1
                 Tiendas.GamesplanetUK.Buscar(juego.Titulo, juego.ID)
             Catch ex As Exception
 
             End Try
 
-            tbMensaje.Text = recursos.GetString("Scanning") + " 5"
-
             Try
+                i += 1
                 Tiendas.GamesplanetFR.Buscar(juego.Titulo, juego.ID)
             Catch ex As Exception
 
             End Try
 
-            tbMensaje.Text = recursos.GetString("Scanning") + " 6"
-
             Try
+                i += 1
                 Tiendas.GamesplanetDE.Buscar(juego.Titulo, juego.ID)
             Catch ex As Exception
 
             End Try
 
-            tbMensaje.Text = recursos.GetString("Scanning") + " 7"
-
             Try
+                i += 1
                 Tiendas.GamesplanetUS.Buscar(juego.Titulo, juego.ID)
             Catch ex As Exception
 
             End Try
 
-            tbMensaje.Text = recursos.GetString("Scanning") + " 8"
-
             Try
+                i += 1
                 Tiendas.GreenManGaming.Buscar(juego.Titulo)
             Catch ex As Exception
 
             End Try
 
-            tbMensaje.Text = recursos.GetString("Scanning") + " 9"
-
             Try
+                i += 1
                 Tiendas.WinGameStore.Buscar(juego.Titulo)
             Catch ex As Exception
 
@@ -181,8 +189,8 @@ Namespace Buscador
 
             '---------------------------------
 
-            pb.Visibility = Visibility.Collapsed
-            tbMensaje.Text = String.Empty
+            pb.Maximum = i
+
         End Sub
 
     End Module
