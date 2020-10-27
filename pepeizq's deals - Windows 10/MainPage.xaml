@@ -109,7 +109,7 @@
                         <StackPanel x:Name="spEntradas" Orientation="Vertical" Padding="20"/>
                     </ScrollViewer>
 
-                    <Grid Grid.Column="1" HorizontalAlignment="Center" MinWidth="400" Padding="20">
+                    <Grid Grid.Column="1" HorizontalAlignment="Center" MaxWidth="400" Padding="20">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="Auto"/>
@@ -132,6 +132,20 @@
 
                             <TextBlock x:Name="tbJuegosDeseadosNoHay" x:Uid="WishlistNoGames" Padding="15" FontSize="16" LineHeight="25" Foreground="White" Visibility="Collapsed" MaxWidth="340" TextWrapping="Wrap" HorizontalAlignment="Center"/>
                         </StackPanel>
+
+                        <StackPanel x:Name="spComprarApp" Grid.Row="0" Orientation="Vertical">
+                            <Grid BorderBrush="White" BorderThickness="0,1,0,0"/>
+
+                            <TextBlock x:Uid="TrialInfo" Foreground="White" FontSize="16" Margin="0,20,0,30" TextWrapping="Wrap"/>
+
+                            <Button x:Name="botonComprar" HorizontalAlignment="Center" Background="Transparent" BorderBrush="Transparent" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton" Style="{StaticResource ButtonRevealStyle}">
+                                <Button.Content>
+                                    <StackPanel Orientation="Horizontal" Padding="5">
+                                        <TextBlock x:Uid="TrialBuy" Foreground="White" FontSize="17"/>
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+                        </StackPanel> 
 
                         <Grid x:Name="spControles" Grid.Row="1" VerticalAlignment="Bottom" Margin="0,20,0,0">
                             <Grid.ColumnDefinitions>
@@ -174,25 +188,39 @@
                         </LinearGradientBrush>
                     </Grid.Background>
 
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
+                    <ScrollViewer VerticalScrollBarVisibility="Visible" Padding="0,0,30,0" HorizontalAlignment="Center">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
 
-                    <Grid Grid.Row="0">
-                        <ScrollViewer x:Name="svBusquedaEntradas" VerticalScrollBarVisibility="Visible" Padding="0,0,25,0" Margin="40,40,40,20" MaxHeight="150" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <StackPanel x:Name="spBusquedaEntradas" Orientation="Vertical" Padding="20"/>
-                        </ScrollViewer>
-                    </Grid>
+                            <StackPanel x:Name="spBusquedaEntradas" Grid.Row="0" Orientation="Vertical">
+                                <Grid BorderBrush="White" BorderThickness="0,1,0,0" Margin="0,30,0,30"/>
 
-                    <StackPanel x:Name="spBusquedaCarga" Grid.Row="1" Orientation="Vertical" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock x:Uid="Searching" FontSize="17" Foreground="White" Margin="0,0,0,20" HorizontalAlignment="Center"/>
-                        <ProgressRing Width="40" Height="40" IsActive="True" Foreground="White" HorizontalAlignment="Center"/>
-                    </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="10,0,0,20">
+                                    <TextBlock x:Uid="Resultspepeizqdeals" Foreground="White" FontSize="17"/>
+                                </StackPanel>
 
-                    <Grid Grid.Row="1" Padding="40">
-                        <controls:AdaptiveGridView x:Name="gvBuscadorJuegos" ItemHeight="350"/>
-                    </Grid> 
+                                <StackPanel x:Name="spBusquedaEntradasResultados" Orientation="Vertical" Padding="0,10,0,10"/>
+                            </StackPanel>
+
+                            <StackPanel x:Name="spBusquedaCarga" Grid.Row="1" Orientation="Vertical" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock x:Uid="Searching" FontSize="17" Foreground="White" Margin="0,0,0,20" HorizontalAlignment="Center"/>
+                                <ProgressRing Width="40" Height="40" IsActive="True" Foreground="White" HorizontalAlignment="Center"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="1" Orientation="Vertical" Padding="0,30,0,30">
+                                <Grid BorderBrush="White" BorderThickness="0,1,0,0" Margin="0,0,0,30"/>
+
+                                <StackPanel Orientation="Horizontal" Margin="10,0,0,30">
+                                    <TextBlock x:Uid="ResultsSteam" Foreground="White" FontSize="17"/>
+                                </StackPanel>
+
+                                <controls:AdaptiveGridView x:Name="gvBuscadorJuegos" ItemHeight="350"/>
+                            </StackPanel>
+                        </Grid>
+                    </ScrollViewer>
                 </Grid>
 
                 <Grid x:Name="gridBusquedaJuego" Visibility="Collapsed">
@@ -208,44 +236,54 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <StackPanel Grid.Column="0" Orientation="Vertical" VerticalAlignment="Top" Padding="30" MaxWidth="300">
-                        <controls:ImageEx x:Name="imagenBusquedaJuego" IsCacheEnabled="True" MaxHeight="400"/>
-
+                    <StackPanel Grid.Column="0" Orientation="Vertical" VerticalAlignment="Top" Padding="30" Width="350">
+                        <controls:DropShadowPanel Color="Black" ShadowOpacity="0.9" BlurRadius="10" HorizontalAlignment="Center">
+                            <controls:ImageEx x:Name="imagenBusquedaJuego" IsCacheEnabled="True" MaxWidth="300"/>
+                        </controls:DropShadowPanel> 
+                       
                         <ProgressBar x:Name="pbBusquedaJuego" Foreground="White" Margin="0,30,0,10"/>
 
-                        <StackPanel x:Name="spComparadores" Orientation="Vertical" Margin="0,30,0,0">
-                            <TextBlock x:Uid="MininumPriceWebs" Foreground="White" TextWrapping="Wrap"/>
+                        <controls:DropShadowPanel x:Name="panelComparadores" Color="Black" ShadowOpacity="0.9" BlurRadius="10" Margin="0,30,0,0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                            <StackPanel Orientation="Vertical" Background="{StaticResource ColorTercero}" Padding="20">
+                                <TextBlock x:Uid="MininumPriceWebs" Foreground="White" TextWrapping="Wrap" FontSize="16" Margin="0,0,0,10"/>
 
-                            <Grid x:Name="gridComparadorSteamDB" Margin="0,20,0,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
+                                <Grid x:Name="gridComparadorSteamDB" Margin="0,20,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
 
-                                <TextBlock Text="SteamDB" Grid.Column="0" Foreground="White" HorizontalAlignment="Left"/>
-                                <TextBlock x:Name="tbComparadorSteamDBPrecio" Grid.Column="1" Foreground="White"/>
-                            </Grid>
+                                    <controls:ImageEx Grid.Column="0" Source="Assets/Comparadores/steamdb.ico" MaxHeight="20" IsCacheEnabled="True" HorizontalAlignment="Left" Margin="0,0,10,0"/>
+                                    <TextBlock Text="SteamDB" Grid.Column="1" Foreground="White" FontSize="16" HorizontalAlignment="Left"/>
+                                    <TextBlock x:Name="tbComparadorSteamDBPrecio" Grid.Column="2" Foreground="White" FontSize="16"/>
+                                </Grid>
 
-                            <Grid x:Name="gridComparadorIsthereanydeal" Margin="0,20,0,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
+                                <Grid x:Name="gridComparadorIsthereanydeal" Margin="0,20,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
 
-                                <TextBlock Text="Isthereanydeal" Grid.Column="0" Foreground="White" HorizontalAlignment="Left"/>
-                                <TextBlock x:Name="tbComparadorIsthereanydealPrecio" Grid.Column="1" Foreground="White"/>
-                            </Grid>
+                                    <controls:ImageEx Grid.Column="0" Source="Assets/Comparadores/isthereanydeal.png" MaxHeight="20" IsCacheEnabled="True" HorizontalAlignment="Left" Margin="0,0,10,0"/>
+                                    <TextBlock Text="Isthereanydeal" Grid.Column="1" Foreground="White" FontSize="16" HorizontalAlignment="Left"/>
+                                    <TextBlock x:Name="tbComparadorIsthereanydealPrecio" Grid.Column="2" Foreground="White" FontSize="16"/>
+                                </Grid>
 
-                            <Grid x:Name="gridComparadorGGdeals" Margin="0,20,0,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
+                                <Grid x:Name="gridComparadorGGdeals" Margin="0,20,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
 
-                                <TextBlock Text="GGdeals" Grid.Column="0" Foreground="White" HorizontalAlignment="Left"/>
-                                <TextBlock x:Name="tbComparadorGGdealsPrecio" Grid.Column="1" Foreground="White"/>
-                            </Grid>
-                        </StackPanel>
+                                    <controls:ImageEx Grid.Column="0" Source="Assets/Comparadores/ggdeals.png" MaxHeight="20" IsCacheEnabled="True" HorizontalAlignment="Left" Margin="0,0,10,0"/>
+                                    <TextBlock Text="GGdeals" Grid.Column="1" Foreground="White" FontSize="16" HorizontalAlignment="Left"/>
+                                    <TextBlock x:Name="tbComparadorGGdealsPrecio" Grid.Column="2" Foreground="White" FontSize="16"/>
+                                </Grid>
+                            </StackPanel>
+                        </controls:DropShadowPanel>
                     </StackPanel>
                     
                     <controls:AdaptiveGridView x:Name="gvBusquedaJuegoTiendas" Grid.Column="1" Margin="30" HorizontalAlignment="Center"/>

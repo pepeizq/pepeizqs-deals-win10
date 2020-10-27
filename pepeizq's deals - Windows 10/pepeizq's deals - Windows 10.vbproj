@@ -153,6 +153,7 @@
     <Compile Include="Modulos\Buscador\Interfaz.vb" />
     <Compile Include="Modulos\Buscador\Limpieza.vb" />
     <Compile Include="Modulos\Buscador\Motor.vb" />
+    <Compile Include="Modulos\Buscador\Tiendas\Allyouplay.vb" />
     <Compile Include="Modulos\Buscador\Tiendas\Fanatical.vb" />
     <Compile Include="Modulos\Buscador\Tiendas\GamersGate.vb" />
     <Compile Include="Modulos\Buscador\Tiendas\GamersGateUK.vb" />
@@ -160,10 +161,13 @@
     <Compile Include="Modulos\Buscador\Tiendas\GamesplanetFR.vb" />
     <Compile Include="Modulos\Buscador\Tiendas\GamesplanetUK.vb" />
     <Compile Include="Modulos\Buscador\Tiendas\GamesplanetUS.vb" />
+    <Compile Include="Modulos\Buscador\Tiendas\GOG.vb" />
     <Compile Include="Modulos\Buscador\Tiendas\GreenManGaming.vb" />
     <Compile Include="Modulos\Buscador\Tiendas\Humble.vb" />
+    <Compile Include="Modulos\Buscador\Tiendas\IndieGala.vb" />
     <Compile Include="Modulos\Buscador\Tiendas\SteamAPI.vb" />
     <Compile Include="Modulos\Buscador\Tiendas\SteamWeb.vb" />
+    <Compile Include="Modulos\Buscador\Tiendas\Voidu.vb" />
     <Compile Include="Modulos\Buscador\Tiendas\WinGameStore.vb" />
     <Compile Include="Modulos\Decompiladores.vb" />
     <Compile Include="Modulos\Deseados.vb" />
@@ -183,6 +187,9 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Comparadores\isthereanydeal.png" />
+    <Content Include="Assets\Comparadores\ggdeals.png" />
+    <Content Include="Assets\Comparadores\steamdb.ico" />
     <Content Include="Assets\Logos\LargeTile.scale-100.png" />
     <Content Include="Assets\Logos\LargeTile.scale-125.png" />
     <Content Include="Assets\Logos\LargeTile.scale-150.png" />
@@ -233,12 +240,16 @@
     <Content Include="Assets\Paises\uk.png" />
     <Content Include="Assets\Paises\us.png" />
     <Content Include="Assets\pepeizqsdeals_logo.png" />
+    <Content Include="Assets\Tiendas\allyouplay3.png" />
     <Content Include="Assets\Tiendas\fanatical3.png" />
     <Content Include="Assets\Tiendas\gamersgate3.png" />
     <Content Include="Assets\Tiendas\gamesplanet3.png" />
     <Content Include="Assets\Tiendas\gmg3.png" />
+    <Content Include="Assets\Tiendas\gog3.png" />
     <Content Include="Assets\Tiendas\humble3.png" />
+    <Content Include="Assets\Tiendas\indiegala3.png" />
     <Content Include="Assets\Tiendas\steam3.png" />
+    <Content Include="Assets\Tiendas\voidu3.png" />
     <Content Include="Assets\Tiendas\wingamestore3.png" />
     <Content Include="My Project\Default.rd.xml" />
     <None Include="Package.StoreAssociation.xml" />

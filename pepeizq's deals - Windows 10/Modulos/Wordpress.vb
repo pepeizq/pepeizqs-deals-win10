@@ -6,17 +6,15 @@ Imports WordPressPCL
 Module Wordpress
 
     Dim WithEvents bw As New BackgroundWorker
-    Dim tipo As String
     Dim paginas As Integer
     Dim categoriaS As String
     Dim categoriaN As Integer
     Dim actualizar As Boolean
     Dim entradas As New List(Of Entrada)
 
-    Public Sub CargarEntradas(tipo_ As String, paginas_ As Integer, categoria_ As String, actualizar_ As Boolean)
+    Public Sub CargarEntradas(paginas_ As Integer, categoria_ As String, actualizar_ As Boolean)
 
         If bw.IsBusy = False Then
-            tipo = tipo_
             paginas = paginas_
             categoriaS = categoria_
             actualizar = actualizar_
@@ -66,7 +64,7 @@ Module Wordpress
                 categoriaString = "&categories=" + categoriaN.ToString
             End If
 
-            Dim entradas_ As Task(Of List(Of Entrada)) = cliente.CustomRequest.Get(Of List(Of Entrada))("wp/v2/" + tipo + "?per_page=" + paginas.ToString + categoriaString.ToString)
+            Dim entradas_ As Task(Of List(Of Entrada)) = cliente.CustomRequest.Get(Of List(Of Entrada))("wp/v2/posts?per_page=" + paginas.ToString + categoriaString.ToString)
             Dim entradas2 As List(Of Entrada) = entradas_.Result
 
             For Each nuevaEntrada In entradas2

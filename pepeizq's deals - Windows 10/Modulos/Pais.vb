@@ -15,4 +15,18 @@
 
     End Function
 
+    Public Function DevolverMoneda()
+
+        Dim moneda As String = String.Empty
+
+        Dim pais As New Windows.Globalization.GeographicRegion
+
+        If pais.CurrenciesInUse.Count > 0 Then
+            moneda = pais.CurrenciesInUse(0)
+        End If
+
+        Return moneda
+
+    End Function
+
 End Module

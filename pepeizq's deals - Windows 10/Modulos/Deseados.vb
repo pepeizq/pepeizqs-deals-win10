@@ -88,7 +88,17 @@ Module Deseados
 
         Dim gvFiltro As AdaptiveGridView = pagina.FindName("gvFiltroJuegosDeseados")
         gvFiltro.Items.Clear()
-        Dim entradas As List(Of Entrada) = gvFiltro.Tag
+
+        Dim entradas As New List(Of Entrada)
+        Dim spEntradas As StackPanel = pagina.FindName("spEntradas")
+
+        For Each hijo In spEntradas.Children
+            If TypeOf hijo Is DropShadowPanel Then
+                Dim panel As DropShadowPanel = hijo
+                Dim entrada As Entrada = panel.Tag
+                entradas.Add(entrada)
+            End If
+        Next
 
         Dim filtros As New List(Of FiltroDeseado)
 

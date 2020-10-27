@@ -20,29 +20,33 @@ Namespace Buscador.Tiendas
 
         Private Sub Bw_DoWork(sender As Object, e As DoWorkEventArgs) Handles bw.DoWork
 
-            Dim html_ As Task(Of String) = HttpClient(New Uri("https://store.steampowered.com/api/appdetails/?appids=" + id + "&l=english"))
-            Dim html As String = html_.Result
+            Try
+                Dim html_ As Task(Of String) = HttpClient(New Uri("https://store.steampowered.com/api/appdetails/?appids=" + id + "&l=english"))
+                Dim html As String = html_.Result
 
-            If Not html = Nothing Then
-                Dim temp As String
-                Dim int As Integer
+                If Not html = Nothing Then
+                    Dim temp As String
+                    Dim int As Integer
 
-                int = html.IndexOf(":")
-                temp = html.Remove(0, int + 1)
-                temp = temp.Remove(temp.Length - 1, 1)
+                    int = html.IndexOf(":")
+                    temp = html.Remove(0, int + 1)
+                    temp = temp.Remove(temp.Length - 1, 1)
 
-                Dim datos As SteamAPIJson = JsonConvert.DeserializeObject(Of SteamAPIJson)(temp)
+                    Dim datos As SteamAPIJson = JsonConvert.DeserializeObject(Of SteamAPIJson)(temp)
 
-                If Not datos.Datos.Precio Is Nothing Then
-                    Dim precio As String = datos.Datos.Precio.Formateado
+                    If Not datos.Datos.Precio Is Nothing Then
+                        Dim precio As String = datos.Datos.Precio.Formateado
 
-                    If Pais.DetectarEuro = True Then
-                        precio = precio.Replace("€", " €")
+                        If Pais.DetectarEuro = True Then
+                            precio = precio.Replace("€", " €")
+                        End If
+
+                        tienda = New Tienda(pepeizq.Editor.pepeizqdeals.Referidos.Generar("https://store.steampowered.com/app/" + id + "/"), precio, "Assets/Tiendas/steam3.png", Nothing, Nothing)
                     End If
-
-                    tienda = New Tienda(pepeizq.Editor.pepeizqdeals.Referidos.Generar("https://store.steampowered.com/app/" + id + "/"), precio, "Assets/Tiendas/steam3.png")
                 End If
-            End If
+            Catch ex As Exception
+
+            End Try
 
         End Sub
 
@@ -52,8 +56,7 @@ Namespace Buscador.Tiendas
             Dim pagina As Page = frame.Content
 
             If Not tienda Is Nothing Then
-                Dim gvTiendas As AdaptiveGridView = pagina.FindName("gvBusquedaJuegoTiendas")
-                gvTiendas.Items.Add(ResultadoTienda(tienda, Nothing, Nothing))
+                AñadirTienda(tienda)
             End If
 
             Dim pb As ProgressBar = pagina.FindName("pbBusquedaJuego")

@@ -24,38 +24,24 @@ Namespace Buscador.Tiendas
 
         Private Sub Bw_DoWork(sender As Object, e As DoWorkEventArgs) Handles bw.DoWork
 
-            Dim html_ As Task(Of String) = HttpClient(New Uri("https://www.humblebundle.com/store/api/search?filter=all&search=" + titulo + "&request=1"))
-            Dim html As String = html_.Result
+            Try
+                Dim html_ As Task(Of String) = HttpClient(New Uri("https://www.humblebundle.com/store/api/search?filter=all&search=" + titulo + "&request=1"))
+                Dim html As String = html_.Result
 
-            If Not html = Nothing Then
-                Dim resultados As HumbleResultados = JsonConvert.DeserializeObject(Of HumbleResultados)(html)
+                If Not html = Nothing Then
+                    Dim resultados As HumbleResultados = JsonConvert.DeserializeObject(Of HumbleResultados)(html)
 
-                If Not resultados Is Nothing Then
-                    If resultados.Juegos.Count > 0 Then
-                        If Limpieza.Limpiar(titulo) = Limpieza.Limpiar(resultados.Juegos(0).Titulo) Then
+                    If Not resultados Is Nothing Then
+                        If resultados.Juegos.Count > 0 Then
+                            If Limpieza.Limpiar(titulo) = Limpieza.Limpiar(resultados.Juegos(0).Titulo) Then
 
-                            Dim enlace As String = "https://www.humblebundle.com/store/" + resultados.Juegos(0).Enlace
+                                Dim enlace As String = "https://www.humblebundle.com/store/" + resultados.Juegos(0).Enlace
 
-                            Dim precio As String = String.Empty
+                                Dim precio As String = String.Empty
 
-                            If Not resultados.Juegos(0).PrecioDescontado Is Nothing Then
-                                If resultados.Juegos(0).PrecioDescontado.Cantidad.Trim.Length > 0 Then
-                                    Dim tempDouble As Double = Double.Parse(resultados.Juegos(0).PrecioDescontado.Cantidad, CultureInfo.InvariantCulture).ToString
-
-                                    Dim moneda As String = GlobalizationPreferences.Currencies(0)
-
-                                    Dim formateador As New CurrencyFormatter(moneda) With {
-                                        .Mode = CurrencyFormatterMode.UseSymbol
-                                    }
-
-                                    precio = formateador.Format(tempDouble)
-                                End If
-                            End If
-
-                            If precio = String.Empty Then
-                                If Not resultados.Juegos(0).PrecioBase Is Nothing Then
-                                    If resultados.Juegos(0).PrecioBase.Cantidad.Trim.Length > 0 Then
-                                        Dim tempDouble As Double = Double.Parse(resultados.Juegos(0).PrecioBase.Cantidad, CultureInfo.InvariantCulture).ToString
+                                If Not resultados.Juegos(0).PrecioDescontado Is Nothing Then
+                                    If resultados.Juegos(0).PrecioDescontado.Cantidad.Trim.Length > 0 Then
+                                        Dim tempDouble As Double = Double.Parse(resultados.Juegos(0).PrecioDescontado.Cantidad, CultureInfo.InvariantCulture).ToString
 
                                         Dim moneda As String = GlobalizationPreferences.Currencies(0)
 
@@ -66,41 +52,59 @@ Namespace Buscador.Tiendas
                                         precio = formateador.Format(tempDouble)
                                     End If
                                 End If
-                            End If
 
-                            If Not precio = String.Empty Then
-                                Dim cuponPorcentaje As String = String.Empty
-                                cuponPorcentaje = DescuentoChoice(resultados.Juegos(0).DescuentoChoice)
+                                If precio = String.Empty Then
+                                    If Not resultados.Juegos(0).PrecioBase Is Nothing Then
+                                        If resultados.Juegos(0).PrecioBase.Cantidad.Trim.Length > 0 Then
+                                            Dim tempDouble As Double = Double.Parse(resultados.Juegos(0).PrecioBase.Cantidad, CultureInfo.InvariantCulture).ToString
 
-                                If Not resultados.Juegos(0).CosasIncompatibles Is Nothing Then
-                                    If resultados.Juegos(0).CosasIncompatibles.Count > 0 Then
-                                        If resultados.Juegos(0).CosasIncompatibles(0) = "subscriber-discount-coupons" Then
-                                            cuponPorcentaje = String.Empty
+                                            Dim moneda As String = GlobalizationPreferences.Currencies(0)
+
+                                            Dim formateador As New CurrencyFormatter(moneda) With {
+                                                .Mode = CurrencyFormatterMode.UseSymbol
+                                            }
+
+                                            precio = formateador.Format(tempDouble)
                                         End If
                                     End If
                                 End If
 
-                                If Not cuponPorcentaje = String.Empty Then
-                                    Dim recursos As New Resources.ResourceLoader()
-                                    mensaje = recursos.GetString("HumbleChoice")
+                                If Not precio = String.Empty Then
+                                    Dim cuponPorcentaje As String = String.Empty
+                                    cuponPorcentaje = DescuentoChoice(resultados.Juegos(0).DescuentoChoice)
 
-                                    If Not precio = String.Empty Then
-                                        precio = precio.Replace(",", ".")
-                                        precio = precio.Replace("€", Nothing)
-                                        precio = precio.Trim
-
-                                        Dim dcupon As Double = Double.Parse(precio, CultureInfo.InvariantCulture) * cuponPorcentaje
-                                        Dim dprecio As Double = Double.Parse(precio, CultureInfo.InvariantCulture) - dcupon
-                                        precio = Math.Round(dprecio, 2).ToString + " €"
+                                    If Not resultados.Juegos(0).CosasIncompatibles Is Nothing Then
+                                        If resultados.Juegos(0).CosasIncompatibles.Count > 0 Then
+                                            If resultados.Juegos(0).CosasIncompatibles(0) = "subscriber-discount-coupons" Then
+                                                cuponPorcentaje = String.Empty
+                                            End If
+                                        End If
                                     End If
-                                End If
 
-                                tienda = New Tienda(pepeizq.Editor.pepeizqdeals.Referidos.Generar(enlace), precio, "Assets/Tiendas/humble3.png")
+                                    If Not cuponPorcentaje = String.Empty Then
+                                        Dim recursos As New Resources.ResourceLoader()
+                                        mensaje = recursos.GetString("HumbleChoice")
+
+                                        If Not precio = String.Empty Then
+                                            precio = precio.Replace(",", ".")
+                                            precio = precio.Replace("€", Nothing)
+                                            precio = precio.Trim
+
+                                            Dim dcupon As Double = Double.Parse(precio, CultureInfo.InvariantCulture) * cuponPorcentaje
+                                            Dim dprecio As Double = Double.Parse(precio, CultureInfo.InvariantCulture) - dcupon
+                                            precio = Math.Round(dprecio, 2).ToString + " €"
+                                        End If
+                                    End If
+
+                                    tienda = New Tienda(pepeizq.Editor.pepeizqdeals.Referidos.Generar(enlace), precio, "Assets/Tiendas/humble3.png", mensaje, Nothing)
+                                End If
                             End If
                         End If
                     End If
                 End If
-            End If
+            Catch ex As Exception
+
+            End Try
 
         End Sub
 
@@ -110,8 +114,7 @@ Namespace Buscador.Tiendas
             Dim pagina As Page = frame.Content
 
             If Not tienda Is Nothing Then
-                Dim gvTiendas As AdaptiveGridView = pagina.FindName("gvBusquedaJuegoTiendas")
-                gvTiendas.Items.Add(ResultadoTienda(tienda, Nothing, mensaje))
+                AñadirTienda(tienda)
             End If
 
             Dim pb As ProgressBar = pagina.FindName("pbBusquedaJuego")

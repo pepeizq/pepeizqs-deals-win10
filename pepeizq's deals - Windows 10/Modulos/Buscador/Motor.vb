@@ -26,18 +26,15 @@ Namespace Buscador
                 Dim pagina As Page = frame.Content
 
                 Dim spCarga As StackPanel = pagina.FindName("spBusquedaCarga")
-                Dim sv As ScrollViewer = pagina.FindName("svBusquedaEntradas")
+                Dim spEntradas As StackPanel = pagina.FindName("spBusquedaEntradas")
 
                 If tb.Text.Trim.Length > 0 Then
                     GridVisibilidad.Mostrar("gridBusqueda")
                     spCarga.Visibility = Visibility.Visible
-                    sv.Visibility = Visibility.Collapsed
+                    spEntradas.Visibility = Visibility.Collapsed
 
-                    Dim spResultados As StackPanel = pagina.FindName("spBusquedaEntradas")
+                    Dim spResultados As StackPanel = pagina.FindName("spBusquedaEntradasResultados")
                     spResultados.Children.Clear()
-
-                    Dim gvResultados As AdaptiveGridView = pagina.FindName("gvBuscadorJuegos")
-                    gvResultados.Items.Clear()
 
                     Dim resultadosWeb As List(Of pepeizqdeals) = Await Wordpress.Buscar(tb.Text.Trim)
 
@@ -50,10 +47,15 @@ Namespace Buscador
                             spResultados.Children.Add(ResultadoWeb(resultado))
                         Next
 
-                        sv.Visibility = Visibility.Visible
+                        spEntradas.Visibility = Visibility.Visible
                     Else
-                        sv.Visibility = Visibility.Collapsed
+                        spEntradas.Visibility = Visibility.Collapsed
                     End If
+
+                    Dim gvResultados As AdaptiveGridView = pagina.FindName("gvBuscadorJuegos")
+                    gvResultados.Items.Clear()
+
+                    Interfaz.IniciarTiendas()
 
                     Tiendas.Steam.Buscar(tb.Text.Trim)
                 End If
@@ -61,7 +63,7 @@ Namespace Buscador
 
         End Sub
 
-        Public Sub BuscarJuego(juego As SteamWeb)
+        Public Async Sub BuscarJuego(juego As SteamWeb)
 
             GridVisibilidad.Mostrar("gridBusquedaJuego")
 
@@ -78,12 +80,14 @@ Namespace Buscador
 
             Dim pb As ProgressBar = pagina.FindName("pbBusquedaJuego")
             pb.Visibility = Visibility.Visible
+            pb.Value = 0
 
             Dim i As Integer = 0
 
             '---------------------------------
 
             Try
+                Await Task.Delay(100)
                 i += 1
                 Tiendas.SteamAPI.Buscar(juego.ID)
             Catch ex As Exception
@@ -92,6 +96,7 @@ Namespace Buscador
 
             If config.Values("Estado_App") = 1 Then
                 Try
+                    Await Task.Delay(100)
                     i += 1
                     Comparadores.SteamDB.Buscar(juego.ID)
                 Catch ex As Exception
@@ -99,6 +104,7 @@ Namespace Buscador
                 End Try
 
                 Try
+                    Await Task.Delay(100)
                     i += 1
                     Comparadores.Isthereanydeal.Buscar(juego.ID)
                 Catch ex As Exception
@@ -106,6 +112,7 @@ Namespace Buscador
                 End Try
 
                 Try
+                    Await Task.Delay(100)
                     i += 1
                     Comparadores.GGdeals.Buscar(juego.Titulo)
                 Catch ex As Exception
@@ -114,6 +121,7 @@ Namespace Buscador
             End If
 
             Try
+                Await Task.Delay(100)
                 i += 1
                 Tiendas.Humble.Buscar(juego.Titulo)
             Catch ex As Exception
@@ -121,6 +129,7 @@ Namespace Buscador
             End Try
 
             Try
+                Await Task.Delay(100)
                 i += 1
                 Tiendas.GamersGate.Buscar(juego.Titulo)
             Catch ex As Exception
@@ -131,6 +140,7 @@ Namespace Buscador
 
             If Not pais.CodeTwoLetter.ToLower = "uk" Then
                 Try
+                    Await Task.Delay(100)
                     i += 1
                     Tiendas.GamersGateUK.Buscar(juego.Titulo)
                 Catch ex As Exception
@@ -139,6 +149,7 @@ Namespace Buscador
             End If
 
             Try
+                Await Task.Delay(100)
                 i += 1
                 Tiendas.Fanatical.Buscar(juego.Titulo, juego.ID)
             Catch ex As Exception
@@ -146,6 +157,7 @@ Namespace Buscador
             End Try
 
             Try
+                Await Task.Delay(100)
                 i += 1
                 Tiendas.GamesplanetUK.Buscar(juego.Titulo, juego.ID)
             Catch ex As Exception
@@ -153,6 +165,7 @@ Namespace Buscador
             End Try
 
             Try
+                Await Task.Delay(100)
                 i += 1
                 Tiendas.GamesplanetFR.Buscar(juego.Titulo, juego.ID)
             Catch ex As Exception
@@ -160,6 +173,7 @@ Namespace Buscador
             End Try
 
             Try
+                Await Task.Delay(100)
                 i += 1
                 Tiendas.GamesplanetDE.Buscar(juego.Titulo, juego.ID)
             Catch ex As Exception
@@ -167,6 +181,7 @@ Namespace Buscador
             End Try
 
             Try
+                Await Task.Delay(100)
                 i += 1
                 Tiendas.GamesplanetUS.Buscar(juego.Titulo, juego.ID)
             Catch ex As Exception
@@ -174,6 +189,7 @@ Namespace Buscador
             End Try
 
             Try
+                Await Task.Delay(100)
                 i += 1
                 Tiendas.GreenManGaming.Buscar(juego.Titulo)
             Catch ex As Exception
@@ -181,8 +197,41 @@ Namespace Buscador
             End Try
 
             Try
+                Await Task.Delay(100)
                 i += 1
                 Tiendas.WinGameStore.Buscar(juego.Titulo)
+            Catch ex As Exception
+
+            End Try
+
+            'Try
+            '    Await Task.Delay(100)
+            '    i += 1
+            '    Tiendas.IndieGala.Buscar(juego.Titulo)
+            'Catch ex As Exception
+
+            'End Try
+
+            Try
+                Await Task.Delay(100)
+                i += 1
+                Tiendas.GOG.Buscar(juego.Titulo)
+            Catch ex As Exception
+
+            End Try
+
+            Try
+                Await Task.Delay(100)
+                i += 1
+                Tiendas.Allyouplay.Buscar(juego.Titulo)
+            Catch ex As Exception
+
+            End Try
+
+            Try
+                Await Task.Delay(100)
+                i += 1
+                Tiendas.Voidu.Buscar(juego.Titulo)
             Catch ex As Exception
 
             End Try

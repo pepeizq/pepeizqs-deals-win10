@@ -1,26 +1,17 @@
 ﻿Imports System.Globalization
+Imports System.Net
 Imports System.Xml.Serialization
-Imports Microsoft.Toolkit.Uwp.UI.Controls
 Imports Windows.Globalization.NumberFormatting
-Imports Windows.Storage
+Imports Windows.System.UserProfile
 
 Namespace Buscador.Tiendas
-    Module GamersGateUK
+    Module Allyouplay
 
         Dim WithEvents bw As New BackgroundWorker
         Dim titulo As String
-        Dim libra As String
         Dim tienda As Tienda
 
         Public Sub Buscar(titulo_ As String)
-
-            Dim config As ApplicationDataContainer = ApplicationData.Current.LocalSettings
-
-            If Pais.DetectarEuro = True Then
-                If config.Values("Estado_App") = 1 Then
-                    libra = config.Values("libra")
-                End If
-            End If
 
             titulo = titulo_
 
@@ -33,26 +24,28 @@ Namespace Buscador.Tiendas
         Private Sub Bw_DoWork(sender As Object, e As DoWorkEventArgs) Handles bw.DoWork
 
             Try
-                Dim html_ As Task(Of String) = HttpClient(New Uri("https://www.gamersgate.com/feeds/products?country=gbr&q=" + titulo))
+                Dim html_ As Task(Of String) = HttpClient(New Uri("https://daisycon.io/datafeed/?filter_id=80356&settings_id=10133"))
                 Dim html As String = html_.Result
 
                 If Not html = Nothing Then
+                    Dim xml As New XmlSerializer(GetType(AllyouplayJuegos))
                     Dim stream As New StringReader(html)
-                    Dim xml As New XmlSerializer(GetType(GamersGateJuegos))
-                    Dim listaJuegos As GamersGateJuegos = xml.Deserialize(stream)
+                    Dim listaJuegos As AllyouplayJuegos = xml.Deserialize(stream)
 
                     If Not listaJuegos Is Nothing Then
                         If listaJuegos.Juegos.Count > 0 Then
                             For Each juego In listaJuegos.Juegos
-                                If Limpieza.Limpiar(juego.Titulo) = Limpieza.Limpiar(titulo) Then
-                                    If juego.Estado = "available" Then
+                                If DevolverMoneda() = juego.Moneda Then
+                                    Dim tituloJuego As String = WebUtility.HtmlDecode(juego.Titulo)
+                                    tituloJuego = tituloJuego.Replace("?", Nothing)
+                                    tituloJuego = tituloJuego.Replace("(Steam)", Nothing)
+                                    tituloJuego = tituloJuego.Replace("(Epic)", Nothing)
+                                    tituloJuego = tituloJuego.Trim
+
+                                    If Limpieza.Limpiar(titulo) = Limpieza.Limpiar(tituloJuego) Then
                                         Dim enlace As String = juego.Enlace
 
-                                        Dim precio As String = String.Empty
-
-                                        If Not juego.PrecioDescontado = Nothing Then
-                                            precio = juego.PrecioDescontado
-                                        End If
+                                        Dim precio As String = juego.PrecioRebajado
 
                                         If precio = String.Empty Then
                                             precio = juego.PrecioBase
@@ -61,7 +54,7 @@ Namespace Buscador.Tiendas
                                         If Not precio = String.Empty Then
                                             Dim tempDouble As Double = Double.Parse(precio, CultureInfo.InvariantCulture).ToString
 
-                                            Dim moneda As String = "GBP"
+                                            Dim moneda As String = GlobalizationPreferences.Currencies(0)
 
                                             Dim formateador As New CurrencyFormatter(moneda) With {
                                                 .Mode = CurrencyFormatterMode.UseSymbol
@@ -69,12 +62,10 @@ Namespace Buscador.Tiendas
 
                                             precio = formateador.Format(tempDouble)
 
-                                            If Not libra = Nothing Then
-                                                precio = Divisas.CambioMoneda(precio, libra)
-                                            End If
-
-                                            tienda = New Tienda(pepeizq.Editor.pepeizqdeals.Referidos.Generar(enlace), precio, "Assets/Tiendas/gamersgate3.png", Nothing, "uk")
+                                            tienda = New Tienda(pepeizq.Editor.pepeizqdeals.Referidos.Generar(enlace), precio, "Assets/Tiendas/allyouplay3.png", Nothing, Nothing)
                                         End If
+
+                                        Exit For
                                     End If
                                 End If
                             Next
@@ -106,4 +97,33 @@ Namespace Buscador.Tiendas
         End Sub
 
     End Module
+
+    <XmlRoot("datafeed")>
+    Public Class AllyouplayJuegos
+
+        <XmlElement("product_info")>
+        Public Juegos As List(Of AllyouplayJuego)
+
+    End Class
+
+    Public Class AllyouplayJuego
+
+        <XmlElement("link")>
+        Public Enlace As String
+
+        <XmlElement("title")>
+        Public Titulo As String
+
+        <XmlElement("price_old")>
+        Public PrecioBase As String
+
+        <XmlElement("price")>
+        Public PrecioRebajado As String
+
+        <XmlElement("currency")>
+        Public Moneda As String
+
+    End Class
+
 End Namespace
+

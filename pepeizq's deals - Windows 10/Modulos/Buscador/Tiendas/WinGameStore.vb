@@ -32,50 +32,54 @@ Namespace Buscador.Tiendas
 
         Private Sub Bw_DoWork(sender As Object, e As DoWorkEventArgs) Handles bw.DoWork
 
-            Dim html_ As Task(Of String) = HttpClient(New Uri("https://www.macgamestore.com/affiliate/feeds/p_C1B2A3.json"))
-            Dim html As String = html_.Result
+            Try
+                Dim html_ As Task(Of String) = HttpClient(New Uri("https://www.macgamestore.com/affiliate/feeds/p_C1B2A3.json"))
+                Dim html As String = html_.Result
 
-            If Not html = Nothing Then
-                Dim listaJuegos As List(Of WinGameStoreJuego) = JsonConvert.DeserializeObject(Of List(Of WinGameStoreJuego))(html)
+                If Not html = Nothing Then
+                    Dim listaJuegos As List(Of WinGameStoreJuego) = JsonConvert.DeserializeObject(Of List(Of WinGameStoreJuego))(html)
 
-                If Not listaJuegos Is Nothing Then
-                    If listaJuegos.Count > 0 Then
-                        For Each juego In listaJuegos
-                            If Limpieza.Limpiar(juego.Titulo) = Limpieza.Limpiar(titulo) Then
-                                Dim enlace As String = juego.Enlace
+                    If Not listaJuegos Is Nothing Then
+                        If listaJuegos.Count > 0 Then
+                            For Each juego In listaJuegos
+                                If Limpieza.Limpiar(juego.Titulo) = Limpieza.Limpiar(titulo) Then
+                                    Dim enlace As String = juego.Enlace
 
-                                Dim precio As String = String.Empty
+                                    Dim precio As String = String.Empty
 
-                                If Not juego.PrecioRebajado = Nothing Then
-                                    precio = juego.PrecioRebajado
-                                End If
-
-                                If precio = String.Empty Then
-                                    precio = juego.PrecioBase
-                                End If
-
-                                If Not precio = String.Empty Then
-                                    Dim tempDouble As Double = Double.Parse(precio, CultureInfo.InvariantCulture).ToString
-
-                                    Dim moneda As String = "USD"
-
-                                    Dim formateador As New CurrencyFormatter(moneda) With {
-                                        .Mode = CurrencyFormatterMode.UseSymbol
-                                    }
-
-                                    precio = formateador.Format(tempDouble)
-
-                                    If Not dolar = Nothing Then
-                                        precio = Divisas.CambioMoneda(precio, dolar)
+                                    If Not juego.PrecioRebajado = Nothing Then
+                                        precio = juego.PrecioRebajado
                                     End If
 
-                                    tienda = New Tienda(pepeizq.Editor.pepeizqdeals.Referidos.Generar(enlace), precio, "Assets/Tiendas/wingamestore3.png")
+                                    If precio = String.Empty Then
+                                        precio = juego.PrecioBase
+                                    End If
+
+                                    If Not precio = String.Empty Then
+                                        Dim tempDouble As Double = Double.Parse(precio, CultureInfo.InvariantCulture).ToString
+
+                                        Dim moneda As String = "USD"
+
+                                        Dim formateador As New CurrencyFormatter(moneda) With {
+                                            .Mode = CurrencyFormatterMode.UseSymbol
+                                        }
+
+                                        precio = formateador.Format(tempDouble)
+
+                                        If Not dolar = Nothing Then
+                                            precio = Divisas.CambioMoneda(precio, dolar)
+                                        End If
+
+                                        tienda = New Tienda(pepeizq.Editor.pepeizqdeals.Referidos.Generar(enlace), precio, "Assets/Tiendas/wingamestore3.png", Nothing, Nothing)
+                                    End If
                                 End If
-                            End If
-                        Next
+                            Next
+                        End If
                     End If
                 End If
-            End If
+            Catch ex As Exception
+
+            End Try
 
         End Sub
 
@@ -85,8 +89,7 @@ Namespace Buscador.Tiendas
             Dim pagina As Page = frame.Content
 
             If Not tienda Is Nothing Then
-                Dim gvTiendas As AdaptiveGridView = pagina.FindName("gvBusquedaJuegoTiendas")
-                gvTiendas.Items.Add(ResultadoTienda(tienda, Nothing, Nothing))
+                AñadirTienda(tienda)
             End If
 
             Dim pb As ProgressBar = pagina.FindName("pbBusquedaJuego")

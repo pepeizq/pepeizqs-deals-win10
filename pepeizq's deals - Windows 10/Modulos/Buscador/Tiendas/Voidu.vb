@@ -1,10 +1,11 @@
 ﻿Imports System.Globalization
+Imports System.Net
 Imports System.Xml.Serialization
 Imports Windows.Globalization.NumberFormatting
 Imports Windows.System.UserProfile
 
 Namespace Buscador.Tiendas
-    Module GamersGate
+    Module Voidu
 
         Dim WithEvents bw As New BackgroundWorker
         Dim titulo As String
@@ -23,27 +24,40 @@ Namespace Buscador.Tiendas
         Private Sub Bw_DoWork(sender As Object, e As DoWorkEventArgs) Handles bw.DoWork
 
             Try
-                Dim pais As New Windows.Globalization.GeographicRegion
-                Dim html_ As Task(Of String) = HttpClient(New Uri("https://www.gamersgate.com/feeds/products?country=" + pais.CodeThreeLetter.ToLower + "&q=" + titulo))
+                Dim html_ As Task(Of String) = HttpClient(New Uri("https://daisycon.io/datafeed/?filter_id=80367&settings_id=10133"))
                 Dim html As String = html_.Result
 
                 If Not html = Nothing Then
+                    Dim xml As New XmlSerializer(GetType(AllyouplayJuegos))
                     Dim stream As New StringReader(html)
-                    Dim xml As New XmlSerializer(GetType(GamersGateJuegos))
-                    Dim listaJuegos As GamersGateJuegos = xml.Deserialize(stream)
+                    Dim listaJuegos As AllyouplayJuegos = xml.Deserialize(stream)
 
                     If Not listaJuegos Is Nothing Then
                         If listaJuegos.Juegos.Count > 0 Then
                             For Each juego In listaJuegos.Juegos
-                                If Limpieza.Limpiar(juego.Titulo) = Limpieza.Limpiar(titulo) Then
-                                    If juego.Estado = "available" Then
+                                If DevolverMoneda() = juego.Moneda Then
+                                    Dim tituloJuego As String = WebUtility.HtmlDecode(juego.Titulo)
+                                    titulo = WebUtility.HtmlDecode(titulo)
+                                    titulo = titulo.Replace("?", Nothing)
+                                    titulo = titulo.Replace("(Mac/Pc)", Nothing)
+                                    titulo = titulo.Replace("[Mac]", Nothing)
+                                    titulo = titulo.Replace("(ROW)", Nothing)
+                                    titulo = titulo.Replace("(DLC)", Nothing)
+                                    titulo = titulo.Replace("- ASIA+EMEA", Nothing)
+                                    titulo = titulo.Replace("- EMEA", Nothing)
+                                    titulo = titulo.Replace("- ANZ+EMEA", Nothing)
+                                    titulo = titulo.Replace("- PC", Nothing)
+                                    titulo = titulo.Replace("- ANZ + EU", Nothing)
+                                    titulo = titulo.Replace("- EMEA + ANZ", Nothing)
+                                    titulo = titulo.Replace("(STEAM)", Nothing)
+                                    titulo = titulo.Replace("(Steam)", Nothing)
+                                    titulo = titulo.Replace("(EPIC GAMES)", Nothing)
+                                    titulo = titulo.Trim
+
+                                    If Limpieza.Limpiar(titulo) = Limpieza.Limpiar(tituloJuego) Then
                                         Dim enlace As String = juego.Enlace
 
-                                        Dim precio As String = String.Empty
-
-                                        If Not juego.PrecioDescontado = Nothing Then
-                                            precio = juego.PrecioDescontado
-                                        End If
+                                        Dim precio As String = juego.PrecioRebajado
 
                                         If precio = String.Empty Then
                                             precio = juego.PrecioBase
@@ -60,8 +74,10 @@ Namespace Buscador.Tiendas
 
                                             precio = formateador.Format(tempDouble)
 
-                                            tienda = New Tienda(pepeizq.Editor.pepeizqdeals.Referidos.Generar(enlace), precio, "Assets/Tiendas/gamersgate3.png", Nothing, Nothing)
+                                            tienda = New Tienda(pepeizq.Editor.pepeizqdeals.Referidos.Generar(enlace), precio, "Assets/Tiendas/voidu3.png", Nothing, Nothing)
                                         End If
+
+                                        Exit For
                                     End If
                                 End If
                             Next
@@ -94,31 +110,32 @@ Namespace Buscador.Tiendas
 
     End Module
 
-    <XmlRoot("xml")>
-    Public Class GamersGateJuegos
+    <XmlRoot("datafeed")>
+    Public Class VoiduJuegos
 
-        <XmlElement("item")>
-        Public Juegos As List(Of GamersGateJuego)
+        <XmlElement("product_info")>
+        Public Juegos As List(Of VoiduJuego)
 
     End Class
 
-    Public Class GamersGateJuego
-
-        <XmlElement("title")>
-        Public Titulo As String
+    Public Class VoiduJuego
 
         <XmlElement("link")>
         Public Enlace As String
 
-        <XmlElement("price")>
-        Public PrecioDescontado As String
+        <XmlElement("title")>
+        Public Titulo As String
 
-        <XmlElement("srp")>
+        <XmlElement("price_old")>
         Public PrecioBase As String
 
-        <XmlElement("state")>
-        Public Estado As String
+        <XmlElement("price")>
+        Public PrecioRebajado As String
+
+        <XmlElement("currency")>
+        Public Moneda As String
 
     End Class
+
 End Namespace
 

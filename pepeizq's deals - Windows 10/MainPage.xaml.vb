@@ -9,8 +9,6 @@ Imports Windows.UI.Core
 Public NotInheritable Class MainPage
     Inherits Page
 
-    Dim entradas As List(Of Entrada)
-
     Private Sub Nv_Loaded(sender As Object, e As RoutedEventArgs)
 
         Dim config As ApplicationDataContainer = ApplicationData.Current.LocalSettings
@@ -42,17 +40,15 @@ Public NotInheritable Class MainPage
 
             If Not item Is Nothing Then
                 If item.Text = recursos.GetString("Home") Then
-                    CargarEntradas("posts", 100, Nothing, False)
-                ElseIf item.Text = recursos.GetString("Search") Then
-                    Await Launcher.LaunchUriAsync(New Uri("https://pepeizqdeals.com/search/"))
+                    CargarEntradas(100, Nothing, False)
                 ElseIf item.Text = recursos.GetString("Deals2") Then
-                    CargarEntradas("posts", 100, recursos.GetString("Deals2"), False)
+                    CargarEntradas(100, recursos.GetString("Deals2"), False)
                 ElseIf item.Text = recursos.GetString("Bundles2") Then
-                    CargarEntradas("posts", 100, recursos.GetString("Bundles2"), False)
+                    CargarEntradas(100, recursos.GetString("Bundles2"), False)
                 ElseIf item.Text = recursos.GetString("Free2") Then
-                    CargarEntradas("posts", 100, recursos.GetString("Free2"), False)
+                    CargarEntradas(100, recursos.GetString("Free2"), False)
                 ElseIf item.Text = recursos.GetString("Subscriptions2") Then
-                    CargarEntradas("posts", 100, recursos.GetString("Subscriptions2"), False)
+                    CargarEntradas(100, recursos.GetString("Subscriptions2"), False)
                 ElseIf item.Text = recursos.GetString("Wishlist") Then
                     GridVisibilidad.Mostrar("gridDeseados")
                 ElseIf item.Text = recursos.GetString("Giveaways") Then
@@ -83,9 +79,7 @@ Public NotInheritable Class MainPage
 
         '--------------------------------------------------------
 
-        entradas = New List(Of Entrada)
-
-        CargarEntradas("posts", 100, Nothing, True)
+        CargarEntradas(100, Nothing, True)
 
         Deseados.Cargar()
 
@@ -128,10 +122,14 @@ Public NotInheritable Class MainPage
             Divisas.Generar()
 
             spFiltroDeseados.Visibility = Visibility.Visible
-            spComparadores.Visibility = Visibility.Visible
+            panelComparadores.Visibility = Visibility.Visible
+
+            spComprarApp.Visibility = Visibility.Collapsed
         Else
             spFiltroDeseados.Visibility = Visibility.Collapsed
-            spComparadores.Visibility = Visibility.Collapsed
+            panelComparadores.Visibility = Visibility.Collapsed
+
+            spComprarApp.Visibility = Visibility.Visible
         End If
 
     End Sub
@@ -164,15 +162,15 @@ Public NotInheritable Class MainPage
         Dim recursos As New Resources.ResourceLoader()
 
         If tbTitulo.Text.Contains(recursos.GetString("Bundles2")) Then
-            CargarEntradas("posts", 100, recursos.GetString("Bundles2"), True)
+            CargarEntradas(100, recursos.GetString("Bundles2"), True)
         ElseIf tbTitulo.Text.Contains(recursos.GetString("Deals2")) Then
-            CargarEntradas("posts", 100, recursos.GetString("Deals2"), True)
+            CargarEntradas(100, recursos.GetString("Deals2"), True)
         ElseIf tbTitulo.Text.Contains(recursos.GetString("Free2")) Then
-            CargarEntradas("posts", 100, recursos.GetString("Free2"), True)
+            CargarEntradas(100, recursos.GetString("Free2"), True)
         ElseIf tbTitulo.Text.Contains(recursos.GetString("Subscriptions2")) Then
-            CargarEntradas("posts", 100, recursos.GetString("Subscriptions2"), True)
+            CargarEntradas(100, recursos.GetString("Subscriptions2"), True)
         Else
-            CargarEntradas("posts", 100, Nothing, True)
+            CargarEntradas(100, Nothing, True)
         End If
 
     End Sub
@@ -256,6 +254,21 @@ Public NotInheritable Class MainPage
         icono.Saturation(1).Scale(1, 1, icono.ActualWidth / 2, icono.ActualHeight / 2).Start()
 
         Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Arrow, 1)
+
+    End Sub
+
+    Private Async Sub BotonComprar_Click(sender As Object, e As RoutedEventArgs) Handles botonComprar.Click
+
+        Dim usuarios As IReadOnlyList(Of User) = Await User.FindAllAsync
+
+        If Not usuarios Is Nothing Then
+            If usuarios.Count > 0 Then
+                Dim usuario As User = usuarios(0)
+
+                Dim contexto As StoreContext = StoreContext.GetForUser(usuario)
+                Await contexto.RequestPurchaseAsync("9P7836M1TW15")
+            End If
+        End If
 
     End Sub
 

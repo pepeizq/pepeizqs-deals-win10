@@ -180,6 +180,12 @@
   <data name="Open" xml:space="preserve">
     <value>Open</value>
   </data>
+  <data name="Resultspepeizqdeals.Text" xml:space="preserve">
+    <value>Results on pepeizqdeals.com</value>
+  </data>
+  <data name="ResultsSteam.Text" xml:space="preserve">
+    <value>Results on Steam</value>
+  </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>
   </data>
@@ -198,6 +204,12 @@
   <data name="Subscriptions2" xml:space="preserve">
     <value>Subscriptions</value>
   </data>
+  <data name="TrialBuy.Text" xml:space="preserve">
+    <value>Buy App</value>
+  </data>
+  <data name="TrialInfo.Text" xml:space="preserve">
+    <value>You are using the trial version, if you pay for the app you will have access to the wishlist filter, push notifications, access the historical prices of several portals such as SteamDB or GGdeals and if you are a European user, all prices calculated in Euro.</value>
+  </data>
   <data name="Wishlist" xml:space="preserve">
     <value>Wishlist</value>
   </data>
@@ -211,7 +223,7 @@
     <value>Click on the games to see in which stores it is available</value>
   </data>
   <data name="WishlistNoGames.Text" xml:space="preserve">
-    <value>There are currently no games on your wishlist on sale or in bundles.</value>
+    <value>There are no games on your wishlist.</value>
   </data>
   <data name="WishlistSteamAccount.Text" xml:space="preserve">
     <value>If you put a link to your Steam profile the app will read your wishlist games and can load a filter on the entries.</value>

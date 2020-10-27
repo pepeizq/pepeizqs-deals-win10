@@ -180,6 +180,12 @@
   <data name="Open" xml:space="preserve">
     <value>Abrir</value>
   </data>
+  <data name="Resultspepeizqdeals.Text" xml:space="preserve">
+    <value>Resultados en pepeizqdeals.com</value>
+  </data>
+  <data name="ResultsSteam.Text" xml:space="preserve">
+    <value>Resultados en Steam</value>
+  </data>
   <data name="Search" xml:space="preserve">
     <value>Buscar</value>
   </data>
@@ -198,6 +204,12 @@
   <data name="Subscriptions2" xml:space="preserve">
     <value>Suscripciones</value>
   </data>
+  <data name="TrialBuy.Text" xml:space="preserve">
+    <value>Comprar App</value>
+  </data>
+  <data name="TrialInfo.Text" xml:space="preserve">
+    <value>Estás usando la versión trial, si pagas por la app tendrás acceso al filtro de deseados, notificaciones push, acceso los precios históricos de varios portales como SteamDB o GGdeals y si eres usuario europeo, todos los precios calculados al Euro.</value>
+  </data>
   <data name="Wishlist" xml:space="preserve">
     <value>Lista de Deseados</value>
   </data>
@@ -211,7 +223,7 @@
     <value>Haz click en los juegos para ver en que tiendas esta disponible.</value>
   </data>
   <data name="WishlistNoGames.Text" xml:space="preserve">
-    <value>Actualmente no hay juegos de tu lista de deseados en oferta o en bundles.</value>
+    <value>No hay juegos de tu lista de deseados.</value>
   </data>
   <data name="WishlistSteamAccount.Text" xml:space="preserve">
     <value>Si pones un enlace a tu perfil de Steam la app leerá tus juegos en deseados y podrá cargar un filtro en las entradas.</value>
