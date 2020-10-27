@@ -120,6 +120,7 @@ Public NotInheritable Class MainPage
 
         If config.Values("Estado_App") = 1 Then
             Divisas.Generar()
+            Push.Escuchar()
 
             spFiltroDeseados.Visibility = Visibility.Visible
             panelComparadores.Visibility = Visibility.Visible

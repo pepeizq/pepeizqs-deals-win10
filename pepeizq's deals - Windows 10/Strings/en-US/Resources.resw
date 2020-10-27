@@ -208,7 +208,19 @@
     <value>Buy App</value>
   </data>
   <data name="TrialInfo.Text" xml:space="preserve">
-    <value>You are using the trial version, if you pay for the app you will have access to the wishlist filter, push notifications, access the historical prices of several portals such as SteamDB or GGdeals and if you are a European user, all prices calculated in Euro.</value>
+    <value>You are using the trial version, if you pay for the app you will have access to:</value>
+  </data>
+  <data name="TrialInfo1.Text" xml:space="preserve">
+    <value>Wishlist Filter</value>
+  </data>
+  <data name="TrialInfo2.Text" xml:space="preserve">
+    <value>Push Notifications</value>
+  </data>
+  <data name="TrialInfo3.Text" xml:space="preserve">
+    <value>Historical prices of several portals such as SteamDB or GGdeals in the search engine.</value>
+  </data>
+  <data name="TrialInfo4.Text" xml:space="preserve">
+    <value>If you are a European user, all prices calculated in Euro in the search engine.</value>
   </data>
   <data name="Wishlist" xml:space="preserve">
     <value>Wishlist</value>

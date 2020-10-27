@@ -179,7 +179,7 @@ Module Wordpress
                         End If
 
                         If mostrarAnuncio2 = True Then
-                            Notificaciones.ToastAnuncio(entrada.Titulo.Texto, entrada.Enlace, entrada.Imagen)
+                            Notificaciones.ToastOferta(entrada.Titulo.Texto, entrada.Enlace, entrada.Imagen)
                             listaAnuncios.Add(New Anuncio(entrada.Titulo.Texto, entrada.Enlace, entrada.Imagen))
 
                             Try

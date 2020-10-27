@@ -207,16 +207,17 @@ Module MasCosas
                 Dim usuario As User = usuarios(0)
 
                 Dim contexto As StoreContext = StoreContext.GetForUser(usuario)
-
-                Dim review As StoreRateAndReviewResult = Await contexto.RequestRateAndReviewAppAsync
                 Dim config As ApplicationDataContainer = ApplicationData.Current.LocalSettings
 
-                If review.Status = StoreRateAndReviewStatus.Succeeded Then
-                    Notificaciones.Toast(recursos.GetString("MoreThings_RateAppThanks"), Nothing)
+                If config.Values("Calificar_App") = 0 Or config.Values("Calificar_App") = Nothing Then
+                    Dim review As StoreRateAndReviewResult = Await contexto.RequestRateAndReviewAppAsync
 
-                    config.Values("Calificar_App") = 1
-                Else
-                    config.Values("Calificar_App") = 0
+                    If review.Status = StoreRateAndReviewStatus.Succeeded Then
+                        Notificaciones.Toast(recursos.GetString("MoreThings_RateAppThanks"), Nothing)
+                        config.Values("Calificar_App") = 1
+                    Else
+                        config.Values("Calificar_App") = 0
+                    End If
                 End If
             End If
         End If
