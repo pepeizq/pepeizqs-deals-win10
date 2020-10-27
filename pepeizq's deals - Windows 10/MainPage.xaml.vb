@@ -184,7 +184,7 @@ Public NotInheritable Class MainPage
 
     Private Sub BotonCalificar_Click(sender As Object, e As RoutedEventArgs) Handles botonCalificar.Click
 
-        MasCosas.CalificarApp()
+        MasCosas.CalificarApp(False)
 
     End Sub
 
