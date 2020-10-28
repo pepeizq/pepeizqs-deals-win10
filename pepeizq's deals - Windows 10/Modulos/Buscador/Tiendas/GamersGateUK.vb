@@ -45,7 +45,7 @@ Namespace Buscador.Tiendas
                         If listaJuegos.Juegos.Count > 0 Then
                             For Each juego In listaJuegos.Juegos
                                 If Limpieza.Limpiar(juego.Titulo) = Limpieza.Limpiar(titulo) Then
-                                    If juego.Estado = "available" Then
+                                    If juego.Estado.ToLower = "available" Or juego.Estado.ToLower = "preorder" Then
                                         Dim enlace As String = juego.Enlace
 
                                         Dim precio As String = String.Empty
