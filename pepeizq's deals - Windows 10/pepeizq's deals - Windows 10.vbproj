@@ -179,6 +179,7 @@
     <Compile Include="Modulos\Notificaciones.vb" />
     <Compile Include="Modulos\Pais.vb" />
     <Compile Include="Modulos\Push.vb" />
+    <Compile Include="Modulos\Trial.vb" />
     <Compile Include="Modulos\Wordpress.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
   </ItemGroup>

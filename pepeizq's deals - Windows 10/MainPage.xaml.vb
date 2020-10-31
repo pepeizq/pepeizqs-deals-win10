@@ -61,7 +61,7 @@ Public NotInheritable Class MainPage
 
     End Sub
 
-    Private Async Sub Page_Loaded(sender As Object, e As RoutedEventArgs)
+    Private Sub Page_Loaded(sender As Object, e As RoutedEventArgs)
 
         'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "es-ES"
         'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "en-US"
@@ -82,6 +82,7 @@ Public NotInheritable Class MainPage
         CargarEntradas(100, Nothing, True)
 
         Deseados.Cargar()
+        Trial.Detectar(True)
 
         Dim config As ApplicationDataContainer = ApplicationData.Current.LocalSettings
 
@@ -97,40 +98,6 @@ Public NotInheritable Class MainPage
         If mostrarCalificar = True Then
             botonCalificar.Visibility = Visibility.Visible
             tbBotonCalificar.Text = recursos.GetString("MoreThings_RateApp")
-        End If
-
-        '--------------------------------------------------------
-
-        Dim usuarios As IReadOnlyList(Of User) = Await User.FindAllAsync
-
-        If Not usuarios Is Nothing Then
-            If usuarios.Count > 0 Then
-                Dim usuario As User = usuarios(0)
-
-                Dim contexto As StoreContext = StoreContext.GetForUser(usuario)
-                Dim licencia As StoreAppLicense = Await contexto.GetAppLicenseAsync
-
-                If licencia.IsActive = True And licencia.IsTrial = False Then
-                    config.Values("Estado_App") = 1
-                Else
-                    config.Values("Estado_App") = 0
-                End If
-            End If
-        End If
-
-        If config.Values("Estado_App") = 1 Then
-            Divisas.Generar()
-            Push.Escuchar()
-
-            spFiltroDeseados.Visibility = Visibility.Visible
-            panelComparadores.Visibility = Visibility.Visible
-
-            spComprarApp.Visibility = Visibility.Collapsed
-        Else
-            spFiltroDeseados.Visibility = Visibility.Collapsed
-            panelComparadores.Visibility = Visibility.Collapsed
-
-            spComprarApp.Visibility = Visibility.Visible
         End If
 
     End Sub

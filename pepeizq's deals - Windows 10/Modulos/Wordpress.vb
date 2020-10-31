@@ -19,6 +19,7 @@ Module Wordpress
             categoriaS = categoria_
             actualizar = actualizar_
 
+            Trial.Detectar(False)
             GridVisibilidad.Mostrar("gridCarga")
 
             Dim frame As Frame = Window.Current.Content
