@@ -6,13 +6,17 @@ Imports Windows.System.UserProfile
 Namespace Buscador.Tiendas
     Module GOG
 
+        Dim tiendas As List(Of Tienda)
         Dim WithEvents bw As New BackgroundWorker
         Dim titulo As String
-        Dim tienda As Tienda
+        Dim nuevaTienda As Tienda
 
-        Public Sub Buscar(titulo_ As String)
+        Public Sub Buscar(tiendas_ As List(Of Tienda), titulo_ As String)
 
+            tiendas = tiendas_
             titulo = titulo_
+
+            nuevaTienda = Nothing
 
             If bw.IsBusy = False Then
                 bw.RunWorkerAsync()
@@ -31,23 +35,27 @@ Namespace Buscador.Tiendas
 
                     If Not listaJuegosGOG Is Nothing Then
                         If listaJuegosGOG.Juegos.Count > 0 Then
-                            Dim enlace As String = "https://www.gog.com" + listaJuegosGOG.Juegos(0).Enlace
+                            For Each juego In listaJuegosGOG.Juegos
+                                If Limpieza.Limpiar(juego.Titulo) = Limpieza.Limpiar(titulo) Then
+                                    Dim enlace As String = "https://www.gog.com" + juego.Enlace
 
-                            Dim precio As String = listaJuegosGOG.Juegos(0).Precio.Formateado
+                                    Dim precio As String = juego.Precio.Formateado
 
-                            If Not precio = String.Empty Then
-                                Dim tempDouble As Double = Double.Parse(precio, CultureInfo.InvariantCulture).ToString
+                                    If Not precio = String.Empty Then
+                                        Dim tempDouble As Double = Double.Parse(precio, CultureInfo.InvariantCulture).ToString
 
-                                Dim moneda As String = GlobalizationPreferences.Currencies(0)
+                                        Dim moneda As String = GlobalizationPreferences.Currencies(0)
 
-                                Dim formateador As New CurrencyFormatter(moneda) With {
-                                    .Mode = CurrencyFormatterMode.UseSymbol
-                                }
+                                        Dim formateador As New CurrencyFormatter(moneda) With {
+                                            .Mode = CurrencyFormatterMode.UseSymbol
+                                        }
 
-                                precio = formateador.Format(tempDouble)
+                                        precio = formateador.Format(tempDouble)
 
-                                tienda = New Tienda(pepeizq.Editor.pepeizqdeals.Referidos.Generar(enlace), precio, "Assets/Tiendas/gog3.png", Nothing, Nothing)
-                            End If
+                                        nuevaTienda = New Tienda(pepeizq.Editor.pepeizqdeals.Referidos.Generar(enlace), precio, "Assets/Tiendas/gog3.png", Nothing, Nothing)
+                                    End If
+                                End If
+                            Next
                         End If
                     End If
                 End If
@@ -62,8 +70,8 @@ Namespace Buscador.Tiendas
             Dim frame As Frame = Window.Current.Content
             Dim pagina As Page = frame.Content
 
-            If Not tienda Is Nothing Then
-                AñadirTienda(tienda)
+            If Not nuevaTienda Is Nothing Then
+                AñadirTienda(tiendas, nuevaTienda)
             End If
 
             Dim pb As ProgressBar = pagina.FindName("pbBusquedaJuego")

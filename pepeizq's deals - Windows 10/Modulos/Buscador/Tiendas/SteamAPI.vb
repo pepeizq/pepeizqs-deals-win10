@@ -1,16 +1,21 @@
-﻿Imports Microsoft.Toolkit.Uwp.UI.Controls
-Imports Newtonsoft.Json
+﻿Imports Newtonsoft.Json
 
 Namespace Buscador.Tiendas
     Module SteamAPI
 
+        Public dominioImagenes As String = "https://cdn.cloudflare.steamstatic.com"
+
+        Dim tiendas As List(Of Tienda)
         Dim WithEvents bw As New BackgroundWorker
         Dim id As String
-        Dim tienda As Tienda
+        Dim nuevaTienda As Tienda
 
-        Public Sub Buscar(id_ As String)
+        Public Sub Buscar(tiendas_ As List(Of Tienda), id_ As String)
 
+            tiendas = tiendas_
             id = id_
+
+            nuevaTienda = Nothing
 
             If bw.IsBusy = False Then
                 bw.RunWorkerAsync()
@@ -41,7 +46,7 @@ Namespace Buscador.Tiendas
                             precio = precio.Replace("€", " €")
                         End If
 
-                        tienda = New Tienda(pepeizq.Editor.pepeizqdeals.Referidos.Generar("https://store.steampowered.com/app/" + id + "/"), precio, "Assets/Tiendas/steam3.png", Nothing, Nothing)
+                        nuevaTienda = New Tienda(pepeizq.Editor.pepeizqdeals.Referidos.Generar("https://store.steampowered.com/app/" + id + "/"), precio, "Assets/Tiendas/steam3.png", Nothing, Nothing)
                     End If
                 End If
             Catch ex As Exception
@@ -55,8 +60,8 @@ Namespace Buscador.Tiendas
             Dim frame As Frame = Window.Current.Content
             Dim pagina As Page = frame.Content
 
-            If Not tienda Is Nothing Then
-                AñadirTienda(tienda)
+            If Not nuevaTienda Is Nothing Then
+                AñadirTienda(tiendas, nuevaTienda)
             End If
 
             Dim pb As ProgressBar = pagina.FindName("pbBusquedaJuego")

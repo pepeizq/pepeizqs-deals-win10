@@ -281,8 +281,8 @@
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Grid.Column="0" Orientation="Vertical" VerticalAlignment="Top" Padding="30" Width="350">
-                        <controls:DropShadowPanel Color="Black" ShadowOpacity="0.9" BlurRadius="10" HorizontalAlignment="Center">
-                            <controls:ImageEx x:Name="imagenBusquedaJuego" IsCacheEnabled="True" MaxWidth="300"/>
+                        <controls:DropShadowPanel Color="Black" ShadowOpacity="0.9" BlurRadius="10" HorizontalAlignment="Center" Margin="40,20,40,20">
+                            <controls:ImageEx x:Name="imagenBusquedaJuego" IsCacheEnabled="True" MaxWidth="250"/>
                         </controls:DropShadowPanel> 
                        
                         <ProgressBar x:Name="pbBusquedaJuego" Foreground="White" Margin="0,30,0,10"/>
@@ -329,8 +329,19 @@
                             </StackPanel>
                         </controls:DropShadowPanel>
                     </StackPanel>
-                    
-                    <controls:AdaptiveGridView x:Name="gvBusquedaJuegoTiendas" Grid.Column="1" Margin="30" HorizontalAlignment="Center"/>
+
+                    <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
+                        <StackPanel Orientation="Vertical" Padding="30" HorizontalAlignment="Stretch">
+                            <ListView x:Name="lvBusquedaJuegoTiendas" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                            </ListView>
+                        </StackPanel>
+                    </ScrollViewer>
                 </Grid>
 
                 <Grid x:Name="gridDeseados" Visibility="Collapsed">
@@ -362,8 +373,6 @@
                             </Grid>
                         </StackPanel>
                     </ScrollViewer>
-                    
-                    
                 </Grid>
 
                 <Grid Visibility="Collapsed">

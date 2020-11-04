@@ -1,5 +1,4 @@
 ﻿Imports System.Globalization
-Imports Microsoft.Toolkit.Uwp.UI.Controls
 Imports Newtonsoft.Json
 Imports Windows.Globalization.NumberFormatting
 Imports Windows.System.UserProfile
@@ -7,14 +6,18 @@ Imports Windows.System.UserProfile
 Namespace Buscador.Tiendas
     Module Humble
 
+        Dim tiendas As List(Of Tienda)
         Dim WithEvents bw As New BackgroundWorker
         Dim titulo As String
-        Dim tienda As Tienda
+        Dim nuevaTienda As Tienda
         Dim mensaje As String
 
-        Public Sub Buscar(titulo_ As String)
+        Public Sub Buscar(tiendas_ As List(Of Tienda), titulo_ As String)
 
+            tiendas = tiendas_
             titulo = titulo_
+
+            nuevaTienda = Nothing
 
             If bw.IsBusy = False Then
                 bw.RunWorkerAsync()
@@ -96,7 +99,7 @@ Namespace Buscador.Tiendas
                                         End If
                                     End If
 
-                                    tienda = New Tienda(pepeizq.Editor.pepeizqdeals.Referidos.Generar(enlace), precio, "Assets/Tiendas/humble3.png", mensaje, Nothing)
+                                    nuevaTienda = New Tienda(pepeizq.Editor.pepeizqdeals.Referidos.Generar(enlace), precio, "Assets/Tiendas/humble3.png", mensaje, Nothing)
                                 End If
                             End If
                         End If
@@ -113,8 +116,8 @@ Namespace Buscador.Tiendas
             Dim frame As Frame = Window.Current.Content
             Dim pagina As Page = frame.Content
 
-            If Not tienda Is Nothing Then
-                AñadirTienda(tienda)
+            If Not nuevaTienda Is Nothing Then
+                AñadirTienda(tiendas, nuevaTienda)
             End If
 
             Dim pb As ProgressBar = pagina.FindName("pbBusquedaJuego")

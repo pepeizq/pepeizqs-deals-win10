@@ -8,7 +8,7 @@ Namespace Buscador.Tiendas
 
         Dim WithEvents bw As New BackgroundWorker
         Dim titulo As String
-        Dim tienda As Tienda
+        Dim nuevaTienda As Tienda
         Dim salirBucles As Boolean
 
         Public Sub Buscar(titulo_ As String)
@@ -16,6 +16,8 @@ Namespace Buscador.Tiendas
             salirBucles = False
 
             titulo = titulo_
+
+            nuevaTienda = Nothing
 
             If bw.IsBusy = False Then
                 bw.RunWorkerAsync()
@@ -95,7 +97,7 @@ Namespace Buscador.Tiendas
 
                                             precio = formateador.Format(tempDouble)
 
-                                            tienda = New Tienda(pepeizq.Editor.pepeizqdeals.Referidos.Generar(enlace), precio, "Assets/Tiendas/indiegala3.png", Nothing, Nothing)
+                                            nuevaTienda = New Tienda(pepeizq.Editor.pepeizqdeals.Referidos.Generar(enlace), precio, "Assets/Tiendas/indiegala3.png", Nothing, Nothing)
                                         End If
 
                                         salirBucles = True
@@ -122,8 +124,8 @@ Namespace Buscador.Tiendas
             Dim frame As Frame = Window.Current.Content
             Dim pagina As Page = frame.Content
 
-            If Not tienda Is Nothing Then
-                AñadirTienda(tienda)
+            If Not nuevaTienda Is Nothing Then
+                'AñadirTienda(tienda)
             End If
 
             Dim pb As ProgressBar = pagina.FindName("pbBusquedaJuego")

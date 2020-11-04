@@ -1,30 +1,33 @@
 ﻿Imports System.Globalization
 Imports System.Xml.Serialization
-Imports Microsoft.Toolkit.Uwp.UI.Controls
 Imports Windows.Globalization.NumberFormatting
 Imports Windows.Storage
 
 Namespace Buscador.Tiendas
     Module GamesplanetUK
 
+        Dim tiendas As List(Of Tienda)
         Dim WithEvents bw As New BackgroundWorker
         Dim titulo As String
         Dim id As String
         Dim libra As String
-        Dim tienda As Tienda
+        Dim nuevaTienda As Tienda
 
-        Public Sub Buscar(titulo_ As String, id_ As String)
+        Public Sub Buscar(tiendas_ As List(Of Tienda), titulo_ As String, id_ As String)
 
             Dim config As ApplicationDataContainer = ApplicationData.Current.LocalSettings
 
-            If pais.DetectarEuro = True Then
+            If Pais.DetectarEuro = True Then
                 If config.Values("Estado_App") = 1 Then
                     libra = config.Values("libra")
                 End If
             End If
 
+            tiendas = tiendas_
             titulo = titulo_
             id = id_
+
+            nuevaTienda = Nothing
 
             If bw.IsBusy = False Then
                 bw.RunWorkerAsync()
@@ -75,7 +78,7 @@ Namespace Buscador.Tiendas
                                             precio = Divisas.CambioMoneda(precio, libra)
                                         End If
 
-                                        tienda = New Tienda(pepeizq.Editor.pepeizqdeals.Referidos.Generar(enlace), precio, "Assets/Tiendas/gamesplanet3.png", Nothing, "uk")
+                                        nuevaTienda = New Tienda(pepeizq.Editor.pepeizqdeals.Referidos.Generar(enlace), precio, "Assets/Tiendas/gamesplanet3.png", Nothing, "uk")
                                     End If
                                 End If
                             Next
@@ -93,8 +96,8 @@ Namespace Buscador.Tiendas
             Dim frame As Frame = Window.Current.Content
             Dim pagina As Page = frame.Content
 
-            If Not tienda Is Nothing Then
-                AñadirTienda(tienda)
+            If Not nuevaTienda Is Nothing Then
+                AñadirTienda(tiendas, nuevaTienda)
             End If
 
             Dim pb As ProgressBar = pagina.FindName("pbBusquedaJuego")
