@@ -1,5 +1,4 @@
 ﻿Imports Windows.ApplicationModel.Core
-Imports Windows.Services.Store
 Imports Windows.Storage
 Imports Windows.System
 Imports Windows.System.Threading
