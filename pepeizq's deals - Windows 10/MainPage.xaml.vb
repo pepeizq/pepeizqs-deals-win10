@@ -110,10 +110,4 @@ Public NotInheritable Class MainPage
 
     End Sub
 
-
-
-
-
-
-
 End Class
