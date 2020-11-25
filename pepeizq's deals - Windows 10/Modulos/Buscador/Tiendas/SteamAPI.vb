@@ -61,7 +61,7 @@ Namespace Buscador.Tiendas
             Dim pagina As Page = frame.Content
 
             If Not nuevaTienda Is Nothing Then
-                AñadirTienda(tiendas, nuevaTienda)
+                Interfaz.Buscador.AñadirTienda(tiendas, nuevaTienda)
             End If
 
             Dim pb As ProgressBar = pagina.FindName("pbBusquedaJuego")

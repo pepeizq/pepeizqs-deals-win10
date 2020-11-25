@@ -150,7 +150,7 @@
     <Compile Include="Modulos\Buscador\Comparadores\GGdeals.vb" />
     <Compile Include="Modulos\Buscador\Comparadores\Isthereanydeal.vb" />
     <Compile Include="Modulos\Buscador\Comparadores\SteamDB.vb" />
-    <Compile Include="Modulos\Buscador\Interfaz.vb" />
+    <Compile Include="Modulos\Interfaz\Buscador.vb" />
     <Compile Include="Modulos\Buscador\Limpieza.vb" />
     <Compile Include="Modulos\Buscador\Motor.vb" />
     <Compile Include="Modulos\Buscador\Tiendas\Allyouplay.vb" />
@@ -172,10 +172,13 @@
     <Compile Include="Modulos\Decompiladores.vb" />
     <Compile Include="Modulos\Deseados.vb" />
     <Compile Include="Modulos\Divisas.vb" />
-    <Compile Include="Modulos\GridVisibilidad.vb" />
-    <Compile Include="Modulos\Interfaz.vb" />
+    <Compile Include="Modulos\Interfaz\Entradas.vb" />
+    <Compile Include="Modulos\Interfaz\EfectosHover.vb" />
+    <Compile Include="Modulos\Interfaz\Inicio.vb" />
+    <Compile Include="Modulos\Interfaz\NavigationViewItems.vb" />
+    <Compile Include="Modulos\Interfaz\Pestañas.vb" />
+    <Compile Include="Modulos\Interfaz\RedesSociales.vb" />
     <Compile Include="Modulos\MasCosas.vb" />
-    <Compile Include="Modulos\NavigationViewItems.vb" />
     <Compile Include="Modulos\Notificaciones.vb" />
     <Compile Include="Modulos\Pais.vb" />
     <Compile Include="Modulos\Push.vb" />

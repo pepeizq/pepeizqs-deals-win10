@@ -20,17 +20,12 @@ Module Wordpress
             actualizar = actualizar_
 
             Trial.Detectar(False)
-            GridVisibilidad.Mostrar("gridCarga")
 
             Dim frame As Frame = Window.Current.Content
             Dim pagina As Page = frame.Content
 
-            Dim tbTitulo As TextBlock = pagina.FindName("tbTitulo")
-            tbTitulo.Text = "pepeizq's deals (" + Package.Current.Id.Version.Major.ToString + "." + Package.Current.Id.Version.Minor.ToString + "." + Package.Current.Id.Version.Build.ToString + "." + Package.Current.Id.Version.Revision.ToString + ")"
-
-            If Not categoria_ = Nothing Then
-                tbTitulo.Text = tbTitulo.Text + " • " + categoria_
-            End If
+            Dim gridCarga As Grid = pagina.FindName("gridCarga")
+            Interfaz.Pestañas.Visibilidad_Pestañas(gridCarga, Nothing)
 
             Dim spEntradas As StackPanel = pagina.FindName("spEntradas")
             spEntradas.Children.Clear()
@@ -201,7 +196,8 @@ Module Wordpress
             gvFiltroJuegosDeseados.Tag = entradas
         End If
 
-        GridVisibilidad.Mostrar("gridEntradas")
+        Dim gridEntradas As Grid = pagina.FindName("gridEntradas")
+        Interfaz.Pestañas.Visibilidad_Pestañas(gridEntradas, categoriaS)
 
         Deseados.CargarUsuario()
 

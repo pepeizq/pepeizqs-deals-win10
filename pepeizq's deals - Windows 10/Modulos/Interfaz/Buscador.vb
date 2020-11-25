@@ -1,13 +1,14 @@
 ﻿Imports System.Net
 Imports Microsoft.Toolkit.Uwp.UI.Animations
 Imports Microsoft.Toolkit.Uwp.UI.Controls
+Imports pepeizq_s_deals___Windows_10.Buscador
 Imports Windows.Storage
 Imports Windows.System
 Imports Windows.UI
 Imports Windows.UI.Core
 
-Namespace Buscador
-    Module Interfaz
+Namespace Interfaz
+    Module Buscador
 
         Public Function ResultadoWeb(resultado As pepeizqdeals)
 
@@ -35,7 +36,8 @@ Namespace Buscador
                 .BorderThickness = New Thickness(0, 0, 0, 0),
                 .Tag = resultado,
                 .Margin = New Thickness(5, 10, 5, 10),
-                .Content = spJuego
+                .Content = spJuego,
+                .Style = App.Current.Resources("ButtonRevealStyle")
             }
 
             AddHandler boton.Click, AddressOf AbrirEnlaceClick
@@ -99,12 +101,13 @@ Namespace Buscador
                 .BorderThickness = New Thickness(0, 0, 0, 0),
                 .Tag = resultado,
                 .Margin = New Thickness(5, 5, 5, 5),
-                .Content = imagen
+                .Content = imagen,
+                .Style = App.Current.Resources("ButtonRevealStyle")
             }
 
             AddHandler boton.Click, AddressOf AbrirJuegoClick
-            AddHandler boton.PointerEntered, AddressOf UsuarioEntraBotonBusquedaSteam
-            AddHandler boton.PointerExited, AddressOf UsuarioSaleBotonBusquedaSteam
+            AddHandler boton.PointerEntered, AddressOf Entra_Boton_Imagen
+            AddHandler boton.PointerExited, AddressOf Sale_Boton_Imagen
 
             Return boton
 
@@ -112,33 +115,44 @@ Namespace Buscador
 
         Private Sub ImagenFalla(sender As Object, e As ImageExFailedEventArgs)
 
+            Dim borrar As Boolean = True
+
             Dim frame As Frame = Window.Current.Content
             Dim pagina As Page = frame.Content
 
             Dim imagen As ImageEx = sender
-            Dim juego As SteamWeb = imagen.Tag
+            Dim imagenFuente As String = imagen.Source
 
-            Dim gv1 As AdaptiveGridView = pagina.FindName("gvBuscadorJuegos")
+            If imagenFuente.Contains("/library_600x900.jpg") Then
+                imagen.Source = imagenFuente.Replace("/library_600x900.jpg", "/header.jpg")
+                borrar = False
+            End If
 
-            For Each item In gv1.Items
-                Dim sp As Button = item
-                Dim juegoItem As SteamWeb = sp.Tag
+            If borrar = True Then
+                Dim juego As SteamWeb = imagen.Tag
 
-                If juego.ID = juegoItem.ID Then
-                    gv1.Items.Remove(item)
-                End If
-            Next
+                Dim gv1 As AdaptiveGridView = pagina.FindName("gvBuscadorJuegos")
 
-            Dim gv2 As AdaptiveGridView = pagina.FindName("gvDeseadosJuegos")
+                For Each item In gv1.Items
+                    Dim sp As Button = item
+                    Dim juegoItem As SteamWeb = sp.Tag
 
-            For Each item In gv2.Items
-                Dim sp As Button = item
-                Dim juegoItem As SteamWeb = sp.Tag
+                    If juego.ID = juegoItem.ID Then
+                        gv1.Items.Remove(item)
+                    End If
+                Next
 
-                If juego.ID = juegoItem.ID Then
-                    gv2.Items.Remove(item)
-                End If
-            Next
+                Dim gv2 As AdaptiveGridView = pagina.FindName("gvDeseadosJuegos")
+
+                For Each item In gv2.Items
+                    Dim sp As Button = item
+                    Dim juegoItem As SteamWeb = sp.Tag
+
+                    If juego.ID = juegoItem.ID Then
+                        gv2.Items.Remove(item)
+                    End If
+                Next
+            End If
 
         End Sub
 
@@ -148,26 +162,6 @@ Namespace Buscador
             Dim resultado As SteamWeb = boton.Tag
 
             BuscarJuego(resultado)
-
-        End Sub
-
-        Public Sub UsuarioEntraBotonBusquedaSteam(sender As Object, e As PointerRoutedEventArgs)
-
-            Dim boton As Button = sender
-            Dim imagen As ImageEx = boton.Content
-            imagen.Saturation(0).Start()
-
-            Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Hand, 1)
-
-        End Sub
-
-        Public Sub UsuarioSaleBotonBusquedaSteam(sender As Object, e As PointerRoutedEventArgs)
-
-            Dim boton As Button = sender
-            Dim imagen As ImageEx = boton.Content
-            imagen.Saturation(1).Start()
-
-            Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Arrow, 1)
 
         End Sub
 
@@ -276,7 +270,7 @@ Namespace Buscador
                     '-------------------------------
 
                     Dim fondoBoton As New SolidColorBrush With {
-                        .Color = App.Current.Resources("ColorPrimero"),
+                        .Color = App.Current.Resources("ColorPrimario"),
                         .Opacity = 0.5
                     }
 

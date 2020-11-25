@@ -225,7 +225,7 @@ Module Deseados
             imagen = imagen.Replace("header_292x136", "library_600x900")
 
             Dim resultado As New Buscador.SteamWeb(juego.Key, juego.Value.Titulo, imagen)
-            gvJuegos.Items.Add(Buscador.Interfaz.ResultadoSteam(resultado))
+            gvJuegos.Items.Add(Interfaz.Buscador.ResultadoSteam(resultado))
         Next
 
     End Sub

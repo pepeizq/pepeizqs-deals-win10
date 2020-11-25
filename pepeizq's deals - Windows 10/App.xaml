@@ -5,26 +5,21 @@
     RequestedTheme="Light">
 
     <Application.Resources>
-        <Color x:Key="ColorPrimero">#002033</Color>
-        <Color x:Key="ColorSegundo">#004e7a</Color>
-        <Color x:Key="ColorTercero">#2e4460</Color>
+        <Color x:Key="ColorPrimario">#002033</Color>
+        <Color x:Key="ColorSecundario">#004e7a</Color>
+        <Color x:Key="ColorTerciario">#bce6ff</Color>
         <Color x:Key="ColorCuarto">#1b2838</Color>
-        <Color x:Key="ColorQuinto">#1b98e0</Color>
 
-        <SolidColorBrush x:Key="BrushPrimero" Color="{StaticResource ColorPrimero}"/>
-        <SolidColorBrush x:Key="BrushSegundo" Color="{StaticResource ColorSegundo}"/>
-        <SolidColorBrush x:Key="BrushTercero" Color="{StaticResource ColorTercero}"/>
+        <SolidColorBrush x:Key="BrushPrimario" Color="{StaticResource ColorPrimario}"/>
+        <SolidColorBrush x:Key="BrushSecundario" Color="{StaticResource ColorSecundario}"/>
+        <SolidColorBrush x:Key="BrushTercero" Color="{StaticResource ColorTerciario}"/>
         <SolidColorBrush x:Key="BrushCuarto" Color="{StaticResource ColorCuarto}"/>
-        <SolidColorBrush x:Key="BrushQuinto" Color="{StaticResource ColorQuinto}"/>
 
-        <SolidColorBrush x:Key="Fondo" Color="{StaticResource ColorPrimero}"/>
+        <AcrylicBrush x:Key="AcrilicoFondo" BackgroundSource="HostBackdrop" TintColor="{StaticResource ColorPrimario}" FallbackColor="{StaticResource ColorCuarto}" TintOpacity=".7"/>
 
-        <AcrylicBrush x:Key="TituloFondo" BackgroundSource="Backdrop" TintColor="{StaticResource ColorPrimero}" TintOpacity=".7"/>
-
-        <SolidColorBrush x:Key="ListViewItemBackgroundSelected" Color="Transparent"/>
-        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Transparent"/>
-
-        <SolidColorBrush x:Key="SystemControlBackgroundChromeMediumLowBrush" Color="Transparent"/>
-        <SolidColorBrush x:Key="SystemControlPageBackgroundChromeLowBrush" Color="Transparent"/>
+        <Color x:Key="ColorCajaRojaFondo">#cd5c5c</Color>
+        <Color x:Key="ColorCajaRojaSombra">#6b2121</Color>
+        <Color x:Key="ColorCajaRojaBoton">#c84d4d</Color>
+        <Color x:Key="ColorCajaRojaBotonHover">#892a2a</Color>
     </Application.Resources> 
 </Application>

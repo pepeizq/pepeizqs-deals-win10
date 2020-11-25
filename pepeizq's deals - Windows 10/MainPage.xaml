@@ -10,85 +10,59 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" Loaded="Page_Loaded">
 
-    <Grid Background="{StaticResource Fondo}">
-        <Grid.Transitions>
-            <TransitionCollection>
-                <EdgeUIThemeTransition Edge="Bottom"/>
-            </TransitionCollection>
-        </Grid.Transitions>
-
+    <Grid Background="{ThemeResource SystemControlAcrylicElementBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="32"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid x:Name="gridTitulo" Grid.Row="0" Background="{StaticResource TituloFondo}">
-            <TextBlock x:Name="tbTitulo" Margin="15,0,0,0" FontSize="13" Foreground="White" VerticalAlignment="Center"/>
+        <Grid x:Name="gridTitulo" Grid.Row="0" Background="{StaticResource AcrilicoFondo}">
+            <TextBlock x:Name="tbTitulo" Margin="15,0,0,0" FontSize="12" Foreground="White" VerticalAlignment="Center"/>
         </Grid>
 
-        <NavigationView x:Name="nvPrincipal" Grid.Row="1" Loaded="Nv_Loaded" ItemInvoked="Nv_ItemInvoked" IsPaneOpen="False"
+        <NavigationView x:Name="nvPrincipal" Grid.Row="1" Background="{StaticResource AcrilicoFondo}" Loaded="Nv_Loaded" ItemInvoked="Nv_ItemInvoked" IsPaneOpen="False"
                         AlwaysShowHeader="False" IsSettingsVisible="False" PaneDisplayMode="Top" IsBackButtonVisible="Collapsed">
+
+            <NavigationView.Resources>
+                <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="Transparent" />
+            </NavigationView.Resources>
+
             <NavigationView.PaneFooter>
                 <StackPanel Orientation="Horizontal">
-                    <Button x:Name="botonTwitter" Margin="0,0,5,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" PointerEntered="UsuarioEntraBoton2" PointerExited="UsuarioSaleBoton2" Style="{StaticResource ButtonRevealStyle}">
+                    <Button x:Name="botonTwitter" Margin="0,0,5,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
                         <Button.Content>
-                            <StackPanel Orientation="Horizontal">
-                                <iconos:FontAwesome Icon="Brands_Twitter" Foreground="{StaticResource BrushPrimero}" FontSize="17"/>
-                            </StackPanel>
+                            <iconos:FontAwesome Icon="Brands_Twitter" Foreground="{StaticResource ColorPrimario}" FontSize="17"/>
                         </Button.Content>
                     </Button>
-                    <Button x:Name="botonSteam" Margin="0,0,5,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" PointerEntered="UsuarioEntraBoton2" PointerExited="UsuarioSaleBoton2" Style="{StaticResource ButtonRevealStyle}">
+                    <Button x:Name="botonSteam" Margin="0,0,5,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
                         <Button.Content>
-                            <StackPanel Orientation="Horizontal">
-                                <iconos:FontAwesome Icon="Brands_Steam" Foreground="{StaticResource BrushPrimero}" FontSize="17"/>
-                            </StackPanel>
+                            <iconos:FontAwesome Icon="Brands_Steam" Foreground="{StaticResource ColorPrimario}" FontSize="17"/>
                         </Button.Content>
                     </Button>
-                    <Button x:Name="botonReddit" Margin="0,0,5,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" PointerEntered="UsuarioEntraBoton2" PointerExited="UsuarioSaleBoton2" Style="{StaticResource ButtonRevealStyle}">
+                    <Button x:Name="botonReddit" Margin="0,0,5,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
                         <Button.Content>
-                            <StackPanel Orientation="Horizontal">
-                                <iconos:FontAwesome Icon="Brands_Reddit" Foreground="{StaticResource BrushPrimero}" FontSize="17"/>
-                            </StackPanel>
+                            <iconos:FontAwesome Icon="Brands_Reddit" Foreground="{StaticResource ColorPrimario}" FontSize="17"/>
                         </Button.Content>
                     </Button>
-                    <Button x:Name="botonDiscord" Margin="0,0,5,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" PointerEntered="UsuarioEntraBoton2" PointerExited="UsuarioSaleBoton2" Style="{StaticResource ButtonRevealStyle}">
+                    <Button x:Name="botonDiscord" Margin="0,0,5,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
                         <Button.Content>
-                            <StackPanel Orientation="Horizontal">
-                                <iconos:FontAwesome Icon="Brands_Discord" Foreground="{StaticResource BrushPrimero}" FontSize="17"/>
-                            </StackPanel>
+                            <iconos:FontAwesome Icon="Brands_Discord" Foreground="{StaticResource ColorPrimario}" FontSize="17"/>
                         </Button.Content>
                     </Button>
-                    <Button x:Name="botonTelegram" Margin="0,0,5,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" PointerEntered="UsuarioEntraBoton2" PointerExited="UsuarioSaleBoton2" Style="{StaticResource ButtonRevealStyle}">
+                    <Button x:Name="botonTelegram" Margin="0,0,5,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
                         <Button.Content>
-                            <StackPanel Orientation="Horizontal">
-                                <iconos:FontAwesome Icon="Brands_Telegram" Foreground="{StaticResource BrushPrimero}" FontSize="17"/>
-                            </StackPanel>
+                            <iconos:FontAwesome Icon="Brands_Telegram" Foreground="{StaticResource ColorPrimario}" FontSize="17"/>
                         </Button.Content>
                     </Button>
-                    <Button x:Name="botonRSS" Margin="0,0,10,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" PointerEntered="UsuarioEntraBoton2" PointerExited="UsuarioSaleBoton2" Style="{StaticResource ButtonRevealStyle}">
+                    <Button x:Name="botonRSS" Margin="0,0,10,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
                         <Button.Content>
-                            <StackPanel Orientation="Horizontal">
-                                <iconos:FontAwesome Icon="Solid_Rss" Foreground="{StaticResource BrushPrimero}" FontSize="17"/>
-                            </StackPanel>
+                            <iconos:FontAwesome Icon="Solid_Rss" Foreground="{StaticResource ColorPrimario}" FontSize="17"/>
                         </Button.Content>
                     </Button>
                 </StackPanel>
             </NavigationView.PaneFooter>
 
-            <Grid>
-                <Grid.Transitions>
-                    <TransitionCollection>
-                        <EdgeUIThemeTransition Edge="Bottom"/>
-                    </TransitionCollection>
-                </Grid.Transitions>
-
-                <Grid.Background>
-                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                        <GradientStop Color="{StaticResource ColorTercero}" Offset="0.5" />
-                        <GradientStop Color="{StaticResource ColorCuarto}" Offset="1.0" />
-                    </LinearGradientBrush>
-                </Grid.Background>
-
+            <Grid Padding="20">
                 <Grid x:Name="gridCarga" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -106,6 +80,11 @@
                     </Grid.ColumnDefinitions>
                     
                     <ScrollViewer x:Name="svEntradas" Grid.Column="0" VerticalScrollBarVisibility="Visible" Padding="0,0,25,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <ScrollViewer.Resources>
+                            <SolidColorBrush x:Key="ScrollBarThumbFill" Color="White"/>
+                            <SolidColorBrush x:Key="ScrollBarThumbFillPointerOver" Color="White"/>
+                        </ScrollViewer.Resources>
+
                         <StackPanel x:Name="spEntradas" Orientation="Vertical" Padding="20"/>
                     </ScrollViewer>
 
@@ -115,23 +94,25 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <StackPanel x:Name="spFiltroDeseados" Grid.Row="0" Orientation="Vertical">
-                            <Grid BorderBrush="White" BorderThickness="0,1,0,0"/>
+                        <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Visible">
+                            <StackPanel x:Name="spFiltroDeseados" Orientation="Vertical">
+                                <Grid BorderBrush="White" BorderThickness="0,1,0,0"/>
 
-                            <TextBlock x:Uid="WishlistFilter" Foreground="White" FontSize="16" HorizontalAlignment="Center" Margin="0,20,0,10"/>
+                                <TextBlock x:Uid="WishlistFilter" Foreground="White" FontSize="16" HorizontalAlignment="Center" Margin="0,20,0,10"/>
 
-                            <controls:AdaptiveGridView x:Name="gvFiltroJuegosDeseados" DesiredWidth="155" Padding="15">
-                                <GridView.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <ItemsWrapGrid MaximumRowsOrColumns="2" Orientation="Horizontal"/>
-                                    </ItemsPanelTemplate>
-                                </GridView.ItemsPanel>
-                            </controls:AdaptiveGridView>
+                                <controls:AdaptiveGridView x:Name="gvFiltroJuegosDeseados" DesiredWidth="155" Padding="15">
+                                    <GridView.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <ItemsWrapGrid MaximumRowsOrColumns="2" Orientation="Horizontal"/>
+                                        </ItemsPanelTemplate>
+                                    </GridView.ItemsPanel>
+                                </controls:AdaptiveGridView>
 
-                            <ProgressRing x:Name="prDeseados" Foreground="White" Margin="15" HorizontalAlignment="Center" IsActive="True" Visibility="Collapsed"/>
+                                <ProgressRing x:Name="prDeseados" Foreground="White" Margin="15" HorizontalAlignment="Center" IsActive="True" Visibility="Collapsed"/>
 
-                            <TextBlock x:Name="tbJuegosDeseadosNoHay" x:Uid="WishlistNoGames" Padding="15" FontSize="16" LineHeight="25" Foreground="White" Visibility="Collapsed" MaxWidth="340" TextWrapping="Wrap" HorizontalAlignment="Center"/>
-                        </StackPanel>
+                                <TextBlock x:Name="tbJuegosDeseadosNoHay" x:Uid="WishlistNoGames" Padding="15" FontSize="16" LineHeight="25" Foreground="White" Visibility="Collapsed" MaxWidth="340" TextWrapping="Wrap" HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </ScrollViewer>
 
                         <StackPanel x:Name="spComprarApp" Grid.Row="0" Orientation="Vertical">
                             <Grid BorderBrush="White" BorderThickness="0,1,0,0"/>
@@ -182,42 +163,39 @@
 
                             <Grid BorderBrush="White" BorderThickness="0,1,0,0" Margin="0,20"/>
 
-                            <Button x:Name="botonComprar" HorizontalAlignment="Center" Background="Transparent" BorderBrush="Transparent" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton" Style="{StaticResource ButtonRevealStyle}">
+                            <Button x:Name="botonComprar" HorizontalAlignment="Center" BorderBrush="Transparent" BorderThickness="0" Padding="15,12" Style="{StaticResource ButtonRevealStyle}">
+                                <Button.Background>
+                                    <SolidColorBrush Color="{StaticResource ColorCuarto}" Opacity="0.8"/>
+                                </Button.Background>
+
                                 <Button.Content>
-                                    <StackPanel Orientation="Horizontal" Padding="5">
-                                        <TextBlock x:Uid="TrialBuy" Foreground="White" FontSize="18"/>
-                                    </StackPanel>
+                                    <TextBlock x:Uid="TrialBuy" Foreground="White" FontSize="18"/>
                                 </Button.Content>
                             </Button>
                         </StackPanel> 
 
-                        <Grid x:Name="spControles" Grid.Row="1" VerticalAlignment="Bottom" Margin="0,20,0,0">
+                        <Grid x:Name="spControles" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,30,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            
-                            <Button x:Name="botonActualizar" Grid.Column="0" Margin="0,0,10,0" Background="Transparent" BorderBrush="Transparent" PointerEntered="UsuarioEntraBoton2" PointerExited="UsuarioSaleBoton2" Style="{StaticResource ButtonRevealStyle}">
+
+                            <Button x:Name="botonActualizar" Grid.Column="0" Margin="0,0,10,0" BorderBrush="Transparent" BorderThickness="0" Padding="15,10" Style="{StaticResource ButtonRevealStyle}">
+                                <Button.Background>
+                                    <SolidColorBrush Color="{StaticResource ColorCuarto}" Opacity="0.8"/>
+                                </Button.Background>
+                                
                                 <Button.Content>
-                                    <StackPanel Orientation="Horizontal" Padding="5">
-                                        <iconos:FontAwesome Icon="Solid_Sync" Foreground="White" FontSize="17"/>
-                                    </StackPanel>
+                                    <iconos:FontAwesome Icon="Solid_Sync" Foreground="White" FontSize="17"/>
                                 </Button.Content>
                             </Button>
-                            <Button x:Name="botonSubir" Grid.Column="1" Visibility="Collapsed" Background="Transparent" BorderBrush="Transparent" PointerEntered="UsuarioEntraBoton2" PointerExited="UsuarioSaleBoton2" Style="{StaticResource ButtonRevealStyle}">
+                            <Button x:Name="botonSubir" Grid.Column="1" Visibility="Collapsed" BorderBrush="Transparent" BorderThickness="0" Padding="15,10" Style="{StaticResource ButtonRevealStyle}">
+                                <Button.Background>
+                                    <SolidColorBrush Color="{StaticResource ColorCuarto}" Opacity="0.8"/>
+                                </Button.Background>
+
                                 <Button.Content>
-                                    <StackPanel Orientation="Horizontal" Padding="5">
-                                        <iconos:FontAwesome Icon="Solid_ArrowUp" Foreground="White" FontSize="17"/>
-                                    </StackPanel>
-                                </Button.Content>
-                            </Button>
-                            <Button x:Name="botonCalificar" Grid.Column="3" Visibility="Collapsed" Background="Transparent" BorderBrush="Transparent" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton" Style="{StaticResource ButtonRevealStyle}">
-                                <Button.Content>
-                                    <StackPanel Orientation="Horizontal" Padding="5">
-                                        <TextBlock x:Name="tbBotonCalificar" Foreground="White" FontSize="17"/>
-                                    </StackPanel>
+                                    <iconos:FontAwesome Icon="Solid_ArrowUp" Foreground="White" FontSize="17"/>
                                 </Button.Content>
                             </Button>
                         </Grid>
@@ -225,13 +203,6 @@
                 </Grid>
 
                 <Grid x:Name="gridBusqueda" Visibility="Collapsed">
-                    <Grid.Background>
-                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                            <GradientStop Color="{StaticResource ColorTercero}" Offset="0.5" />
-                            <GradientStop Color="{StaticResource ColorCuarto}" Offset="1.0" />
-                        </LinearGradientBrush>
-                    </Grid.Background>
-
                     <ScrollViewer VerticalScrollBarVisibility="Visible" Padding="0,0,30,0" HorizontalAlignment="Center">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -267,14 +238,7 @@
                     </ScrollViewer>
                 </Grid>
 
-                <Grid x:Name="gridBusquedaJuego" Visibility="Collapsed">
-                    <Grid.Background>
-                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                            <GradientStop Color="{StaticResource ColorTercero}" Offset="0.5" />
-                            <GradientStop Color="{StaticResource ColorCuarto}" Offset="1.0" />
-                        </LinearGradientBrush>
-                    </Grid.Background>
-
+                <Grid x:Name="gridBusquedaJuego" Visibility="Collapsed" Margin="20" BorderBrush="{StaticResource ColorPrimario}" BorderThickness="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
@@ -287,8 +251,12 @@
                        
                         <ProgressBar x:Name="pbBusquedaJuego" Foreground="White" Margin="0,30,0,10"/>
 
-                        <controls:DropShadowPanel x:Name="panelComparadores" Color="Black" ShadowOpacity="0.9" BlurRadius="10" Margin="0,30,0,0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
-                            <StackPanel Orientation="Vertical" Background="{StaticResource ColorTercero}" Padding="20">
+                        <controls:DropShadowPanel x:Name="panelComparadores" Color="Black" ShadowOpacity="1" BlurRadius="5" Margin="0,30,0,0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                            <StackPanel Orientation="Vertical" Padding="20" BorderBrush="{StaticResource ColorPrimario}" BorderThickness="1">
+                                <StackPanel.Background>
+                                    <SolidColorBrush Color="{StaticResource ColorCuarto}" Opacity="0.8"/>
+                                </StackPanel.Background>
+                                
                                 <TextBlock x:Uid="MininumPriceWebs" Foreground="White" TextWrapping="Wrap" FontSize="16" Margin="0,0,0,10"/>
 
                                 <Grid x:Name="gridComparadorSteamDB" Margin="0,20,0,0">
@@ -337,6 +305,8 @@
                                     <Style TargetType="ListViewItem">
                                         <Setter Property="HorizontalAlignment" Value="Stretch"/>
                                         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                        <Setter Property="Padding" Value="0"/>
+                                        <Setter Property="Margin" Value="0"/>
                                     </Style>
                                 </ListView.ItemContainerStyle>
                             </ListView>
@@ -356,7 +326,7 @@
 
                             <StackPanel Orientation="Vertical" Margin="60,0,60,20">
                                 <TextBlock x:Uid="WishlistSteamAccount" Foreground="White" FontSize="15" Margin="0,0,0,20" TextWrapping="Wrap"/>
-                                <TextBox x:Name="tbDeseadosSteam"/>
+                                <TextBox x:Name="tbDeseadosSteam" RequestedTheme="Dark"/>
                             </StackPanel>
 
                             <Grid BorderBrush="White" BorderThickness="0,1,0,0" Margin="40,30,40,30"/>
@@ -369,11 +339,13 @@
                             <TextBlock x:Uid="WishlistGamesInfo" Foreground="White" FontSize="15" Margin="60,0,60,20" TextWrapping="Wrap"/>
 
                             <Grid Padding="40,20">
-                                <controls:AdaptiveGridView x:Name="gvDeseadosJuegos" ItemHeight="350"/>
+                                <controls:AdaptiveGridView x:Name="gvDeseadosJuegos" DesiredWidth="200"/>
                             </Grid>
                         </StackPanel>
                     </ScrollViewer>
                 </Grid>
+
+                <Grid x:Name="gridMasCosas" Visibility="Collapsed"/>
 
                 <Grid Visibility="Collapsed">
                     <WebView x:Name="wvSteamDB"/>

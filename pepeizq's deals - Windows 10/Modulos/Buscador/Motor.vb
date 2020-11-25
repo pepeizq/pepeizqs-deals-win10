@@ -30,7 +30,9 @@ Namespace Buscador
                 Dim spEntradas As StackPanel = pagina.FindName("spBusquedaEntradas")
 
                 If tb.Text.Trim.Length > 0 Then
-                    GridVisibilidad.Mostrar("gridBusqueda")
+                    Dim gridBusqueda As Grid = pagina.FindName("gridBusqueda")
+                    Interfaz.Pestañas.Visibilidad_Pestañas(gridBusqueda, Nothing)
+
                     spCarga.Visibility = Visibility.Visible
                     spEntradas.Visibility = Visibility.Collapsed
 
@@ -45,7 +47,7 @@ Namespace Buscador
                         spResultados.Children.Clear()
 
                         For Each resultado In resultadosWeb
-                            spResultados.Children.Add(ResultadoWeb(resultado))
+                            spResultados.Children.Add(Interfaz.Buscador.ResultadoWeb(resultado))
                         Next
 
                         spEntradas.Visibility = Visibility.Visible
@@ -64,8 +66,6 @@ Namespace Buscador
 
         Public Async Sub BuscarJuego(juego As SteamWeb)
 
-            GridVisibilidad.Mostrar("gridBusquedaJuego")
-
             Dim tiendas As New List(Of Tienda)
             tiendas.Clear()
 
@@ -75,6 +75,8 @@ Namespace Buscador
             Dim pagina As Page = frame.Content
 
             Dim gridBusquedaJuego As Grid = pagina.FindName("gridBusquedaJuego")
+            Interfaz.Pestañas.Visibilidad_Pestañas(gridBusquedaJuego, juego.Titulo)
+
             Dim fondo As String = SteamAPI.dominioImagenes + "/steam/apps/" + juego.ID + "/page_bg_generated_v6b.jpg"
             Dim fondoBrush As New ImageBrush With {
                 .ImageSource = New BitmapImage(New Uri(fondo)),

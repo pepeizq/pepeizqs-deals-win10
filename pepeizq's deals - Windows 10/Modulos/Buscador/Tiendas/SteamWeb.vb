@@ -132,7 +132,7 @@ Namespace Buscador.Tiendas
                 gvResultados.Items.Clear()
 
                 For Each juego In listaJuegos
-                    gvResultados.Items.Add(ResultadoSteam(juego))
+                    gvResultados.Items.Add(Interfaz.ResultadoSteam(juego))
                 Next
             End If
 
