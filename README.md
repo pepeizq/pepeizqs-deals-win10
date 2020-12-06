@@ -9,6 +9,6 @@ Interact with the web [pepeizqdeals.com](https://pepeizqdeals.com/), more inform
 ### Video on Youtube
 https://www.youtube.com/watch?v=uF6zm8cTakE
 
-[![Image1](https://i.imgur.com/6DpC460.png)](https://pepeizqapps.com/app/pepeizqs-deals/)
+[![Image1](https://i.imgur.com/RVCW3ym.png)](https://pepeizqapps.com/app/pepeizqs-deals/)
 
-[![Image2](https://i.imgur.com/f8XAPOX.png)](https://pepeizqapps.com/app/pepeizqs-deals/)
+[![Image2](https://i.imgur.com/V24KFM8.png)](https://pepeizqapps.com/app/pepeizqs-deals/)
