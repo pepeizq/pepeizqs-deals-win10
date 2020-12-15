@@ -242,5 +242,25 @@ Namespace Interfaz
 
         End Sub
 
+        Public Sub Entra_Boton_Grid(sender As Object, e As PointerRoutedEventArgs)
+
+            Dim boton As Button = sender
+            Dim grid As Grid = boton.Content
+            grid.Saturation(1).Scale(1.03, 1.03, grid.ActualWidth / 2, grid.ActualHeight / 2).Start()
+
+            Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Hand, 1)
+
+        End Sub
+
+        Public Sub Sale_Boton_Grid(sender As Object, e As PointerRoutedEventArgs)
+
+            Dim boton As Button = sender
+            Dim grid As Grid = boton.Content
+            grid.Saturation(1).Scale(1, 1, grid.ActualWidth / 2, grid.ActualHeight / 2).Start()
+
+            Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Arrow, 1)
+
+        End Sub
+
     End Module
 End Namespace

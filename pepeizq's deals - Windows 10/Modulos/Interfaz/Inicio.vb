@@ -25,6 +25,12 @@
             AddHandler botonComprar.PointerEntered, AddressOf Entra_Boton_Texto
             AddHandler botonComprar.PointerExited, AddressOf Sale_Boton_Texto
 
+            Dim botonSorteos As Button = pagina.FindName("botonSorteosImagen")
+
+            AddHandler botonSorteos.Click, AddressOf AbrirSorteosClick
+            AddHandler botonSorteos.PointerEntered, AddressOf Entra_Boton_Grid
+            AddHandler botonSorteos.PointerExited, AddressOf Sale_Boton_Grid
+
         End Sub
 
         Private Sub ActualizarClick(sender As Object, e As RoutedEventArgs)
@@ -58,6 +64,12 @@
             Dim svEntradas As ScrollViewer = pagina.FindName("svEntradas")
 
             svEntradas.ChangeView(Nothing, 0, Nothing)
+
+        End Sub
+
+        Private Sub AbrirSorteosClick(sender As Object, e As RoutedEventArgs)
+
+
 
         End Sub
 

@@ -43,8 +43,17 @@ Public Class Entrada
     <JsonProperty("link")>
     Public Enlace As String
 
-    <JsonProperty("game_price_lowest")>
-    Public JuegoPrecioMinimo As String
+    <JsonProperty("store_name")>
+    Public Tienda As String
+
+    <JsonProperty("store_logo")>
+    Public TiendaLogo As String
+
+    <JsonProperty("json_deals")>
+    Public JsonOfertas As String
+
+    <JsonProperty("json_deals_expanded")>
+    Public JsonOfertasExpandido As String
 
 End Class
 
@@ -59,5 +68,46 @@ Public Class EntradaContenido
 
     <JsonProperty("rendered")>
     Public Texto As String
+
+End Class
+
+Public Class EntradaExpandida
+
+    <JsonProperty("message")>
+    Public Mensaje As String
+
+    <JsonProperty("games")>
+    Public Juegos As List(Of EntradaExpandidaJuego)
+
+End Class
+
+Public Class EntradaExpandidaJuego
+
+    <JsonProperty("title")>
+    Public Titulo As String
+
+    <JsonProperty("image")>
+    Public Imagen As String
+
+    <JsonProperty("link")>
+    Public Enlace As String
+
+    <JsonProperty("dscnt")>
+    Public Descuento As String
+
+    <JsonProperty("price")>
+    Public Precio As String
+
+    <JsonProperty("drm")>
+    Public DRM As String
+
+    <JsonProperty("revw1")>
+    Public AnalisisPorcentaje As String
+
+    <JsonProperty("revw2")>
+    Public AnalisisCantidad As String
+
+    <JsonProperty("revw3")>
+    Public AnalisisEnlace As String
 
 End Class

@@ -132,13 +132,16 @@
   <data name="Deals2" xml:space="preserve">
     <value>Deals</value>
   </data>
+  <data name="FollowDeals.Text" xml:space="preserve">
+    <value>Follow the deals:</value>
+  </data>
   <data name="Free.Text" xml:space="preserve">
     <value>Free</value>
   </data>
   <data name="Free2" xml:space="preserve">
     <value>Free</value>
   </data>
-  <data name="Giveaways" xml:space="preserve">
+  <data name="Giveaways.Text" xml:space="preserve">
     <value>Giveaways</value>
   </data>
   <data name="Home" xml:space="preserve">
@@ -213,6 +216,9 @@
   <data name="Search" xml:space="preserve">
     <value>Search</value>
   </data>
+  <data name="SearchGame" xml:space="preserve">
+    <value>Search for a game</value>
+  </data>
   <data name="Searching.Text" xml:space="preserve">
     <value>Searching</value>
   </data>
@@ -246,7 +252,7 @@
   <data name="TrialInfo4.Text" xml:space="preserve">
     <value>If you are a European user, all prices calculated in Euro in the search engine.</value>
   </data>
-  <data name="Wishlist" xml:space="preserve">
+  <data name="Wishlist.Text" xml:space="preserve">
     <value>Wishlist</value>
   </data>
   <data name="WishlistFilter.Text" xml:space="preserve">

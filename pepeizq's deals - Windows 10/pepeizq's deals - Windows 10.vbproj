@@ -177,7 +177,7 @@
     <Compile Include="Modulos\Interfaz\Inicio.vb" />
     <Compile Include="Modulos\Interfaz\NavigationViewItems.vb" />
     <Compile Include="Modulos\Interfaz\Pestañas.vb" />
-    <Compile Include="Modulos\Interfaz\RedesSociales.vb" />
+    <Compile Include="Modulos\Interfaz\Submenu.vb" />
     <Compile Include="Modulos\MasCosas.vb" />
     <Compile Include="Modulos\Notificaciones.vb" />
     <Compile Include="Modulos\Pais.vb" />
@@ -251,17 +251,6 @@
     <Content Include="Assets\Paises\uk.png" />
     <Content Include="Assets\Paises\us.png" />
     <Content Include="Assets\pepeizqsdeals_logo.png" />
-    <Content Include="Assets\Tiendas\allyouplay3.png" />
-    <Content Include="Assets\Tiendas\fanatical3.png" />
-    <Content Include="Assets\Tiendas\gamersgate3.png" />
-    <Content Include="Assets\Tiendas\gamesplanet3.png" />
-    <Content Include="Assets\Tiendas\gmg3.png" />
-    <Content Include="Assets\Tiendas\gog3.png" />
-    <Content Include="Assets\Tiendas\humble3.png" />
-    <Content Include="Assets\Tiendas\indiegala3.png" />
-    <Content Include="Assets\Tiendas\steam3.png" />
-    <Content Include="Assets\Tiendas\voidu3.png" />
-    <Content Include="Assets\Tiendas\wingamestore3.png" />
     <Content Include="My Project\Default.rd.xml" />
     <None Include="Package.StoreAssociation.xml" />
   </ItemGroup>

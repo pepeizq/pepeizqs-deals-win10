@@ -89,6 +89,7 @@ Module Wordpress
 
         If Not entradas Is Nothing Then
             If entradas.Count > 0 Then
+                Dim fechas As New List(Of String)
                 Dim spEntradas As StackPanel = pagina.FindName("spEntradas")
 
                 For Each entrada In entradas
@@ -140,8 +141,23 @@ Module Wordpress
                     End If
 
                     If añadir = True Then
+                        Dim añadirFecha As Boolean = True
+                        Dim fecha As Date = Date.Parse(entrada.Fecha)
+
+                        If fechas.Count > 0 Then
+                            For Each fecha2 In fechas
+                                If fecha2 = fecha.Date.ToString Then
+                                    añadirFecha = False
+                                End If
+                            Next
+                        End If
+
+                        If añadirFecha = True Then
+                            fechas.Add(fecha.Date.ToString)
+                            spEntradas.Children.Add(Interfaz.GenerarFecha(fecha.Date))
+                        End If
+
                         spEntradas.Children.Add(Interfaz.GenerarEntrada(entrada))
-                        spEntradas.Children.Add(Interfaz.GenerarCompartir(entrada))
                     End If
 
                     '-------------------------------------------------------------
@@ -183,6 +199,20 @@ Module Wordpress
                             Catch ex As Exception
 
                             End Try
+                        End If
+
+                        Dim botonSorteos As Button = pagina.FindName("botonSorteos")
+                        Dim botonSorteosImagen As Button = pagina.FindName("botonSorteosImagen")
+
+                        If entrada.Titulo.Texto.Contains("New Giveaways on SteamGifts • News") Then
+                            botonSorteos.Visibility = Visibility.Visible
+                            botonSorteosImagen.Visibility = Visibility.Visible
+
+                            Dim imagenBotonSorteos As ImageEx = pagina.FindName("imagenBotonSorteos")
+                            imagenBotonSorteos.Source = entrada.Imagen
+                        Else
+                            botonSorteos.Visibility = Visibility.Collapsed
+                            botonSorteosImagen.Visibility = Visibility.Collapsed
                         End If
                     End If
                 Next

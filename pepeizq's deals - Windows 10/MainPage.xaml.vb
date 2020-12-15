@@ -9,25 +9,15 @@ Public NotInheritable Class MainPage
 
     Private Sub Nv_Loaded(sender As Object, e As RoutedEventArgs)
 
-        Dim config As ApplicationDataContainer = ApplicationData.Current.LocalSettings
         Dim recursos As New Resources.ResourceLoader()
 
         nvPrincipal.MenuItems.Add(Interfaz.NavigationViewItems.Generar(recursos.GetString("Home"), FontAwesome5.EFontAwesomeIcon.Solid_Home))
-        nvPrincipal.MenuItems.Add(Interfaz.Busqueda)
-        nvPrincipal.MenuItems.Add(New NavigationViewItemSeparator)
-        nvPrincipal.MenuItems.Add(Interfaz.NavigationViewItems.Generar(recursos.GetString("Deals2"), Nothing))
-        nvPrincipal.MenuItems.Add(Interfaz.NavigationViewItems.Generar(recursos.GetString("Bundles2"), Nothing))
-        nvPrincipal.MenuItems.Add(Interfaz.NavigationViewItems.Generar(recursos.GetString("Free2"), Nothing))
-        nvPrincipal.MenuItems.Add(Interfaz.NavigationViewItems.Generar(recursos.GetString("Subscriptions2"), Nothing))
-        nvPrincipal.MenuItems.Add(New NavigationViewItemSeparator)
-        nvPrincipal.MenuItems.Add(Interfaz.NavigationViewItems.Generar(recursos.GetString("Wishlist"), Nothing))
-        nvPrincipal.MenuItems.Add(Interfaz.NavigationViewItems.Generar(recursos.GetString("Giveaways"), Nothing))
         nvPrincipal.MenuItems.Add(New NavigationViewItemSeparator)
         nvPrincipal.MenuItems.Add(Interfaz.NavigationViewItems.Generar(recursos.GetString("MoreThings"), FontAwesome5.EFontAwesomeIcon.Solid_Cube))
 
     End Sub
 
-    Private Async Sub Nv_ItemInvoked(sender As NavigationView, args As NavigationViewItemInvokedEventArgs)
+    Private Sub Nv_ItemInvoked(sender As NavigationView, args As NavigationViewItemInvokedEventArgs)
 
         Dim recursos As New Resources.ResourceLoader()
 
@@ -40,18 +30,6 @@ Public NotInheritable Class MainPage
             If Not item Is Nothing Then
                 If item.Text = recursos.GetString("Home") Then
                     CargarEntradas(100, Nothing, False)
-                ElseIf item.Text = recursos.GetString("Deals2") Then
-                    CargarEntradas(100, recursos.GetString("Deals2"), False)
-                ElseIf item.Text = recursos.GetString("Bundles2") Then
-                    CargarEntradas(100, recursos.GetString("Bundles2"), False)
-                ElseIf item.Text = recursos.GetString("Free2") Then
-                    CargarEntradas(100, recursos.GetString("Free2"), False)
-                ElseIf item.Text = recursos.GetString("Subscriptions2") Then
-                    CargarEntradas(100, recursos.GetString("Subscriptions2"), False)
-                ElseIf item.Text = recursos.GetString("Wishlist") Then
-                    Interfaz.Pestañas.Visibilidad_Pestañas(gridDeseados, Nothing)
-                ElseIf item.Text = recursos.GetString("Giveaways") Then
-                    Await Launcher.LaunchUriAsync(New Uri("https://pepeizqdeals.com/giveaways/"))
                 ElseIf item.Text = recursos.GetString("MoreThings") Then
                     Interfaz.Pestañas.Visibilidad_Pestañas(gridMasCosas, Nothing)
                 End If
@@ -70,7 +48,8 @@ Public NotInheritable Class MainPage
         Deseados.Cargar()
         Trial.Detectar(True)
         Interfaz.Inicio.Cargar()
-        Interfaz.RedesSociales.Cargar()
+        Interfaz.Buscador.Cargar()
+        Interfaz.Submenu.Cargar()
         MasCosas.Cargar()
 
         Dim config As ApplicationDataContainer = ApplicationData.Current.LocalSettings
@@ -102,8 +81,10 @@ Public NotInheritable Class MainPage
         Dim sv As ScrollViewer = sender
 
         If sv.VerticalOffset > 50 Then
+            gridEntradasSubmenu.Visibility = Visibility.Collapsed
             botonSubir.Visibility = Visibility.Visible
         Else
+            gridEntradasSubmenu.Visibility = Visibility.Visible
             botonSubir.Visibility = Visibility.Collapsed
         End If
 

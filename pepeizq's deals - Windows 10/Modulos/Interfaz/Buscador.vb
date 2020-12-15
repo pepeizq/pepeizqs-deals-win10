@@ -10,6 +10,20 @@ Imports Windows.UI.Core
 Namespace Interfaz
     Module Buscador
 
+        Public Sub Cargar()
+
+            Dim recursos As New Resources.ResourceLoader()
+
+            Dim frame As Frame = Window.Current.Content
+            Dim pagina As Page = frame.Content
+
+            Dim tbBuscador As TextBox = pagina.FindName("tbBuscador")
+            tbBuscador.PlaceholderText = recursos.GetString("SearchGame")
+
+            AddHandler tbBuscador.TextChanged, AddressOf Motor.BuscarWebSteam
+
+        End Sub
+
         Public Function ResultadoWeb(resultado As pepeizqdeals)
 
             Dim spJuego As New StackPanel With {

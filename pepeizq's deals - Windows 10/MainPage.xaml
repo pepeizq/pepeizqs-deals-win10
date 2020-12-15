@@ -29,40 +29,12 @@
 
             <NavigationView.PaneFooter>
                 <StackPanel Orientation="Horizontal">
-                    <Button x:Name="botonTwitter" Margin="0,0,5,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
-                        <Button.Content>
-                            <iconos:FontAwesome Icon="Brands_Twitter" Foreground="{StaticResource ColorPrimario}" FontSize="17"/>
-                        </Button.Content>
-                    </Button>
-                    <Button x:Name="botonSteam" Margin="0,0,5,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
-                        <Button.Content>
-                            <iconos:FontAwesome Icon="Brands_Steam" Foreground="{StaticResource ColorPrimario}" FontSize="17"/>
-                        </Button.Content>
-                    </Button>
-                    <Button x:Name="botonReddit" Margin="0,0,5,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
-                        <Button.Content>
-                            <iconos:FontAwesome Icon="Brands_Reddit" Foreground="{StaticResource ColorPrimario}" FontSize="17"/>
-                        </Button.Content>
-                    </Button>
-                    <Button x:Name="botonDiscord" Margin="0,0,5,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
-                        <Button.Content>
-                            <iconos:FontAwesome Icon="Brands_Discord" Foreground="{StaticResource ColorPrimario}" FontSize="17"/>
-                        </Button.Content>
-                    </Button>
-                    <Button x:Name="botonTelegram" Margin="0,0,5,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
-                        <Button.Content>
-                            <iconos:FontAwesome Icon="Brands_Telegram" Foreground="{StaticResource ColorPrimario}" FontSize="17"/>
-                        </Button.Content>
-                    </Button>
-                    <Button x:Name="botonRSS" Margin="0,0,10,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
-                        <Button.Content>
-                            <iconos:FontAwesome Icon="Solid_Rss" Foreground="{StaticResource ColorPrimario}" FontSize="17"/>
-                        </Button.Content>
-                    </Button>
+                    <iconos:FontAwesome Icon="Solid_Search" Foreground="{StaticResource ColorPrimario}" Margin="0,0,10,0"/>
+                    <TextBox x:Name="tbBuscador" MinWidth="200" VerticalAlignment="Center" Margin="0,0,10,0"/>
                 </StackPanel>
             </NavigationView.PaneFooter>
 
-            <Grid Padding="20">
+            <Grid>
                 <Grid x:Name="gridCarga" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -74,135 +46,259 @@
                 </Grid>
 
                 <Grid x:Name="gridEntradas" Visibility="Collapsed">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    
-                    <ScrollViewer x:Name="svEntradas" Grid.Column="0" VerticalScrollBarVisibility="Visible" Padding="0,0,25,0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <ScrollViewer.Resources>
-                            <SolidColorBrush x:Key="ScrollBarThumbFill" Color="White"/>
-                            <SolidColorBrush x:Key="ScrollBarThumbFillPointerOver" Color="White"/>
-                        </ScrollViewer.Resources>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-                        <StackPanel x:Name="spEntradas" Orientation="Vertical" Padding="20"/>
-                    </ScrollViewer>
+                    <Grid x:Name="gridEntradasSubmenu" Grid.Row="0" Padding="10">
+                        <Grid.Background>
+                            <AcrylicBrush BackgroundSource="Backdrop" FallbackColor="{StaticResource ColorPrimario}" TintColor="{StaticResource ColorTerciario}" TintOpacity="0.2"/>
+                        </Grid.Background>
 
-                    <Grid Grid.Column="1" HorizontalAlignment="Center" Width="400" Padding="20">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
 
-                        <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Visible">
-                            <StackPanel x:Name="spFiltroDeseados" Orientation="Vertical">
-                                <Grid BorderBrush="White" BorderThickness="0,1,0,0"/>
+                        <StackPanel Grid.Column="0" Orientation="Horizontal">
+                            <TextBlock x:Uid="FollowDeals" Foreground="White" Margin="7,0,12,0" VerticalAlignment="Center"/>
 
-                                <TextBlock x:Uid="WishlistFilter" Foreground="White" FontSize="16" HorizontalAlignment="Center" Margin="0,20,0,10"/>
-
-                                <controls:AdaptiveGridView x:Name="gvFiltroJuegosDeseados" DesiredWidth="155" Padding="15">
-                                    <GridView.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <ItemsWrapGrid MaximumRowsOrColumns="2" Orientation="Horizontal"/>
-                                        </ItemsPanelTemplate>
-                                    </GridView.ItemsPanel>
-                                </controls:AdaptiveGridView>
-
-                                <ProgressRing x:Name="prDeseados" Foreground="White" Margin="15" HorizontalAlignment="Center" IsActive="True" Visibility="Collapsed"/>
-
-                                <TextBlock x:Name="tbJuegosDeseadosNoHay" x:Uid="WishlistNoGames" Padding="15" FontSize="16" LineHeight="25" Foreground="White" Visibility="Collapsed" MaxWidth="340" TextWrapping="Wrap" HorizontalAlignment="Center"/>
-                            </StackPanel>
-                        </ScrollViewer>
-
-                        <StackPanel x:Name="spComprarApp" Grid.Row="0" Orientation="Vertical">
-                            <Grid BorderBrush="White" BorderThickness="0,1,0,0"/>
-
-                            <StackPanel Orientation="Vertical" Padding="10,0">
-                                <TextBlock x:Uid="TrialInfo" Foreground="White" FontSize="16" Margin="0,20,0,10" TextWrapping="Wrap"/>
-
-                                <Grid Margin="0,10,0,10">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    
-                                    <TextBlock Grid.Column="0" Text="•" Foreground="White" FontSize="16"/>
-                                    <TextBlock x:Uid="TrialInfo1" Grid.Column="1" Foreground="White" FontSize="16" Margin="10,0,0,0" TextWrapping="Wrap"/>
-                                </Grid>
-
-                                <Grid Margin="0,10,0,10">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <TextBlock Grid.Column="0" Text="•" Foreground="White" FontSize="16"/>
-                                    <TextBlock x:Uid="TrialInfo2" Grid.Column="1" Foreground="White" FontSize="16" Margin="10,0,0,0" TextWrapping="Wrap"/>
-                                </Grid>
-
-                                <Grid Margin="0,10,0,10">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <TextBlock Grid.Column="0" Text="•" Foreground="White" FontSize="16"/>
-                                    <TextBlock x:Uid="TrialInfo3" Grid.Column="1" Foreground="White" FontSize="16" Margin="10,0,0,0" TextWrapping="Wrap"/>
-                                </Grid>
-
-                                <Grid Margin="0,10,0,10">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <TextBlock Grid.Column="0" Text="•" Foreground="White" FontSize="16"/>
-                                    <TextBlock x:Uid="TrialInfo4" Grid.Column="1" Foreground="White" FontSize="16" Margin="10,0,0,0" TextWrapping="Wrap"/>
-                                </Grid>
-                            </StackPanel>
-
-                            <Grid BorderBrush="White" BorderThickness="0,1,0,0" Margin="0,20"/>
-
-                            <Button x:Name="botonComprar" HorizontalAlignment="Center" BorderBrush="Transparent" BorderThickness="0" Padding="15,12" Style="{StaticResource ButtonRevealStyle}">
-                                <Button.Background>
-                                    <SolidColorBrush Color="{StaticResource ColorCuarto}" Opacity="0.8"/>
-                                </Button.Background>
-
-                                <Button.Content>
-                                    <TextBlock x:Uid="TrialBuy" Foreground="White" FontSize="18"/>
-                                </Button.Content>
-                            </Button>
-                        </StackPanel> 
-
-                        <Grid x:Name="spControles" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,30,0,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-
-                            <Button x:Name="botonActualizar" Grid.Column="0" Margin="0,0,10,0" BorderBrush="Transparent" BorderThickness="0" Padding="15,10" Style="{StaticResource ButtonRevealStyle}">
-                                <Button.Background>
-                                    <SolidColorBrush Color="{StaticResource ColorCuarto}" Opacity="0.8"/>
-                                </Button.Background>
+                            <Button x:Name="botonTwitter" Margin="0,0,5,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
+                                <ToolTipService.ToolTip>
+                                    <TextBlock Text="Twitter"/>
+                                </ToolTipService.ToolTip>
                                 
                                 <Button.Content>
-                                    <iconos:FontAwesome Icon="Solid_Sync" Foreground="White" FontSize="17"/>
+                                    <iconos:FontAwesome Icon="Brands_Twitter" Foreground="White" FontSize="17"/>
                                 </Button.Content>
                             </Button>
-                            <Button x:Name="botonSubir" Grid.Column="1" Visibility="Collapsed" BorderBrush="Transparent" BorderThickness="0" Padding="15,10" Style="{StaticResource ButtonRevealStyle}">
-                                <Button.Background>
-                                    <SolidColorBrush Color="{StaticResource ColorCuarto}" Opacity="0.8"/>
-                                </Button.Background>
+                            <Button x:Name="botonSteam" Margin="0,0,5,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
+                                <ToolTipService.ToolTip>
+                                    <TextBlock Text="Steam"/>
+                                </ToolTipService.ToolTip>
 
                                 <Button.Content>
-                                    <iconos:FontAwesome Icon="Solid_ArrowUp" Foreground="White" FontSize="17"/>
+                                    <iconos:FontAwesome Icon="Brands_Steam" Foreground="White" FontSize="17"/>
                                 </Button.Content>
                             </Button>
+                            <Button x:Name="botonReddit" Margin="0,0,5,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
+                                <ToolTipService.ToolTip>
+                                    <TextBlock Text="Reddit"/>
+                                </ToolTipService.ToolTip>
+
+                                <Button.Content>
+                                    <iconos:FontAwesome Icon="Brands_Reddit" Foreground="White" FontSize="17"/>
+                                </Button.Content>
+                            </Button>
+                            <Button x:Name="botonDiscord" Margin="0,0,5,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
+                                <ToolTipService.ToolTip>
+                                    <TextBlock Text="Discord"/>
+                                </ToolTipService.ToolTip>
+
+                                <Button.Content>
+                                    <iconos:FontAwesome Icon="Brands_Discord" Foreground="White" FontSize="17"/>
+                                </Button.Content>
+                            </Button>
+                            <Button x:Name="botonTelegram" Margin="0,0,5,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
+                                <ToolTipService.ToolTip>
+                                    <TextBlock Text="Telegram"/>
+                                </ToolTipService.ToolTip>
+
+                                <Button.Content>
+                                    <iconos:FontAwesome Icon="Brands_Telegram" Foreground="White" FontSize="17"/>
+                                </Button.Content>
+                            </Button>
+                            <Button x:Name="botonRSS" Margin="0,0,10,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
+                                <ToolTipService.ToolTip>
+                                    <TextBlock Text="RSS"/>
+                                </ToolTipService.ToolTip>
+
+                                <Button.Content>
+                                    <iconos:FontAwesome Icon="Solid_Rss" Foreground="White" FontSize="17"/>
+                                </Button.Content>
+                            </Button>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Orientation="Horizontal">
+                            <Button x:Name="botonOfertas" Margin="0,0,10,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
+                                <Button.Content>
+                                    <TextBlock x:Uid="Deals" Foreground="White"/>
+                                </Button.Content>
+                            </Button>
+                            <Button x:Name="botonBundles" Margin="0,0,10,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
+                                <Button.Content>
+                                    <TextBlock x:Uid="Bundles" Foreground="White"/>
+                                </Button.Content>
+                            </Button>
+                            <Button x:Name="botonGratis" Margin="0,0,10,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
+                                <Button.Content>
+                                    <TextBlock x:Uid="Free" Foreground="White"/>
+                                </Button.Content>
+                            </Button>
+                            <Button x:Name="botonSuscripciones" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
+                                <Button.Content>
+                                    <TextBlock x:Uid="Subscriptions" Foreground="White"/>
+                                </Button.Content>
+                            </Button>
+
+                            <Grid BorderBrush="White" BorderThickness="0,0,1,0" Margin="15,0" Height="17"/>
+
+                            <Button x:Name="botonListaDeseados" Margin="0,0,10,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
+                                <Button.Content>
+                                    <TextBlock x:Uid="Wishlist" Foreground="White"/>
+                                </Button.Content>
+                            </Button>
+                            <Button x:Name="botonSorteos" Margin="0,0,10,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0" Visibility="Collapsed">
+                                <Button.Content>
+                                    <TextBlock x:Uid="Giveaways" Foreground="White"/>
+                                </Button.Content>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <ScrollViewer x:Name="svEntradas" Grid.Column="0" VerticalScrollBarVisibility="Visible" Padding="0,0,25,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <ScrollViewer.Resources>
+                                <SolidColorBrush x:Key="ScrollBarThumbFill" Color="White"/>
+                                <SolidColorBrush x:Key="ScrollBarThumbFillPointerOver" Color="White"/>
+                            </ScrollViewer.Resources>
+
+                            <StackPanel x:Name="spEntradas" Orientation="Vertical" Padding="20"/>
+                        </ScrollViewer>
+
+                        <Grid Grid.Column="1" HorizontalAlignment="Center" Width="400" Padding="20">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Visible">
+                                <StackPanel Orientation="Vertical">
+                                    <Button x:Name="botonSorteosImagen" Padding="0" BorderThickness="0" Margin="0,0,0,30" HorizontalAlignment="Stretch">
+                                        <Button.Content>
+                                            <Grid>
+                                                <controls:ImageEx x:Name="imagenBotonSorteos" IsCacheEnabled="True"/>
+                                            </Grid>
+                                        </Button.Content>    
+                                    </Button> 
+
+                                    <StackPanel x:Name="spFiltroDeseados" Orientation="Vertical">
+                                        <Grid BorderBrush="White" BorderThickness="0,1,0,0"/>
+
+                                        <TextBlock x:Uid="WishlistFilter" Foreground="White" FontSize="16" HorizontalAlignment="Center" Margin="0,20,0,10"/>
+
+                                        <controls:AdaptiveGridView x:Name="gvFiltroJuegosDeseados" DesiredWidth="155" Padding="15">
+                                            <GridView.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <ItemsWrapGrid MaximumRowsOrColumns="2" Orientation="Horizontal"/>
+                                                </ItemsPanelTemplate>
+                                            </GridView.ItemsPanel>
+                                        </controls:AdaptiveGridView>
+
+                                        <ProgressRing x:Name="prDeseados" Foreground="White" Margin="15" HorizontalAlignment="Center" IsActive="True" Visibility="Collapsed"/>
+
+                                        <TextBlock x:Name="tbJuegosDeseadosNoHay" x:Uid="WishlistNoGames" Padding="15" FontSize="16" LineHeight="25" Foreground="White" Visibility="Collapsed" MaxWidth="340" TextWrapping="Wrap" HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </ScrollViewer>
+
+                            <StackPanel x:Name="spComprarApp" Grid.Row="0" Orientation="Vertical">
+                                <Grid BorderBrush="White" BorderThickness="0,1,0,0"/>
+
+                                <StackPanel Orientation="Vertical" Padding="10,0">
+                                    <TextBlock x:Uid="TrialInfo" Foreground="White" FontSize="16" Margin="0,20,0,10" TextWrapping="Wrap"/>
+
+                                    <Grid Margin="0,10,0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Column="0" Text="•" Foreground="White" FontSize="16"/>
+                                        <TextBlock x:Uid="TrialInfo1" Grid.Column="1" Foreground="White" FontSize="16" Margin="10,0,0,0" TextWrapping="Wrap"/>
+                                    </Grid>
+
+                                    <Grid Margin="0,10,0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Column="0" Text="•" Foreground="White" FontSize="16"/>
+                                        <TextBlock x:Uid="TrialInfo2" Grid.Column="1" Foreground="White" FontSize="16" Margin="10,0,0,0" TextWrapping="Wrap"/>
+                                    </Grid>
+
+                                    <Grid Margin="0,10,0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Column="0" Text="•" Foreground="White" FontSize="16"/>
+                                        <TextBlock x:Uid="TrialInfo3" Grid.Column="1" Foreground="White" FontSize="16" Margin="10,0,0,0" TextWrapping="Wrap"/>
+                                    </Grid>
+
+                                    <Grid Margin="0,10,0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Column="0" Text="•" Foreground="White" FontSize="16"/>
+                                        <TextBlock x:Uid="TrialInfo4" Grid.Column="1" Foreground="White" FontSize="16" Margin="10,0,0,0" TextWrapping="Wrap"/>
+                                    </Grid>
+                                </StackPanel>
+
+                                <Grid BorderBrush="White" BorderThickness="0,1,0,0" Margin="0,20"/>
+
+                                <Button x:Name="botonComprar" HorizontalAlignment="Center" BorderBrush="Transparent" BorderThickness="0" Padding="15,12" Style="{StaticResource ButtonRevealStyle}">
+                                    <Button.Background>
+                                        <SolidColorBrush Color="{StaticResource ColorCuarto}" Opacity="0.8"/>
+                                    </Button.Background>
+
+                                    <Button.Content>
+                                        <TextBlock x:Uid="TrialBuy" Foreground="White" FontSize="18"/>
+                                    </Button.Content>
+                                </Button>
+                            </StackPanel>
+
+                            <Grid x:Name="spControles" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,30,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button x:Name="botonActualizar" Grid.Column="0" Margin="0,0,10,0" BorderBrush="Transparent" BorderThickness="0" Padding="15,10" Style="{StaticResource ButtonRevealStyle}">
+                                    <Button.Background>
+                                        <SolidColorBrush Color="{StaticResource ColorCuarto}" Opacity="0.8"/>
+                                    </Button.Background>
+
+                                    <Button.Content>
+                                        <iconos:FontAwesome Icon="Solid_Sync" Foreground="White" FontSize="17"/>
+                                    </Button.Content>
+                                </Button>
+                                <Button x:Name="botonSubir" Grid.Column="1" Visibility="Collapsed" BorderBrush="Transparent" BorderThickness="0" Padding="15,10" Style="{StaticResource ButtonRevealStyle}">
+                                    <Button.Background>
+                                        <SolidColorBrush Color="{StaticResource ColorCuarto}" Opacity="0.8"/>
+                                    </Button.Background>
+
+                                    <Button.Content>
+                                        <iconos:FontAwesome Icon="Solid_ArrowUp" Foreground="White" FontSize="17"/>
+                                    </Button.Content>
+                                </Button>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Grid>
 
-                <Grid x:Name="gridBusqueda" Visibility="Collapsed">
+                <Grid x:Name="gridBusqueda" Visibility="Collapsed" Padding="20">
                     <ScrollViewer VerticalScrollBarVisibility="Visible" Padding="0,0,30,0" HorizontalAlignment="Center">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -238,7 +334,7 @@
                     </ScrollViewer>
                 </Grid>
 
-                <Grid x:Name="gridBusquedaJuego" Visibility="Collapsed" Margin="20" BorderBrush="{StaticResource ColorPrimario}" BorderThickness="1">
+                <Grid x:Name="gridBusquedaJuego" Visibility="Collapsed" Padding="20" Margin="20" BorderBrush="{StaticResource ColorPrimario}" BorderThickness="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
@@ -314,7 +410,7 @@
                     </ScrollViewer>
                 </Grid>
 
-                <Grid x:Name="gridDeseados" Visibility="Collapsed">
+                <Grid x:Name="gridDeseados" Visibility="Collapsed" Padding="20">
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <StackPanel Orientation="Vertical">
                             <Grid BorderBrush="White" BorderThickness="0,1,0,0" Margin="40,40,40,30"/>
@@ -345,7 +441,7 @@
                     </ScrollViewer>
                 </Grid>
 
-                <Grid x:Name="gridMasCosas" Visibility="Collapsed"/>
+                <Grid x:Name="gridMasCosas" Visibility="Collapsed" Padding="20"/>
 
                 <Grid Visibility="Collapsed">
                     <WebView x:Name="wvSteamDB"/>

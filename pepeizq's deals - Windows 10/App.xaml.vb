@@ -1,5 +1,6 @@
 ﻿Imports Windows.ApplicationModel.Core
 Imports Windows.UI
+Imports Windows.UI.Core
 
 NotInheritable Class App
     Inherits Application
