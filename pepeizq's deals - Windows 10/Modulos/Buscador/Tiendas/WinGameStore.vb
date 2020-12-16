@@ -73,7 +73,7 @@ Namespace Buscador.Tiendas
                                             precio = Divisas.CambioMoneda(precio, dolar)
                                         End If
 
-                                        nuevaTienda = New Tienda(pepeizq.Editor.pepeizqdeals.Referidos.Generar(enlace), precio, "Assets/Tiendas/wingamestore3.png", Nothing, Nothing)
+                                        nuevaTienda = New Tienda(Referidos.Generar(enlace), precio, "Assets/Tiendas/wingamestore3.png", Nothing, Nothing)
                                     End If
                                 End If
                             Next

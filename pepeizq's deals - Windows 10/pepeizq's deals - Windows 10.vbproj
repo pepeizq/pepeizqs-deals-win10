@@ -138,7 +138,6 @@
     </Compile>
     <Compile Include="Clases\Anuncio.vb" />
     <Compile Include="Clases\Buscador\pepeizqdeals.vb" />
-    <Compile Include="Clases\Buscador\Referidos.vb" />
     <Compile Include="Clases\Buscador\SteamWeb.vb" />
     <Compile Include="Clases\Buscador\Tienda.vb" />
     <Compile Include="Clases\Entrada.vb" />
@@ -172,6 +171,7 @@
     <Compile Include="Modulos\Decompiladores.vb" />
     <Compile Include="Modulos\Deseados.vb" />
     <Compile Include="Modulos\Divisas.vb" />
+    <Compile Include="Modulos\Interfaz\EntradaExpandida.vb" />
     <Compile Include="Modulos\Interfaz\Entradas.vb" />
     <Compile Include="Modulos\Interfaz\EfectosHover.vb" />
     <Compile Include="Modulos\Interfaz\Inicio.vb" />
@@ -182,6 +182,7 @@
     <Compile Include="Modulos\Notificaciones.vb" />
     <Compile Include="Modulos\Pais.vb" />
     <Compile Include="Modulos\Push.vb" />
+    <Compile Include="Modulos\Referidos.vb" />
     <Compile Include="Modulos\Trial.vb" />
     <Compile Include="Modulos\Wordpress.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -251,6 +252,27 @@
     <Content Include="Assets\Paises\uk.png" />
     <Content Include="Assets\Paises\us.png" />
     <Content Include="Assets\pepeizqsdeals_logo.png" />
+    <Content Include="Assets\Tiendas\2game3.png" />
+    <Content Include="Assets\Tiendas\allyouplay3.png" />
+    <Content Include="Assets\Tiendas\amazon3.png" />
+    <Content Include="Assets\Tiendas\blizzard3.png" />
+    <Content Include="Assets\Tiendas\d2d3.png" />
+    <Content Include="Assets\Tiendas\fanatical3.png" />
+    <Content Include="Assets\Tiendas\gamebillet3.png" />
+    <Content Include="Assets\Tiendas\gamersgate3.png" />
+    <Content Include="Assets\Tiendas\gamesplanet3.png" />
+    <Content Include="Assets\Tiendas\gmg3.png" />
+    <Content Include="Assets\Tiendas\gog3.png" />
+    <Content Include="Assets\Tiendas\humble3.png" />
+    <Content Include="Assets\Tiendas\indiegala3.png" />
+    <Content Include="Assets\Tiendas\microsoftstore3.png" />
+    <Content Include="Assets\Tiendas\nexus3.png" />
+    <Content Include="Assets\Tiendas\origin3.png" />
+    <Content Include="Assets\Tiendas\steam3.png" />
+    <Content Include="Assets\Tiendas\ubi3.png" />
+    <Content Include="Assets\Tiendas\voidu3.png" />
+    <Content Include="Assets\Tiendas\wingamestore3.png" />
+    <Content Include="Assets\Tiendas\yuplay3.png" />
     <Content Include="My Project\Default.rd.xml" />
     <None Include="Package.StoreAssociation.xml" />
   </ItemGroup>

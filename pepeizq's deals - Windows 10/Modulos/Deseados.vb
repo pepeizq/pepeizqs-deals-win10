@@ -92,11 +92,14 @@ Module Deseados
         Dim entradas As New List(Of Entrada)
         Dim spEntradas As StackPanel = pagina.FindName("spEntradas")
 
-        For Each hijo In spEntradas.Children
-            If TypeOf hijo Is DropShadowPanel Then
-                Dim panel As DropShadowPanel = hijo
-                Dim entrada As Entrada = panel.Tag
-                entradas.Add(entrada)
+        For Each grid In spEntradas.Children
+            If TypeOf grid Is Grid Then
+                Dim grid2 As Grid = grid
+                Dim entrada As Entrada = grid2.Tag
+
+                If Not entrada Is Nothing Then
+                    entradas.Add(entrada)
+                End If
             End If
         Next
 
@@ -187,26 +190,28 @@ Module Deseados
 
         Dim spEntradas As StackPanel = pagina.FindName("spEntradas")
 
-        For Each hijo In spEntradas.Children
-            If TypeOf hijo Is DropShadowPanel Then
-                Dim panel As DropShadowPanel = hijo
-                Dim entrada As Entrada = panel.Tag
+        For Each grid In spEntradas.Children
+            If TypeOf grid Is Grid Then
+                Dim grid2 As Grid = grid
+                Dim entrada As Entrada = grid2.Tag
 
-                Dim visible As Boolean = False
+                If Not entrada Is Nothing Then
+                    Dim visible As Boolean = False
 
-                For Each enlace In filtro.Enlaces
-                    If entrada.Enlace = enlace Then
-                        visible = True
+                    For Each enlace In filtro.Enlaces
+                        If entrada.Enlace = enlace Then
+                            visible = True
+                        End If
+                    Next
+
+                    If visible = True Then
+                        grid2.Visibility = Visibility.Visible
+                    Else
+                        grid2.Visibility = Visibility.Collapsed
                     End If
-                Next
-
-                If visible = True Then
-                    panel.Visibility = Visibility.Visible
                 Else
-                    panel.Visibility = Visibility.Collapsed
+                    grid2.Visibility = Visibility.Collapsed
                 End If
-            ElseIf TypeOf hijo Is StackPanel Then
-                hijo.Visibility = Visibility.Collapsed
             End If
         Next
 

@@ -49,11 +49,11 @@ Public Class Entrada
     <JsonProperty("store_logo")>
     Public TiendaLogo As String
 
-    <JsonProperty("json_deals")>
-    Public JsonOfertas As String
+    <JsonProperty("json")>
+    Public Json As String
 
-    <JsonProperty("json_deals_expanded")>
-    Public JsonOfertasExpandido As String
+    <JsonProperty("json_expanded")>
+    Public JsonExpandido As String
 
 End Class
 
@@ -71,17 +71,17 @@ Public Class EntradaContenido
 
 End Class
 
-Public Class EntradaExpandida
+Public Class EntradaOfertas
 
     <JsonProperty("message")>
     Public Mensaje As String
 
     <JsonProperty("games")>
-    Public Juegos As List(Of EntradaExpandidaJuego)
+    Public Juegos As List(Of EntradaOfertasJuego)
 
 End Class
 
-Public Class EntradaExpandidaJuego
+Public Class EntradaOfertasJuego
 
     <JsonProperty("title")>
     Public Titulo As String
@@ -109,5 +109,12 @@ Public Class EntradaExpandidaJuego
 
     <JsonProperty("revw3")>
     Public AnalisisEnlace As String
+
+End Class
+
+Public Class EntradaGratis
+
+    <JsonProperty("image")>
+    Public Imagen As String
 
 End Class

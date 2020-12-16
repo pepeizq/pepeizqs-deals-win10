@@ -164,7 +164,7 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <ScrollViewer x:Name="svEntradas" Grid.Column="0" VerticalScrollBarVisibility="Visible" Padding="0,0,25,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <ScrollViewer x:Name="svEntradas" Grid.Column="0" VerticalScrollBarVisibility="Visible" Padding="0,0,25,0" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                             <ScrollViewer.Resources>
                                 <SolidColorBrush x:Key="ScrollBarThumbFill" Color="White"/>
                                 <SolidColorBrush x:Key="ScrollBarThumbFillPointerOver" Color="White"/>
@@ -297,6 +297,43 @@
                         </Grid>
                     </Grid>
                 </Grid>
+
+                <Grid x:Name="gridEntradaExpandida" Visibility="Collapsed" Padding="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button x:Name="botonVolver" Grid.Column="0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <iconos:FontAwesome Icon="Solid_ArrowLeft" Foreground="White" Margin="0,0,15,0"/>
+                                    <TextBlock x:Uid="Back" Foreground="White"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+
+                        <TextBlock x:Name="tbMensajeEntradaExpandida" Grid.Column="1" Foreground="White" Margin="20,0"/>
+                        
+                        
+                    </Grid>
+
+                    <ScrollViewer x:Name="svEntradaExpandida" Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <ScrollViewer.Resources>
+                            <SolidColorBrush x:Key="ScrollBarThumbFill" Color="White"/>
+                            <SolidColorBrush x:Key="ScrollBarThumbFillPointerOver" Color="White"/>
+                        </ScrollViewer.Resources>
+
+                        <StackPanel x:Name="spEntradaExpandida" Orientation="Vertical"/>
+                    </ScrollViewer>
+                </Grid> 
 
                 <Grid x:Name="gridBusqueda" Visibility="Collapsed" Padding="20">
                     <ScrollViewer VerticalScrollBarVisibility="Visible" Padding="0,0,30,0" HorizontalAlignment="Center">

@@ -99,7 +99,7 @@ Namespace Buscador.Tiendas
                                         End If
                                     End If
 
-                                    nuevaTienda = New Tienda(pepeizq.Editor.pepeizqdeals.Referidos.Generar(enlace), precio, "Assets/Tiendas/humble3.png", mensaje, Nothing)
+                                    nuevaTienda = New Tienda(Referidos.Generar(enlace), precio, "Assets/Tiendas/humble3.png", mensaje, Nothing)
                                 End If
                             End If
                         End If

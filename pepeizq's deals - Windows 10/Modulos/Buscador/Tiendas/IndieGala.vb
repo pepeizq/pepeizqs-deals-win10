@@ -97,7 +97,7 @@ Namespace Buscador.Tiendas
 
                                             precio = formateador.Format(tempDouble)
 
-                                            nuevaTienda = New Tienda(pepeizq.Editor.pepeizqdeals.Referidos.Generar(enlace), precio, "Assets/Tiendas/indiegala3.png", Nothing, Nothing)
+                                            nuevaTienda = New Tienda(Referidos.Generar(enlace), precio, "Assets/Tiendas/indiegala3.png", Nothing, Nothing)
                                         End If
 
                                         salirBucles = True

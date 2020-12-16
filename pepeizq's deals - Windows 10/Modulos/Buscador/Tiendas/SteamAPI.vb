@@ -46,7 +46,7 @@ Namespace Buscador.Tiendas
                             precio = precio.Replace("€", " €")
                         End If
 
-                        nuevaTienda = New Tienda(pepeizq.Editor.pepeizqdeals.Referidos.Generar("https://store.steampowered.com/app/" + id + "/"), precio, "Assets/Tiendas/steam3.png", Nothing, Nothing)
+                        nuevaTienda = New Tienda(Referidos.Generar("https://store.steampowered.com/app/" + id + "/"), precio, "Assets/Tiendas/steam3.png", Nothing, Nothing)
                     End If
                 End If
             Catch ex As Exception

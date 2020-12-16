@@ -19,6 +19,9 @@
             Dim gridEntradas As Grid = pagina.FindName("gridEntradas")
             gridEntradas.Visibility = Visibility.Collapsed
 
+            Dim gridEntradaExpandida As Grid = pagina.FindName("gridEntradaExpandida")
+            gridEntradaExpandida.Visibility = Visibility.Collapsed
+
             Dim gridBusqueda As Grid = pagina.FindName("gridBusqueda")
             gridBusqueda.Visibility = Visibility.Collapsed
 

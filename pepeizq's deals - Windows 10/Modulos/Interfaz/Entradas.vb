@@ -15,7 +15,7 @@ Namespace Interfaz
         Public Function GenerarFecha(fecha As Date)
 
             Dim grid As New Grid With {
-                .Margin = New Thickness(0, 20, 0, 30)
+                .Margin = New Thickness(0, 20, 0, 40)
             }
 
             Dim col1 As New ColumnDefinition
@@ -42,7 +42,7 @@ Namespace Interfaz
             Dim tb As New TextBlock With {
                 .Foreground = New SolidColorBrush(Colors.White),
                 .Text = fecha.Day.ToString + "/" + fecha.Month.ToString + "/" + fecha.Year.ToString,
-                .FontSize = 20,
+                .FontSize = 22,
                 .Margin = New Thickness(25, 0, 25, 0)
             }
 
@@ -64,56 +64,101 @@ Namespace Interfaz
 
         Public Function GenerarEntrada(entrada As Entrada)
 
-            Dim nuevoDiseño As Boolean = False
+            Dim recursos As New Resources.ResourceLoader()
 
-            If Not entrada.JsonOfertas = Nothing Then
-                nuevoDiseño = True
+            Dim fondoMaestro As New SolidColorBrush With {
+                .Color = App.Current.Resources("ColorCuarto"),
+                .Opacity = 0.3
+            }
+
+            Dim gridMaestro As New Grid With {
+                .Tag = entrada,
+                .Margin = New Thickness(0, 0, 0, 60),
+                .Background = fondoMaestro,
+                .Padding = New Thickness(10, 10, 10, 10)
+            }
+
+            Dim col1 As New ColumnDefinition
+            Dim col2 As New ColumnDefinition
+
+            col1.Width = New GridLength(1, GridUnitType.Auto)
+            col2.Width = New GridLength(1, GridUnitType.Star)
+
+            gridMaestro.ColumnDefinitions.Add(col1)
+            gridMaestro.ColumnDefinitions.Add(col2)
+
+            Dim spIzquierda As New StackPanel With {
+                .Orientation = Orientation.Vertical,
+                .Margin = New Thickness(40, 30, 40, 30),
+                .VerticalAlignment = VerticalAlignment.Center
+            }
+
+            Dim imagenTienda As New ImageEx With {
+                .IsCacheEnabled = True,
+                .Width = 180,
+                .Source = entrada.TiendaLogo
+            }
+
+            spIzquierda.Children.Add(imagenTienda)
+
+            If entrada.Categorias(0) = 12 Then
+                Dim spGratis As New StackPanel With {
+                    .Background = New SolidColorBrush(Colors.Black),
+                    .Margin = New Thickness(0, 20, 0, 0),
+                    .Padding = New Thickness(10, 8, 10, 8),
+                    .HorizontalAlignment = HorizontalAlignment.Center
+                }
+
+                Dim tbGratis As New TextBlock With {
+                    .Foreground = New SolidColorBrush(Colors.White),
+                    .FontSize = 20,
+                    .Text = recursos.GetString("Free2"),
+                    .FontWeight = Text.FontWeights.SemiBold
+                }
+
+                spGratis.Children.Add(tbGratis)
+                spIzquierda.Children.Add(spGratis)
             End If
 
-            If nuevoDiseño = True Then
-                Dim gridMaestro As New Grid
+            spIzquierda.SetValue(Grid.ColumnProperty, 0)
+            gridMaestro.Children.Add(spIzquierda)
 
-                Dim col1 As New ColumnDefinition
-                Dim col2 As New ColumnDefinition
+            '------------------------------------
 
-                col1.Width = New GridLength(1, GridUnitType.Auto)
-                col2.Width = New GridLength(1, GridUnitType.Star)
+            Dim spDerecha As New StackPanel With {
+                .Orientation = Orientation.Vertical
+            }
 
-                gridMaestro.ColumnDefinitions.Add(col1)
-                gridMaestro.ColumnDefinitions.Add(col2)
+            If entrada.Categorias(0) = 3 Then
+                Dim json As EntradaOfertas = JsonConvert.DeserializeObject(Of EntradaOfertas)(entrada.Json)
 
-                Dim imagenTienda As New ImageEx With {
-                    .IsCacheEnabled = True,
-                    .VerticalAlignment = VerticalAlignment.Top,
-                    .Width = 180,
-                    .Margin = New Thickness(20, 30, 40, 0),
-                    .Source = entrada.TiendaLogo
-                }
+                Dim gv As New AdaptiveGridView
 
-                imagenTienda.SetValue(Grid.ColumnProperty, 0)
-                gridMaestro.Children.Add(imagenTienda)
+                If json.Juegos.Count = 1 Then
+                    gv.DesiredWidth = 400
+                    gv.Padding = New Thickness(2, 2, 2, 2)
+                ElseIf json.Juegos.Count > 1 Then
+                    gv.DesiredWidth = 250
+                End If
 
-                '------------------------------------
+                For Each juego In json.Juegos
+                    Dim fondoJuego As New SolidColorBrush With {
+                        .Color = App.Current.Resources("ColorCuarto"),
+                        .Opacity = 0.2
+                    }
 
-                Dim sp As New StackPanel With {
-                    .Orientation = Orientation.Vertical
-                }
-
-                Dim juegos As EntradaExpandida = JsonConvert.DeserializeObject(Of EntradaExpandida)(entrada.JsonOfertas)
-
-                Dim gv As New AdaptiveGridView With {
-                    .DesiredWidth = 250
-                }
-
-                For Each juego In juegos.Juegos
                     Dim spJuego As New StackPanel With {
-                        .Orientation = Orientation.Vertical
+                        .Orientation = Orientation.Vertical,
+                        .Background = fondoJuego,
+                        .BorderBrush = New SolidColorBrush(App.Current.Resources("ColorCuarto")),
+                        .BorderThickness = New Thickness(1, 1, 1, 1)
                     }
 
                     Dim imagenJuego As New ImageEx With {
                         .IsCacheEnabled = True,
                         .Source = juego.Imagen,
-                        .MaxHeight = 200
+                        .MaxHeight = 200,
+                        .MaxWidth = 400
                     }
 
                     spJuego.Children.Add(imagenJuego)
@@ -126,7 +171,8 @@ Namespace Interfaz
                     Dim tbDescuento As New TextBlock With {
                         .Text = juego.Descuento,
                         .Foreground = New SolidColorBrush(Colors.White),
-                        .FontSize = 18
+                        .FontSize = 20,
+                        .FontWeight = Text.FontWeights.SemiBold
                     }
 
                     Dim spDescuento As New StackPanel With {
@@ -141,7 +187,8 @@ Namespace Interfaz
                     Dim tbPrecio As New TextBlock With {
                         .Text = juego.Precio,
                         .Foreground = New SolidColorBrush(Colors.White),
-                        .FontSize = 18
+                        .FontSize = 20,
+                        .FontWeight = Text.FontWeights.SemiBold
                     }
 
                     Dim spPrecio As New StackPanel With {
@@ -157,90 +204,115 @@ Namespace Interfaz
 
                     Dim boton As New Button With {
                         .Content = spJuego,
-                        .Padding = New Thickness(0, 0, 0, 0),
-                        .Margin = New Thickness(10, 10, 10, 10),
-                        .HorizontalAlignment = HorizontalAlignment.Center,
-                        .HorizontalContentAlignment = HorizontalAlignment.Center
+                        .Padding = New Thickness(10, 10, 10, 10),
+                        .HorizontalAlignment = HorizontalAlignment.Stretch,
+                        .HorizontalContentAlignment = HorizontalAlignment.Center,
+                        .Tag = juego.Enlace,
+                        .Background = New SolidColorBrush(Colors.Transparent),
+                        .BorderBrush = New SolidColorBrush(Colors.Transparent),
+                        .BorderThickness = New Thickness(0, 0, 0, 0)
                     }
+
+                    If json.Juegos.Count = 1 Then
+                        boton.Margin = New Thickness(10, 0, 10, 0)
+                    ElseIf json.Juegos.Count > 1 Then
+                        boton.Margin = New Thickness(0, 0, 0, 0)
+                    End If
+
+                    AddHandler boton.Click, AddressOf AbrirEnlaceClick
+                    AddHandler boton.PointerEntered, AddressOf EfectosHover.Entra_Boton
+                    AddHandler boton.PointerExited, AddressOf EfectosHover.Sale_Boton
 
                     gv.Items.Add(boton)
                 Next
 
-                sp.Children.Add(gv)
+                spDerecha.Children.Add(gv)
 
-                sp.SetValue(Grid.ColumnProperty, 1)
-                gridMaestro.Children.Add(sp)
+                If Not entrada.JsonExpandido = Nothing Then
+                    Dim jsonExpandido As EntradaOfertas = JsonConvert.DeserializeObject(Of EntradaOfertas)(entrada.JsonExpandido)
 
-                Return gridMaestro
-            Else
-                Dim gridMaestro As New Grid
+                    If jsonExpandido.Juegos.Count > 6 Then
+                        Dim textoAmpliar As New TextBlock With {
+                            .Text = recursos.GetString("ShowDeals"),
+                            .Foreground = New SolidColorBrush(Colors.White),
+                            .FontSize = 17
+                        }
 
-                Dim gridImagen As New Grid With {
-                    .BorderBrush = New SolidColorBrush(App.Current.Resources("ColorPrimario")),
-                    .BorderThickness = New Thickness(2, 2, 2, 2)
+                        Dim botonAmpliar As New Button With {
+                            .Content = textoAmpliar,
+                            .HorizontalAlignment = HorizontalAlignment.Stretch,
+                            .Margin = New Thickness(10, 10, 15, 15),
+                            .Padding = New Thickness(0, 15, 0, 15),
+                            .Tag = jsonExpandido
+                        }
+
+                        AddHandler botonAmpliar.Click, AddressOf AbrirEntradaExpandidaClick
+                        AddHandler botonAmpliar.PointerEntered, AddressOf EfectosHover.Entra_Boton
+                        AddHandler botonAmpliar.PointerExited, AddressOf EfectosHover.Sale_Boton
+
+                        spDerecha.Children.Add(botonAmpliar)
+                    End If
+                End If
+            ElseIf entrada.Categorias(0) = 12 Then
+                Dim json As EntradaGratis = JsonConvert.DeserializeObject(Of EntradaGratis)(entrada.Json)
+
+                Dim gv As New AdaptiveGridView With {
+                    .DesiredWidth = 400,
+                    .Padding = New Thickness(2, 2, 2, 2)
                 }
 
-                Dim imagen As New ImageEx With {
-                    .Source = entrada.Imagen,
+                Dim imagenJuego As New ImageEx With {
                     .IsCacheEnabled = True,
-                    .Stretch = Stretch.Uniform
+                    .Source = json.Imagen,
+                    .MaxHeight = 200,
+                    .MaxWidth = 400,
+                    .BorderBrush = New SolidColorBrush(App.Current.Resources("ColorCuarto")),
+                    .BorderThickness = New Thickness(1, 1, 1, 1)
                 }
-
-                gridImagen.Children.Add(imagen)
-
-                gridMaestro.Children.Add(gridImagen)
-
-                Dim tituloTexto As String = WebUtility.HtmlDecode(entrada.Titulo.Texto)
-
-                Dim titulo As New TextBlock With {
-                    .Text = tituloTexto,
-                    .TextWrapping = TextWrapping.Wrap,
-                    .Opacity = 0,
-                    .Margin = New Thickness(40, 40, 40, 40),
-                    .FontSize = 30,
-                    .Foreground = New SolidColorBrush(App.Current.Resources("ColorTerciario")),
-                    .VerticalAlignment = VerticalAlignment.Center,
-                    .HorizontalAlignment = HorizontalAlignment.Center,
-                    .HorizontalTextAlignment = TextAlignment.Center
-                }
-
-                gridMaestro.Children.Add(titulo)
 
                 Dim boton As New Button With {
+                    .Content = imagenJuego,
+                    .Padding = New Thickness(10, 10, 10, 10),
+                    .Margin = New Thickness(10, 0, 10, 0),
+                    .HorizontalAlignment = HorizontalAlignment.Stretch,
+                    .HorizontalContentAlignment = HorizontalAlignment.Center,
+                    .Tag = entrada.Redireccion,
                     .Background = New SolidColorBrush(Colors.Transparent),
-                    .Padding = New Thickness(0, 0, 0, 0),
-                    .BorderThickness = New Thickness(0, 0, 0, 0),
-                    .Tag = entrada,
-                    .MaxWidth = 850,
-                    .Content = gridMaestro
+                    .BorderBrush = New SolidColorBrush(Colors.Transparent),
+                    .BorderThickness = New Thickness(0, 0, 0, 0)
                 }
 
                 AddHandler boton.Click, AddressOf AbrirEnlaceClick
-                AddHandler boton.PointerEntered, AddressOf UsuarioEntraBotonEntrada
-                AddHandler boton.PointerExited, AddressOf UsuarioSaleBotonEntrada
+                AddHandler boton.PointerEntered, AddressOf EfectosHover.Entra_Boton
+                AddHandler boton.PointerExited, AddressOf EfectosHover.Sale_Boton
 
-                Dim panelSombra As New DropShadowPanel With {
-                    .BlurRadius = 20,
-                    .ShadowOpacity = 0.9,
-                    .Color = Colors.Black,
-                    .Margin = New Thickness(0, 10, 0, 10),
-                    .Content = boton,
-                    .Tag = entrada
-                }
+                gv.Items.Add(boton)
 
-                Return panelSombra
+                spDerecha.Children.Add(gv)
             End If
 
-            Return Nothing
+            spDerecha.SetValue(Grid.ColumnProperty, 1)
+            gridMaestro.Children.Add(spDerecha)
+
+            Return gridMaestro
 
         End Function
 
         Private Async Sub AbrirEnlaceClick(sender As Object, e As RoutedEventArgs)
 
             Dim boton As Button = sender
-            Dim entrada As Entrada = boton.Tag
+            Dim enlace As String = boton.Tag
 
-            Await Launcher.LaunchUriAsync(New Uri(entrada.Enlace))
+            Await Launcher.LaunchUriAsync(New Uri(Referidos.Generar(enlace)))
+
+        End Sub
+
+        Private Sub AbrirEntradaExpandidaClick(sender As Object, e As RoutedEventArgs)
+
+            Dim boton As Button = sender
+            Dim juegos As EntradaOfertas = boton.Tag
+
+            EntradaExpandida.Generar(juegos)
 
         End Sub
 

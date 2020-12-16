@@ -225,6 +225,9 @@
   <data name="Share" xml:space="preserve">
     <value>Share</value>
   </data>
+  <data name="ShowDeals" xml:space="preserve">
+    <value>Show All Deals</value>
+  </data>
   <data name="SteamAccount.Text" xml:space="preserve">
     <value>Steam Account</value>
   </data>

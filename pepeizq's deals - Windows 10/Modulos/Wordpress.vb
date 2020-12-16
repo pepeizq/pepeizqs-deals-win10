@@ -154,10 +154,15 @@ Module Wordpress
 
                         If añadirFecha = True Then
                             fechas.Add(fecha.Date.ToString)
-                            spEntradas.Children.Add(Interfaz.GenerarFecha(fecha.Date))
                         End If
 
-                        spEntradas.Children.Add(Interfaz.GenerarEntrada(entrada))
+                        If Not entrada.Json = String.Empty Then
+                            If añadirFecha = True Then
+                                spEntradas.Children.Add(Interfaz.GenerarFecha(fecha.Date))
+                            End If
+
+                            spEntradas.Children.Add(Interfaz.GenerarEntrada(entrada))
+                        End If
                     End If
 
                     '-------------------------------------------------------------
@@ -216,6 +221,11 @@ Module Wordpress
                         End If
                     End If
                 Next
+
+                If spEntradas.Children.Count > 0 Then
+                    Dim grid As Grid = spEntradas.Children(spEntradas.Children.Count - 1)
+                    grid.Margin = New Thickness(0, 0, 0, 0)
+                End If
             End If
         End If
 
