@@ -1,6 +1,5 @@
 ﻿Imports Windows.ApplicationModel.Core
 Imports Windows.Storage
-Imports Windows.System
 Imports Windows.System.Threading
 Imports Windows.UI.Core
 
@@ -12,6 +11,7 @@ Public NotInheritable Class MainPage
         Dim recursos As New Resources.ResourceLoader()
 
         nvPrincipal.MenuItems.Add(Interfaz.NavigationViewItems.Generar(recursos.GetString("Home"), FontAwesome5.EFontAwesomeIcon.Solid_Home))
+        nvPrincipal.MenuItems.Add(Interfaz.NavigationViewItems.Generar(recursos.GetString("Config"), FontAwesome5.EFontAwesomeIcon.Solid_Cog))
         nvPrincipal.MenuItems.Add(New NavigationViewItemSeparator)
         nvPrincipal.MenuItems.Add(Interfaz.NavigationViewItems.Generar(recursos.GetString("MoreThings"), FontAwesome5.EFontAwesomeIcon.Solid_Cube))
 
@@ -30,6 +30,8 @@ Public NotInheritable Class MainPage
             If Not item Is Nothing Then
                 If item.Text = recursos.GetString("Home") Then
                     CargarEntradas(100, Nothing, False)
+                ElseIf item.Text = recursos.GetString("Config") Then
+                    Interfaz.Pestañas.Visibilidad_Pestañas(gridConfig, item.Text)
                 ElseIf item.Text = recursos.GetString("MoreThings") Then
                     Interfaz.Pestañas.Visibilidad_Pestañas(gridMasCosas, Nothing)
                 End If

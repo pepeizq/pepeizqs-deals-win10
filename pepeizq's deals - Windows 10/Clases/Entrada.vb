@@ -112,6 +112,26 @@ Public Class EntradaOfertasJuego
 
 End Class
 
+Public Class EntradaBundles
+
+    <JsonProperty("moregames")>
+    Public MasJuegos As String
+
+    <JsonProperty("price")>
+    Public Precio As String
+
+    <JsonProperty("games")>
+    Public Juegos As List(Of EntradaBundlesJuego)
+
+End Class
+
+Public Class EntradaBundlesJuego
+
+    <JsonProperty("image")>
+    Public Imagen As String
+
+End Class
+
 Public Class EntradaGratis
 
     <JsonProperty("image")>

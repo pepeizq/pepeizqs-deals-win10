@@ -149,6 +149,7 @@
     <Compile Include="Modulos\Buscador\Comparadores\GGdeals.vb" />
     <Compile Include="Modulos\Buscador\Comparadores\Isthereanydeal.vb" />
     <Compile Include="Modulos\Buscador\Comparadores\SteamDB.vb" />
+    <Compile Include="Modulos\Exportar\Reddit.vb" />
     <Compile Include="Modulos\Interfaz\Buscador.vb" />
     <Compile Include="Modulos\Buscador\Limpieza.vb" />
     <Compile Include="Modulos\Buscador\Motor.vb" />
@@ -196,6 +197,8 @@
     <Content Include="Assets\Comparadores\isthereanydeal.png" />
     <Content Include="Assets\Comparadores\ggdeals.png" />
     <Content Include="Assets\Comparadores\steamdb.ico" />
+    <Content Include="Assets\DRM\steam.png" />
+    <Content Include="Assets\DRM\ubi.png" />
     <Content Include="Assets\Logos\LargeTile.scale-100.png" />
     <Content Include="Assets\Logos\LargeTile.scale-125.png" />
     <Content Include="Assets\Logos\LargeTile.scale-150.png" />
@@ -252,6 +255,9 @@
     <Content Include="Assets\Paises\uk.png" />
     <Content Include="Assets\Paises\us.png" />
     <Content Include="Assets\pepeizqsdeals_logo.png" />
+    <Content Include="Assets\Reviews\mixed.png" />
+    <Content Include="Assets\Reviews\negative.png" />
+    <Content Include="Assets\Reviews\positive.png" />
     <Content Include="Assets\Tiendas\2game3.png" />
     <Content Include="Assets\Tiendas\allyouplay3.png" />
     <Content Include="Assets\Tiendas\amazon3.png" />

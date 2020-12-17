@@ -120,17 +120,29 @@
   <data name="All.Text" xml:space="preserve">
     <value>Todo</value>
   </data>
+  <data name="Back.Text" xml:space="preserve">
+    <value>Volver</value>
+  </data>
   <data name="Bundles.Text" xml:space="preserve">
     <value>Bundles</value>
   </data>
   <data name="Bundles2" xml:space="preserve">
     <value>Bundles</value>
   </data>
+  <data name="Config" xml:space="preserve">
+    <value>Configuración</value>
+  </data>
   <data name="Deals.Text" xml:space="preserve">
     <value>Ofertas</value>
   </data>
   <data name="Deals2" xml:space="preserve">
     <value>Ofertas</value>
+  </data>
+  <data name="Export.Text" xml:space="preserve">
+    <value>Exportar</value>
+  </data>
+  <data name="ExportRedditMessage" xml:space="preserve">
+    <value>Se ha copiado a tu Portapapeles la tabla en formato Reddit</value>
   </data>
   <data name="FollowDeals.Text" xml:space="preserve">
     <value>Sigue las ofertas:</value>
@@ -213,6 +225,9 @@
   <data name="ResultsSteam.Text" xml:space="preserve">
     <value>Resultados en Steam</value>
   </data>
+  <data name="Reviews" xml:space="preserve">
+    <value>Reseñas</value>
+  </data>
   <data name="Search" xml:space="preserve">
     <value>Buscar</value>
   </data>
@@ -227,6 +242,18 @@
   </data>
   <data name="ShowDeals" xml:space="preserve">
     <value>Enseñar Todas las Ofertas</value>
+  </data>
+  <data name="SortBy.Text" xml:space="preserve">
+    <value>Ordenar por:</value>
+  </data>
+  <data name="SortDiscount.Text" xml:space="preserve">
+    <value>Descuento</value>
+  </data>
+  <data name="SortReviews.Text" xml:space="preserve">
+    <value>Reseñas</value>
+  </data>
+  <data name="SortTitle.Text" xml:space="preserve">
+    <value>Título</value>
   </data>
   <data name="SteamAccount.Text" xml:space="preserve">
     <value>Cuenta de Steam</value>

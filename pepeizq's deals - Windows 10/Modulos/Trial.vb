@@ -31,6 +31,7 @@ Module Trial
 
         Dim spFiltroDeseados As StackPanel = pagina.FindName("spFiltroDeseados")
         Dim panelComparadores As DropShadowPanel = pagina.FindName("panelComparadores")
+        Dim spExportarEntradaExpandida As StackPanel = pagina.FindName("spExportarEntradaExpandida")
         Dim spComprarApp As StackPanel = pagina.FindName("spComprarApp")
 
         If config.Values("Estado_App") = 1 Then
@@ -41,11 +42,13 @@ Module Trial
 
             spFiltroDeseados.Visibility = Visibility.Visible
             panelComparadores.Visibility = Visibility.Visible
+            spExportarEntradaExpandida.Visibility = Visibility.Visible
 
             spComprarApp.Visibility = Visibility.Collapsed
         Else
             spFiltroDeseados.Visibility = Visibility.Collapsed
             panelComparadores.Visibility = Visibility.Collapsed
+            spExportarEntradaExpandida.Visibility = Visibility.Collapsed
 
             spComprarApp.Visibility = Visibility.Visible
         End If

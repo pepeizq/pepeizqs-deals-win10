@@ -1,12 +1,7 @@
-﻿Imports System.Net
-Imports Microsoft.Toolkit.Uwp.UI.Animations
-Imports Microsoft.Toolkit.Uwp.UI.Controls
+﻿Imports Microsoft.Toolkit.Uwp.UI.Controls
 Imports Newtonsoft.Json
-Imports Windows.ApplicationModel.DataTransfer
-Imports Windows.Storage
 Imports Windows.System
 Imports Windows.UI
-Imports Windows.UI.Core
 
 Namespace Interfaz
 
@@ -75,7 +70,7 @@ Namespace Interfaz
                 .Tag = entrada,
                 .Margin = New Thickness(0, 0, 0, 60),
                 .Background = fondoMaestro,
-                .Padding = New Thickness(10, 10, 10, 10)
+                .Padding = New Thickness(20, 20, 20, 20)
             }
 
             Dim col1 As New ColumnDefinition
@@ -89,7 +84,7 @@ Namespace Interfaz
 
             Dim spIzquierda As New StackPanel With {
                 .Orientation = Orientation.Vertical,
-                .Margin = New Thickness(40, 30, 40, 30),
+                .Margin = New Thickness(30, 30, 40, 30),
                 .VerticalAlignment = VerticalAlignment.Center
             }
 
@@ -101,7 +96,33 @@ Namespace Interfaz
 
             spIzquierda.Children.Add(imagenTienda)
 
-            If entrada.Categorias(0) = 12 Then
+            If entrada.Categorias(0) = 4 Then
+                Dim temp As String = entrada.Titulo.Texto
+                Dim int As Integer = temp.IndexOf("•")
+                temp = temp.Remove(0, int + 1)
+
+                Dim int2 As Integer = temp.IndexOf("•")
+                Dim temp2 As String = temp.Remove(int2, temp.Length - int2)
+
+                Dim precioBundle As String = temp2.Trim
+
+                Dim spBundles As New StackPanel With {
+                    .Background = New SolidColorBrush(Colors.Black),
+                    .Margin = New Thickness(0, 20, 0, 0),
+                    .Padding = New Thickness(10, 8, 10, 8),
+                    .HorizontalAlignment = HorizontalAlignment.Center
+                }
+
+                Dim tbBundles As New TextBlock With {
+                    .Foreground = New SolidColorBrush(Colors.White),
+                    .FontSize = 20,
+                    .Text = precioBundle,
+                    .FontWeight = Text.FontWeights.SemiBold
+                }
+
+                spBundles.Children.Add(tbBundles)
+                spIzquierda.Children.Add(spBundles)
+            ElseIf entrada.Categorias(0) = 12 Then
                 Dim spGratis As New StackPanel With {
                     .Background = New SolidColorBrush(Colors.Black),
                     .Margin = New Thickness(0, 20, 0, 0),
@@ -232,8 +253,13 @@ Namespace Interfaz
                     Dim jsonExpandido As EntradaOfertas = JsonConvert.DeserializeObject(Of EntradaOfertas)(entrada.JsonExpandido)
 
                     If jsonExpandido.Juegos.Count > 6 Then
+                        Dim fondoAmpliar As New SolidColorBrush With {
+                            .Color = App.Current.Resources("ColorCuarto"),
+                            .Opacity = 0.2
+                        }
+
                         Dim textoAmpliar As New TextBlock With {
-                            .Text = recursos.GetString("ShowDeals"),
+                            .Text = recursos.GetString("ShowDeals") + " (" + jsonExpandido.Juegos.Count.ToString + ")",
                             .Foreground = New SolidColorBrush(Colors.White),
                             .FontSize = 17
                         }
@@ -243,7 +269,10 @@ Namespace Interfaz
                             .HorizontalAlignment = HorizontalAlignment.Stretch,
                             .Margin = New Thickness(10, 10, 15, 15),
                             .Padding = New Thickness(0, 15, 0, 15),
-                            .Tag = jsonExpandido
+                            .Tag = jsonExpandido,
+                            .BorderBrush = New SolidColorBrush(App.Current.Resources("ColorCuarto")),
+                            .BorderThickness = New Thickness(1, 1, 1, 1),
+                            .Background = fondoAmpliar
                         }
 
                         AddHandler botonAmpliar.Click, AddressOf AbrirEntradaExpandidaClick
@@ -253,6 +282,51 @@ Namespace Interfaz
                         spDerecha.Children.Add(botonAmpliar)
                     End If
                 End If
+            ElseIf entrada.Categorias(0) = 4 Then
+                Dim json As EntradaBundles = JsonConvert.DeserializeObject(Of EntradaBundles)(entrada.Json)
+
+                Dim gv As New AdaptiveGridView With {
+                    .DesiredWidth = 250,
+                    .Padding = New Thickness(5, 5, 0, 0),
+                    .IsHitTestVisible = False
+                }
+
+                For Each juego In json.Juegos
+                    Dim imagenJuego As New ImageEx With {
+                        .IsCacheEnabled = True,
+                        .Source = juego.Imagen,
+                        .MaxHeight = 200,
+                        .MaxWidth = 400,
+                        .Margin = New Thickness(10, 10, 10, 10),
+                        .BorderBrush = New SolidColorBrush(App.Current.Resources("ColorCuarto")),
+                        .BorderThickness = New Thickness(1, 1, 1, 1)
+                    }
+
+                    gv.Items.Add(imagenJuego)
+                Next
+
+                Dim fondoBundle As New SolidColorBrush With {
+                    .Color = App.Current.Resources("ColorCuarto"),
+                    .Opacity = 0.2
+                }
+
+                Dim boton As New Button With {
+                    .Content = gv,
+                    .HorizontalAlignment = HorizontalAlignment.Stretch,
+                    .HorizontalContentAlignment = HorizontalAlignment.Stretch,
+                    .Background = fondoBundle,
+                    .BorderBrush = New SolidColorBrush(App.Current.Resources("ColorCuarto")),
+                    .BorderThickness = New Thickness(1, 1, 1, 1),
+                    .Margin = New Thickness(10, 10, 10, 10),
+                    .Tag = entrada.Redireccion
+                }
+
+                AddHandler boton.Click, AddressOf AbrirEnlaceClick
+                AddHandler boton.PointerEntered, AddressOf EfectosHover.Entra_Boton
+                AddHandler boton.PointerExited, AddressOf EfectosHover.Sale_Boton
+
+                spDerecha.Children.Add(boton)
+
             ElseIf entrada.Categorias(0) = 12 Then
                 Dim json As EntradaGratis = JsonConvert.DeserializeObject(Of EntradaGratis)(entrada.Json)
 
@@ -313,206 +387,6 @@ Namespace Interfaz
             Dim juegos As EntradaOfertas = boton.Tag
 
             EntradaExpandida.Generar(juegos)
-
-        End Sub
-
-        Public Sub UsuarioEntraBotonEntrada(sender As Object, e As PointerRoutedEventArgs)
-
-            Dim boton As Button = sender
-            Dim grid As Grid = boton.Content
-
-            Dim subgrid As Grid = grid.Children(0)
-            subgrid.Opacity = 0.2
-            subgrid.Saturation(1).Scale(1.01, 1.01, boton.ActualWidth / 2, boton.ActualHeight / 2).Start()
-
-            Dim titulo As TextBlock = grid.Children(1)
-            titulo.Opacity = 1
-
-            Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Hand, 1)
-
-        End Sub
-
-        Public Sub UsuarioSaleBotonEntrada(sender As Object, e As PointerRoutedEventArgs)
-
-            Dim boton As Button = sender
-            Dim grid As Grid = boton.Content
-
-            Dim subgrid As Grid = grid.Children(0)
-            subgrid.Opacity = 1
-            subgrid.Saturation(1).Scale(1, 1, boton.ActualWidth / 2, boton.ActualHeight / 2).Start()
-
-            Dim titulo As TextBlock = grid.Children(1)
-            titulo.Opacity = 0
-
-            Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Arrow, 1)
-
-        End Sub
-
-        '------------------------------------------------------------------------------------------------
-
-        Public Function GenerarCompartir(entrada As Entrada)
-
-            Dim recursos As New Resources.ResourceLoader()
-
-            Dim sp As New StackPanel With {
-                .Orientation = Orientation.Horizontal,
-                .Margin = New Thickness(0, 0, 0, 20),
-                .Padding = New Thickness(0, 10, 10, 10)
-            }
-
-            '------------------------------
-
-            Dim panelCompartir As New DropShadowPanel With {
-                .BlurRadius = 10,
-                .ShadowOpacity = 0.9,
-                .Color = App.Current.Resources("ColorCuarto"),
-                .Margin = New Thickness(0, 0, 20, 0),
-                .Tag = entrada
-            }
-
-            Dim tbCompartir As New TextBlock With {
-                .Text = recursos.GetString("Share"),
-                .Foreground = New SolidColorBrush(Colors.White)
-            }
-
-            Dim compartir As New Button With {
-                .Background = New SolidColorBrush(App.Current.Resources("ColorCuarto")),
-                .HorizontalAlignment = HorizontalAlignment.Center,
-                .Tag = entrada,
-                .Content = tbCompartir,
-                .Padding = New Thickness(15, 10, 15, 10),
-                .BorderThickness = New Thickness(0, 0, 0, 0),
-                .BorderBrush = New SolidColorBrush(Colors.Transparent),
-                .Style = App.Current.Resources("ButtonRevealStyle")
-            }
-
-            AddHandler compartir.Click, AddressOf CompartirClick
-            AddHandler compartir.PointerEntered, AddressOf EfectosHover.Entra_Boton_Texto
-            AddHandler compartir.PointerExited, AddressOf EfectosHover.Sale_Boton_Texto
-
-            panelCompartir.Content = compartir
-
-            sp.Children.Add(panelCompartir)
-
-            '------------------------------
-
-            Dim panelTwitter As New DropShadowPanel With {
-                .BlurRadius = 10,
-                .ShadowOpacity = 0.9,
-                .Color = App.Current.Resources("ColorCuarto"),
-                .Margin = New Thickness(0, 0, 20, 0),
-                .Tag = entrada
-            }
-
-            Dim iconoTwitter As New FontAwesome5.FontAwesome With {
-                .Icon = FontAwesome5.EFontAwesomeIcon.Brands_Twitter,
-                .Foreground = New SolidColorBrush(Colors.White)
-            }
-
-            Dim twitter As New Button With {
-                .Background = New SolidColorBrush(App.Current.Resources("ColorCuarto")),
-                .HorizontalAlignment = HorizontalAlignment.Center,
-                .Tag = entrada,
-                .Content = iconoTwitter,
-                .Padding = New Thickness(15, 10, 15, 10),
-                .BorderThickness = New Thickness(0, 0, 0, 0),
-                .BorderBrush = New SolidColorBrush(Colors.Transparent),
-                .Style = App.Current.Resources("ButtonRevealStyle")
-            }
-
-            AddHandler twitter.Click, AddressOf TwitterClick
-            AddHandler twitter.PointerEntered, AddressOf EfectosHover.Entra_Boton_Icono
-            AddHandler twitter.PointerExited, AddressOf EfectosHover.Sale_Boton_Icono
-
-            panelTwitter.Content = twitter
-
-            sp.Children.Add(panelTwitter)
-
-            '------------------------------
-
-            Dim panelReddit As New DropShadowPanel With {
-                .BlurRadius = 10,
-                .ShadowOpacity = 0.9,
-                .Color = App.Current.Resources("ColorCuarto"),
-                .Margin = New Thickness(0, 0, 20, 0),
-                .Tag = entrada
-            }
-
-            Dim iconoReddit As New FontAwesome5.FontAwesome With {
-                .Icon = FontAwesome5.EFontAwesomeIcon.Brands_Reddit,
-                .Foreground = New SolidColorBrush(Colors.White)
-            }
-
-            Dim reddit As New Button With {
-                .Background = New SolidColorBrush(App.Current.Resources("ColorCuarto")),
-                .HorizontalAlignment = HorizontalAlignment.Center,
-                .Tag = entrada,
-                .Content = iconoReddit,
-                .Padding = New Thickness(15, 10, 15, 10),
-                .BorderThickness = New Thickness(0, 0, 0, 0),
-                .BorderBrush = New SolidColorBrush(Colors.Transparent),
-                .Style = App.Current.Resources("ButtonRevealStyle")
-            }
-
-            AddHandler reddit.Click, AddressOf RedditClick
-            AddHandler reddit.PointerEntered, AddressOf EfectosHover.Entra_Boton_Icono
-            AddHandler reddit.PointerExited, AddressOf EfectosHover.Sale_Boton_Icono
-
-            panelReddit.Content = reddit
-
-            sp.Children.Add(panelReddit)
-
-            '------------------------------
-
-            Return sp
-
-        End Function
-
-        Private Sub CompartirClick(sender As Object, e As RoutedEventArgs)
-
-            Dim boton As Button = sender
-            Dim entrada As Entrada = boton.Tag
-
-            Dim tituloTexto As String = WebUtility.HtmlDecode(entrada.Titulo.Texto)
-            ApplicationData.Current.LocalSettings.Values("compartir_titulo") = tituloTexto
-            ApplicationData.Current.LocalSettings.Values("compartir_enlace") = entrada.Enlace
-
-            Dim datos As DataTransferManager = DataTransferManager.GetForCurrentView()
-            AddHandler datos.DataRequested, AddressOf CompartirVentana
-
-            DataTransferManager.ShowShareUI()
-
-        End Sub
-
-        Public Sub CompartirVentana(sender As DataTransferManager, e As DataRequestedEventArgs)
-
-            Dim request As DataRequest = e.Request
-            request.Data.Properties.Title = ApplicationData.Current.LocalSettings.Values("compartir_titulo")
-            request.Data.SetWebLink(New Uri(ApplicationData.Current.LocalSettings.Values("compartir_enlace")))
-
-        End Sub
-
-        Private Async Sub TwitterClick(sender As Object, e As RoutedEventArgs)
-
-            Dim boton As Button = sender
-            Dim entrada As Entrada = boton.Tag
-
-            Dim tituloTexto As String = WebUtility.HtmlDecode(entrada.Titulo.Texto)
-            Dim enlace As String = "https://twitter.com/intent/tweet?url=" + entrada.Enlace + "&title=" + WebUtility.UrlEncode(tituloTexto)
-
-            Await Launcher.LaunchUriAsync(New Uri(enlace))
-
-        End Sub
-
-        Private Async Sub RedditClick(sender As Object, e As RoutedEventArgs)
-
-            Dim boton As Button = sender
-            Dim entrada As Entrada = boton.Tag
-
-            Dim tituloTexto As String = WebUtility.HtmlDecode(entrada.Titulo.Texto)
-            Dim enlace As String = "https://www.reddit.com/submit?url=" + entrada.Enlace + "&title=" + WebUtility.UrlEncode(tituloTexto)
-
-            Await Launcher.LaunchUriAsync(New Uri(enlace))
 
         End Sub
 

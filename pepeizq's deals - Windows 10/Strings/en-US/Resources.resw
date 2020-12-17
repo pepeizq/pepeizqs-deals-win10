@@ -120,17 +120,29 @@
   <data name="All.Text" xml:space="preserve">
     <value>All</value>
   </data>
+  <data name="Back.Text" xml:space="preserve">
+    <value>Back</value>
+  </data>
   <data name="Bundles.Text" xml:space="preserve">
     <value>Bundles</value>
   </data>
   <data name="Bundles2" xml:space="preserve">
     <value>Bundles</value>
   </data>
+  <data name="Config" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
   <data name="Deals.Text" xml:space="preserve">
     <value>Deals</value>
   </data>
   <data name="Deals2" xml:space="preserve">
     <value>Deals</value>
+  </data>
+  <data name="Export.Text" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="ExportRedditMessage" xml:space="preserve">
+    <value>The deals in Reddit format has been copied to your Clipboard</value>
   </data>
   <data name="FollowDeals.Text" xml:space="preserve">
     <value>Follow the deals:</value>
@@ -213,6 +225,9 @@
   <data name="ResultsSteam.Text" xml:space="preserve">
     <value>Results on Steam</value>
   </data>
+  <data name="Reviews" xml:space="preserve">
+    <value>Reviews</value>
+  </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>
   </data>
@@ -227,6 +242,18 @@
   </data>
   <data name="ShowDeals" xml:space="preserve">
     <value>Show All Deals</value>
+  </data>
+  <data name="SortBy.Text" xml:space="preserve">
+    <value>Sort by:</value>
+  </data>
+  <data name="SortDiscount.Text" xml:space="preserve">
+    <value>Discount</value>
+  </data>
+  <data name="SortReviews.Text" xml:space="preserve">
+    <value>Reviews</value>
+  </data>
+  <data name="SortTitle.Text" xml:space="preserve">
+    <value>Title</value>
   </data>
   <data name="SteamAccount.Text" xml:space="preserve">
     <value>Steam Account</value>

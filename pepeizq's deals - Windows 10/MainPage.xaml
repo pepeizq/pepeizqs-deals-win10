@@ -304,14 +304,20 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <Grid Grid.Row="0">
+                    <Grid Grid.Row="0" Margin="20,10,20,20">
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <Button x:Name="botonVolver" Grid.Column="0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
+                        <Button x:Name="botonVolver" Grid.Column="0" BorderBrush="Transparent" Padding="15,10" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
+                            <Button.Background>
+                                <SolidColorBrush Color="{StaticResource ColorCuarto}" Opacity="0.8"/>
+                            </Button.Background>
+
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <iconos:FontAwesome Icon="Solid_ArrowLeft" Foreground="White" Margin="0,0,15,0"/>
@@ -320,19 +326,59 @@
                             </Button.Content>
                         </Button>
 
-                        <TextBlock x:Name="tbMensajeEntradaExpandida" Grid.Column="1" Foreground="White" Margin="20,0"/>
-                        
-                        
+                        <TextBlock x:Uid="SortBy" Grid.Column="1" Foreground="White" VerticalAlignment="Center" Margin="30,0,10,0"/>
+
+                        <ComboBox x:Name="cbOrdenarEntradaExpandida" Grid.Column="2" RequestedTheme="Dark" SelectedIndex="0" VerticalAlignment="Center">
+                            <ComboBoxItem>
+                                <TextBlock x:Uid="SortTitle"/>
+                            </ComboBoxItem>
+                            <ComboBoxItem>
+                                <TextBlock x:Uid="SortDiscount"/>
+                            </ComboBoxItem>
+                            <ComboBoxItem>
+                                <TextBlock x:Uid="SortReviews"/>
+                            </ComboBoxItem>
+                        </ComboBox> 
+                                              
+                        <TextBlock x:Name="tbMensajeEntradaExpandida" Grid.Column="3" Foreground="White" Margin="40,0" Visibility="Collapsed" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                        <StackPanel x:Name="spExportarEntradaExpandida" Grid.Column="4" Orientation="Vertical">
+                            <TextBlock x:Uid="Export" Foreground="White" HorizontalAlignment="Center" FontSize="14"/>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,15,0,0">
+                                <Button x:Name="botonExportarReddit" BorderBrush="Transparent" Padding="15,10" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
+                                    <Button.Background>
+                                        <SolidColorBrush Color="{StaticResource ColorCuarto}" Opacity="0.8"/>
+                                    </Button.Background>
+
+                                    <Button.Content>
+                                        <TextBlock Text="Reddit" Foreground="White" FontSize="14"/>
+                                    </Button.Content>
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
                     </Grid>
 
-                    <ScrollViewer x:Name="svEntradaExpandida" Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                        <ScrollViewer.Resources>
-                            <SolidColorBrush x:Key="ScrollBarThumbFill" Color="White"/>
-                            <SolidColorBrush x:Key="ScrollBarThumbFillPointerOver" Color="White"/>
-                        </ScrollViewer.Resources>
+                    <Grid Grid.Row="1">
+                        <ScrollViewer x:Name="svEntradaExpandida" VerticalScrollBarVisibility="Auto">
+                            <ScrollViewer.Resources>
+                                <SolidColorBrush x:Key="ScrollBarThumbFill" Color="White"/>
+                                <SolidColorBrush x:Key="ScrollBarThumbFillPointerOver" Color="White"/>
+                            </ScrollViewer.Resources>
 
-                        <StackPanel x:Name="spEntradaExpandida" Orientation="Vertical"/>
-                    </ScrollViewer>
+                            <StackPanel x:Name="spEntradaExpandida" Orientation="Vertical" Margin="20,20,30,30"/>
+                        </ScrollViewer>
+
+                        <Button x:Name="botonSubirEntradaExpandida" Visibility="Collapsed" BorderBrush="Transparent" BorderThickness="0" Padding="15,12" Style="{StaticResource ButtonRevealStyle}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,30,0">
+                            <Button.Background>
+                                <SolidColorBrush Color="{StaticResource ColorCuarto}" Opacity="0.8"/>
+                            </Button.Background>
+
+                            <Button.Content>
+                                <iconos:FontAwesome Icon="Solid_ArrowUp" Foreground="White" FontSize="17"/>
+                            </Button.Content>
+                        </Button>
+                    </Grid>
                 </Grid> 
 
                 <Grid x:Name="gridBusqueda" Visibility="Collapsed" Padding="20">
@@ -476,6 +522,20 @@
                             </Grid>
                         </StackPanel>
                     </ScrollViewer>
+                </Grid>
+
+                <Grid x:Name="gridConfig" Visibility="Collapsed">
+                    <ScrollViewer>
+                        <StackPanel Orientation="Vertical" Padding="40" Margin="20" BorderBrush="{StaticResource ColorPrimario}" BorderThickness="1">
+                            <StackPanel.Background>
+                                <SolidColorBrush Color="{StaticResource ColorCuarto}" Opacity="0.8"/>
+                            </StackPanel.Background>
+
+                            <TextBlock x:Uid="Deals" Foreground="White" TextWrapping="Wrap" FontSize="17"/>
+                            
+                            
+                        </StackPanel> 
+                    </ScrollViewer> 
                 </Grid>
 
                 <Grid x:Name="gridMasCosas" Visibility="Collapsed" Padding="20"/>
