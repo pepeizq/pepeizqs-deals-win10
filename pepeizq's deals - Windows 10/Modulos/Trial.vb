@@ -44,12 +44,16 @@ Module Trial
             spExportarEntradaExpandida.Visibility = Visibility.Visible
 
             spComprarApp.Visibility = Visibility.Collapsed
+
+            Configuracion.Trial(True)
         Else
             spFiltroDeseados.Visibility = Visibility.Collapsed
             panelComparadores.Visibility = Visibility.Collapsed
             spExportarEntradaExpandida.Visibility = Visibility.Collapsed
 
             spComprarApp.Visibility = Visibility.Visible
+
+            Configuracion.Trial(False)
         End If
 
     End Sub

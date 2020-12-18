@@ -28,7 +28,7 @@
             </NavigationView.Resources>
 
             <NavigationView.PaneFooter>
-                <StackPanel Orientation="Horizontal">
+                <StackPanel x:Name="spBusqueda" Orientation="Horizontal">
                     <iconos:FontAwesome Icon="Solid_Search" Foreground="{StaticResource ColorPrimario}" Margin="0,0,10,0"/>
                     <TextBox x:Name="tbBuscador" MinWidth="200" VerticalAlignment="Center" Margin="0,0,10,0"/>
                 </StackPanel>
@@ -162,20 +162,21 @@
 
                         <Grid Grid.Column="1" HorizontalAlignment="Center" Width="400" Padding="20">
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
 
-                            <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Visible">
-                                <StackPanel Orientation="Vertical">
-                                    <Button x:Name="botonSorteosImagen" Padding="0" BorderThickness="0" Margin="0,0,0,30" HorizontalAlignment="Stretch">
-                                        <Button.Content>
-                                            <Grid>
-                                                <controls:ImageEx x:Name="imagenBotonSorteos" IsCacheEnabled="True"/>
-                                            </Grid>
-                                        </Button.Content>    
-                                    </Button> 
+                            <Button x:Name="botonSorteosImagen" Grid.Row="0" Padding="0" BorderThickness="0" Margin="0,0,0,30" HorizontalAlignment="Stretch">
+                                <Button.Content>
+                                    <Grid>
+                                        <controls:ImageEx x:Name="imagenBotonSorteos" IsCacheEnabled="True"/>
+                                    </Grid>
+                                </Button.Content>
+                            </Button>
 
+                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
+                                <StackPanel Orientation="Vertical">
                                     <StackPanel x:Name="spFiltroDeseados" Orientation="Vertical">
                                         <Grid BorderBrush="White" BorderThickness="0,1,0,0"/>
 
@@ -196,7 +197,7 @@
                                 </StackPanel>
                             </ScrollViewer>
 
-                            <StackPanel x:Name="spComprarApp" Grid.Row="0" Orientation="Vertical">
+                            <StackPanel x:Name="spComprarApp" Grid.Row="1" Orientation="Vertical">
                                 <Grid BorderBrush="White" BorderThickness="0,1,0,0"/>
 
                                 <StackPanel Orientation="Vertical" Padding="10,0">
@@ -256,7 +257,7 @@
                                 </Button>
                             </StackPanel>
 
-                            <Grid x:Name="spControles" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,30,0,0">
+                            <Grid x:Name="spControles" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,30,0,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>
@@ -389,7 +390,7 @@
                 </Grid> 
 
                 <Grid x:Name="gridBusqueda" Visibility="Collapsed" Padding="20">
-                    <ScrollViewer VerticalScrollBarVisibility="Visible" Padding="0,0,30,0" HorizontalAlignment="Center">
+                    <ScrollViewer VerticalScrollBarVisibility="Visible" Padding="0,0,30,0">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -538,13 +539,23 @@
                                 <SolidColorBrush Color="{StaticResource ColorCuarto}" Opacity="0.8"/>
                             </StackPanel.Background>
 
+                            <Grid x:Name="gridConfigTrialMensaje" Padding="15" BorderBrush="{StaticResource ColorCajaRojaSombra}" BorderThickness="1" HorizontalAlignment="Left" Margin="0,0,0,40">
+                                <Grid.Background>
+                                    <SolidColorBrush Color="{StaticResource ColorCajaRojaFondo}" Opacity="0.8"/>
+                                </Grid.Background>
+
+                                <TextBlock x:Uid="ConfigTrialMessage" TextWrapping="Wrap" Foreground="White"/>
+                            </Grid>
+
                             <TextBlock x:Uid="Wishlist2" Foreground="White" TextWrapping="Wrap" FontSize="17"/>
 
                             <TextBlock x:Uid="ConfigWishlistMessage" Foreground="White" TextWrapping="Wrap" Margin="0,30,0,0"/>
+                            <ToggleSwitch x:Name="tsConfigDeseados" RequestedTheme="Dark" Margin="0,20,0,0"/>
 
-                            <TextBlock x:Uid="Notifications" Foreground="White" TextWrapping="Wrap" FontSize="17"/>
-                            
-                            
+                            <TextBlock x:Uid="Notifications" Foreground="White" TextWrapping="Wrap" FontSize="17" Margin="0,50,0,0"/>
+
+                            <TextBlock x:Uid="ConfigNotificationsMessage" Foreground="White" TextWrapping="Wrap" Margin="0,30,0,0"/>
+                            <ToggleSwitch x:Name="tsConfigNotificaciones" RequestedTheme="Dark" Margin="0,20,0,0"/>
                         </StackPanel> 
                     </ScrollViewer> 
                 </Grid>

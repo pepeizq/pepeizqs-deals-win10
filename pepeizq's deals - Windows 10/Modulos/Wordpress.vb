@@ -164,10 +164,10 @@ Module Wordpress
 
                         If Not entrada.Json = String.Empty Then
                             If añadirFecha = True Then
-                                spEntradas.Children.Add(Interfaz.GenerarFecha(fecha.Date))
+                                spEntradas.Children.Add(Interfaz.Entradas.GenerarFecha(fecha.Date))
                             End If
 
-                            spEntradas.Children.Add(Interfaz.GenerarEntrada(entrada))
+                            spEntradas.Children.Add(Interfaz.Entradas.GenerarEntrada(entrada))
                         End If
                     End If
 

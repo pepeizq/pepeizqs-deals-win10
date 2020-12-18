@@ -79,6 +79,8 @@ Module Deseados
 
     Private Sub CargarFiltro(juegosDeseados As Dictionary(Of String, SteamJuegoDeseado))
 
+        Dim config As ApplicationDataContainer = ApplicationData.Current.LocalSettings
+
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
@@ -115,8 +117,14 @@ Module Deseados
                         If Not json Is Nothing Then
                             If Not json.Juegos Is Nothing Then
                                 For Each juego2 In json.Juegos
-                                    If Limpieza.Limpiar(juego2.Titulo) = Limpieza.Limpiar(WebUtility.HtmlDecode(juego.Value.Titulo)) Then
-                                        listadoEncontrados.Add(New FiltroEntradaDeseado(juego2, entrada))
+                                    If config.Values("Deseados") = 0 Then
+                                        If Limpieza.Limpiar(juego2.Titulo) = Limpieza.Limpiar(WebUtility.HtmlDecode(juego.Value.Titulo)) Then
+                                            listadoEncontrados.Add(New FiltroEntradaDeseado(juego2, entrada))
+                                        End If
+                                    ElseIf config.Values("Deseados") = 1 Then
+                                        If Limpieza.Limpiar(juego2.Titulo).Contains(Limpieza.Limpiar(WebUtility.HtmlDecode(juego.Value.Titulo))) Then
+                                            listadoEncontrados.Add(New FiltroEntradaDeseado(juego2, entrada))
+                                        End If
                                     End If
                                 Next
                             End If

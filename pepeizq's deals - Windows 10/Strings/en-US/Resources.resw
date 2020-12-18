@@ -132,8 +132,20 @@
   <data name="Config" xml:space="preserve">
     <value>Configuration</value>
   </data>
+  <data name="ConfigNotificationsMessage.Text" xml:space="preserve">
+    <value>Select if you want to receive push notifications while you have the application open:</value>
+  </data>
+  <data name="ConfigTrialMessage.Text" xml:space="preserve">
+    <value>You are using the trial version of the application, because of that some options are blocked.</value>
+  </data>
   <data name="ConfigWishlistMessage.Text" xml:space="preserve">
     <value>Select how your wishlist games will be filtered:</value>
+  </data>
+  <data name="ConfigWishlistMode1" xml:space="preserve">
+    <value>Exact. Games will be filtered by their exact name and no DLCs or Season Pass will appear.</value>
+  </data>
+  <data name="ConfigWishlistMode2" xml:space="preserve">
+    <value>Partial. Games will not be filtered by their exact name and DLCs or Season Pass will appear.</value>
   </data>
   <data name="Deals.Text" xml:space="preserve">
     <value>Deals</value>
@@ -231,6 +243,9 @@
   <data name="NewGamesAdded" xml:space="preserve">
     <value>New Games Added</value>
   </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
   <data name="Notifications.Text" xml:space="preserve">
     <value>Notifications</value>
   </data>
@@ -323,5 +338,8 @@
   </data>
   <data name="WishlistSteamAccount.Text" xml:space="preserve">
     <value>If you put a link to your Steam profile the app will read your wishlist games and can load a filter on the entries.</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
   </data>
 </root>

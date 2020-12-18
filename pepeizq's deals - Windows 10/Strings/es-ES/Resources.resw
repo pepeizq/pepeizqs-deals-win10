@@ -132,8 +132,20 @@
   <data name="Config" xml:space="preserve">
     <value>Configuración</value>
   </data>
+  <data name="ConfigNotificationsMessage.Text" xml:space="preserve">
+    <value>Selecciona si deseas recibir notificaciones push mientras tengas abierta la aplicación:</value>
+  </data>
+  <data name="ConfigTrialMessage.Text" xml:space="preserve">
+    <value>Estas usando la versión de prueba de la aplicación, debido a eso algunas opciones están bloqueadas.</value>
+  </data>
   <data name="ConfigWishlistMessage.Text" xml:space="preserve">
     <value>Selecciona el modo en que se filtraran tus juegos deseados:</value>
+  </data>
+  <data name="ConfigWishlistMode1" xml:space="preserve">
+    <value>Exacto. Se filtraran los juegos por su nombre exacto y no aparecerán DLCs o Season Pass.</value>
+  </data>
+  <data name="ConfigWishlistMode2" xml:space="preserve">
+    <value>Parcial. No se filtraran los juegos por su nombre exacto y aparecerán DLCs o Season Pass.</value>
   </data>
   <data name="Deals.Text" xml:space="preserve">
     <value>Ofertas</value>
@@ -231,6 +243,9 @@
   <data name="NewGamesAdded" xml:space="preserve">
     <value>Nuevos Juegos Añadidos</value>
   </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
   <data name="Notifications.Text" xml:space="preserve">
     <value>Notificaciones</value>
   </data>
@@ -289,7 +304,7 @@
     <value>Comprar App</value>
   </data>
   <data name="TrialInfo.Text" xml:space="preserve">
-    <value>Estás usando la versión trial, si pagas por la app tendrás acceso a:</value>
+    <value>Estás usando la versión trial, si pagas por la aplicación tendrás acceso a:</value>
   </data>
   <data name="TrialInfo1.Text" xml:space="preserve">
     <value>Filtro de Deseados</value>
@@ -323,5 +338,8 @@
   </data>
   <data name="WishlistSteamAccount.Text" xml:space="preserve">
     <value>Si pones un enlace a tu perfil de Steam la app leerá tus juegos en deseados y podrá cargar un filtro en las entradas.</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Si</value>
   </data>
 </root>

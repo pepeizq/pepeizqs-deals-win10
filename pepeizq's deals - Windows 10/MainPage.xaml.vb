@@ -22,21 +22,23 @@ Public NotInheritable Class MainPage
 
         Dim recursos As New Resources.ResourceLoader()
 
-        If TypeOf args.InvokedItem Is TextBlock Then
-            gridBusqueda.Visibility = Visibility.Collapsed
-            gridBusquedaJuego.Visibility = Visibility.Collapsed
+        If gridCarga.Visibility = Visibility.Collapsed Then
+            If TypeOf args.InvokedItem Is TextBlock Then
+                gridBusqueda.Visibility = Visibility.Collapsed
+                gridBusquedaJuego.Visibility = Visibility.Collapsed
 
-            Dim item As TextBlock = args.InvokedItem
+                Dim item As TextBlock = args.InvokedItem
 
-            If Not item Is Nothing Then
-                If item.Text = recursos.GetString("Home") Then
-                    CargarEntradas(100, Nothing, False, False)
-                ElseIf item.Text = recursos.GetString("Wishlist") Then
-                    Interfaz.Pestañas.Visibilidad_Pestañas(gridDeseados, item.Text)
-                ElseIf item.Text = recursos.GetString("Config") Then
-                    Interfaz.Pestañas.Visibilidad_Pestañas(gridConfig, item.Text)
-                ElseIf item.Text = recursos.GetString("MoreThings") Then
-                    Interfaz.Pestañas.Visibilidad_Pestañas(gridMasCosas, Nothing)
+                If Not item Is Nothing Then
+                    If item.Text = recursos.GetString("Home") Then
+                        CargarEntradas(100, Nothing, False, False)
+                    ElseIf item.Text = recursos.GetString("Wishlist") Then
+                        Interfaz.Pestañas.Visibilidad_Pestañas(gridDeseados, item.Text)
+                    ElseIf item.Text = recursos.GetString("Config") Then
+                        Interfaz.Pestañas.Visibilidad_Pestañas(gridConfig, item.Text)
+                    ElseIf item.Text = recursos.GetString("MoreThings") Then
+                        Interfaz.Pestañas.Visibilidad_Pestañas(gridMasCosas, Nothing)
+                    End If
                 End If
             End If
         End If

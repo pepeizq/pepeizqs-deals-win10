@@ -39,6 +39,16 @@
 
             gridMostrar.Visibility = Visibility.Visible
 
+            '--------------------------------------------
+
+            Dim spBusqueda As StackPanel = pagina.FindName("spBusqueda")
+
+            If gridMostrar.Name = "gridCarga" Then
+                spBusqueda.Visibility = Visibility.Collapsed
+            Else
+                spBusqueda.Visibility = Visibility.Visible
+            End If
+
         End Sub
 
     End Module
