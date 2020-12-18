@@ -20,7 +20,7 @@ Module Push
 
     End Function
 
-    Public Async Sub Escuchar()
+    Public Async Sub Escuchar(entradas As List(Of Entrada))
 
         Await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, Async Sub()
                                                                                                          Dim cliente As FirebaseClient = Conectar()
@@ -98,17 +98,42 @@ Module Push
                                                                                                              End While
 
                                                                                                              Dim respuesta2 As EventStreamResponse = Await cliente.OnAsync("mensajes/", Async Sub(e, args, context)
-                                                                                                                                                                                            Dim añadir As Boolean = True
+                                                                                                                                                                                            Dim temp5, temp6, temp7 As String
+                                                                                                                                                                                            Dim int5, int6, int7 As Integer
+
+                                                                                                                                                                                            int5 = args.Data.IndexOf("••")
+                                                                                                                                                                                            temp5 = args.Data.Remove(int5, args.Data.Length - int5)
+
+                                                                                                                                                                                            Dim titulo As String = temp5.Trim
+
+                                                                                                                                                                                            temp6 = args.Data.Remove(0, int5 + 2)
+                                                                                                                                                                                            int6 = temp6.IndexOf("••")
+                                                                                                                                                                                            temp6 = temp6.Remove(int6, temp6.Length - int6)
+
+                                                                                                                                                                                            Dim enlace As String = temp6.Trim
+
+                                                                                                                                                                                            int7 = args.Data.LastIndexOf("••")
+                                                                                                                                                                                            temp7 = args.Data.Remove(0, int7 + 2)
+
+                                                                                                                                                                                            Dim imagen As String = temp7.Trim
+
+                                                                                                                                                                                            Dim notificar As Boolean = True
+
+                                                                                                                                                                                            For Each entrada In entradas
+                                                                                                                                                                                                If entrada.Enlace = enlace Then
+                                                                                                                                                                                                    notificar = False
+                                                                                                                                                                                                End If
+                                                                                                                                                                                            Next
 
                                                                                                                                                                                             If listaNotificaciones.Count > 0 Then
                                                                                                                                                                                                 For Each notificacion In listaNotificaciones
                                                                                                                                                                                                     If notificacion.Datos = args.Data Then
-                                                                                                                                                                                                        añadir = False
+                                                                                                                                                                                                        notificar = False
                                                                                                                                                                                                     End If
                                                                                                                                                                                                 Next
                                                                                                                                                                                             End If
 
-                                                                                                                                                                                            If añadir = True Then
+                                                                                                                                                                                            If notificar = True Then
                                                                                                                                                                                                 listaNotificaciones.Add(New MensajePush(args.Data))
 
                                                                                                                                                                                                 Try
@@ -117,35 +142,15 @@ Module Push
 
                                                                                                                                                                                                 End Try
 
-                                                                                                                                                                                                If primeraVez = False Then
-                                                                                                                                                                                                    Dim temp5, temp6, temp7 As String
-                                                                                                                                                                                                    Dim int5, int6, int7 As Integer
-
-                                                                                                                                                                                                    int5 = args.Data.IndexOf("••")
-                                                                                                                                                                                                    temp5 = args.Data.Remove(int5, args.Data.Length - int5)
-
-                                                                                                                                                                                                    Dim titulo As String = temp5.Trim
-
-                                                                                                                                                                                                    temp6 = args.Data.Remove(0, int5 + 2)
-                                                                                                                                                                                                    int6 = temp6.IndexOf("••")
-                                                                                                                                                                                                    temp6 = temp6.Remove(int6, temp6.Length - int6)
-
-                                                                                                                                                                                                    Dim enlace As String = temp6.Trim
-
-                                                                                                                                                                                                    int7 = args.Data.LastIndexOf("••")
-                                                                                                                                                                                                    temp7 = args.Data.Remove(0, int7 + 2)
-
-                                                                                                                                                                                                    Dim imagen As String = temp7.Trim
-
-                                                                                                                                                                                                    Notificaciones.ToastOferta(titulo, enlace, imagen)
-                                                                                                                                                                                                End If
+                                                                                                                                                                                                Notificaciones.ToastOferta(titulo, enlace, imagen)
                                                                                                                                                                                             End If
+
                                                                                                                                                                                         End Sub)
                                                                                                          End If
                                                                                                      End Sub)
-        End Sub
+    End Sub
 
-    End Module
+End Module
 
     Public Class MensajePush
 

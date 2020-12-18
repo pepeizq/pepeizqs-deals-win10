@@ -11,6 +11,7 @@ Public NotInheritable Class MainPage
         Dim recursos As New Resources.ResourceLoader()
 
         nvPrincipal.MenuItems.Add(Interfaz.NavigationViewItems.Generar(recursos.GetString("Home"), FontAwesome5.EFontAwesomeIcon.Solid_Home))
+        nvPrincipal.MenuItems.Add(Interfaz.NavigationViewItems.Generar(recursos.GetString("Wishlist"), FontAwesome5.EFontAwesomeIcon.Solid_Star))
         nvPrincipal.MenuItems.Add(Interfaz.NavigationViewItems.Generar(recursos.GetString("Config"), FontAwesome5.EFontAwesomeIcon.Solid_Cog))
         nvPrincipal.MenuItems.Add(New NavigationViewItemSeparator)
         nvPrincipal.MenuItems.Add(Interfaz.NavigationViewItems.Generar(recursos.GetString("MoreThings"), FontAwesome5.EFontAwesomeIcon.Solid_Cube))
@@ -29,7 +30,9 @@ Public NotInheritable Class MainPage
 
             If Not item Is Nothing Then
                 If item.Text = recursos.GetString("Home") Then
-                    CargarEntradas(100, Nothing, False)
+                    CargarEntradas(100, Nothing, False, False)
+                ElseIf item.Text = recursos.GetString("Wishlist") Then
+                    Interfaz.Pestañas.Visibilidad_Pestañas(gridDeseados, item.Text)
                 ElseIf item.Text = recursos.GetString("Config") Then
                     Interfaz.Pestañas.Visibilidad_Pestañas(gridConfig, item.Text)
                 ElseIf item.Text = recursos.GetString("MoreThings") Then
@@ -45,13 +48,14 @@ Public NotInheritable Class MainPage
         'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "es-ES"
         'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "en-US"
 
-        CargarEntradas(100, Nothing, True)
+        CargarEntradas(100, Nothing, True, True)
 
         Deseados.Cargar()
         Trial.Detectar(True)
         Interfaz.Inicio.Cargar()
         Interfaz.Buscador.Cargar()
         Interfaz.Submenu.Cargar()
+        Configuracion.Cargar()
         MasCosas.Cargar()
 
         Dim config As ApplicationDataContainer = ApplicationData.Current.LocalSettings

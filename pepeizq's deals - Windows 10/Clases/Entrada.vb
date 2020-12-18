@@ -138,3 +138,17 @@ Public Class EntradaGratis
     Public Imagen As String
 
 End Class
+
+Public Class EntradaSuscripciones
+
+    <JsonProperty("games")>
+    Public Juegos As List(Of EntradaSuscripcionesJuego)
+
+End Class
+
+Public Class EntradaSuscripcionesJuego
+
+    <JsonProperty("image")>
+    Public Imagen As String
+
+End Class

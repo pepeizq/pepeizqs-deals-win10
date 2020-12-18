@@ -90,7 +90,8 @@ Namespace Interfaz
 
             Dim imagenTienda As New ImageEx With {
                 .IsCacheEnabled = True,
-                .Width = 180,
+                .MaxWidth = 180,
+                .MaxHeight = 50,
                 .Source = entrada.TiendaLogo
             }
 
@@ -139,6 +140,30 @@ Namespace Interfaz
 
                 spGratis.Children.Add(tbGratis)
                 spIzquierda.Children.Add(spGratis)
+            ElseIf entrada.Categorias(0) = 13 Then
+                Dim json As EntradaSuscripciones = JsonConvert.DeserializeObject(Of EntradaSuscripciones)(entrada.Json)
+
+                Dim spSuscripciones As New StackPanel With {
+                    .Background = New SolidColorBrush(Colors.Black),
+                    .Margin = New Thickness(0, 20, 0, 0),
+                    .Padding = New Thickness(10, 8, 10, 8),
+                    .HorizontalAlignment = HorizontalAlignment.Center
+                }
+
+                Dim tbSuscripciones As New TextBlock With {
+                    .Foreground = New SolidColorBrush(Colors.White),
+                    .FontSize = 20,
+                    .FontWeight = Text.FontWeights.SemiBold
+                }
+
+                If json.Juegos.Count = 1 Then
+                    tbSuscripciones.Text = recursos.GetString("NewGameAdded")
+                ElseIf json.Juegos.Count > 1 Then
+                    tbSuscripciones.Text = recursos.GetString("NewGamesAdded")
+                End If
+
+                spSuscripciones.Children.Add(tbSuscripciones)
+                spIzquierda.Children.Add(spSuscripciones)
             End If
 
             spIzquierda.SetValue(Grid.ColumnProperty, 0)
@@ -363,6 +388,57 @@ Namespace Interfaz
                 gv.Items.Add(boton)
 
                 spDerecha.Children.Add(gv)
+            ElseIf entrada.Categorias(0) = 13 Then
+                Dim json As EntradaSuscripciones = JsonConvert.DeserializeObject(Of EntradaSuscripciones)(entrada.Json)
+
+                Dim gv As New AdaptiveGridView With {
+                    .Padding = New Thickness(5, 5, 0, 0),
+                    .IsHitTestVisible = False
+                }
+
+                If json.Juegos.Count = 1 Then
+                    gv.DesiredWidth = 400
+                ElseIf json.Juegos.Count > 1 Then
+                    gv.DesiredWidth = 250
+                End If
+
+                For Each juego In json.Juegos
+                    Dim imagenJuego As New ImageEx With {
+                        .IsCacheEnabled = True,
+                        .Source = juego.Imagen,
+                        .MaxHeight = 250,
+                        .MaxWidth = 400,
+                        .MinHeight = 200,
+                        .MinWidth = 160,
+                        .Margin = New Thickness(10, 10, 10, 10),
+                        .BorderBrush = New SolidColorBrush(App.Current.Resources("ColorCuarto")),
+                        .BorderThickness = New Thickness(1, 1, 1, 1)
+                    }
+
+                    gv.Items.Add(imagenJuego)
+                Next
+
+                Dim fondoSuscripcion As New SolidColorBrush With {
+                    .Color = App.Current.Resources("ColorCuarto"),
+                    .Opacity = 0.2
+                }
+
+                Dim boton As New Button With {
+                    .Content = gv,
+                    .HorizontalAlignment = HorizontalAlignment.Stretch,
+                    .HorizontalContentAlignment = HorizontalAlignment.Center,
+                    .Background = fondoSuscripcion,
+                    .BorderBrush = New SolidColorBrush(App.Current.Resources("ColorCuarto")),
+                    .BorderThickness = New Thickness(1, 1, 1, 1),
+                    .Margin = New Thickness(10, 10, 10, 10),
+                    .Tag = entrada.Redireccion
+                }
+
+                AddHandler boton.Click, AddressOf AbrirEnlaceClick
+                AddHandler boton.PointerEntered, AddressOf EfectosHover.Entra_Boton
+                AddHandler boton.PointerExited, AddressOf EfectosHover.Sale_Boton
+
+                spDerecha.Children.Add(boton)
             End If
 
             spDerecha.SetValue(Grid.ColumnProperty, 1)

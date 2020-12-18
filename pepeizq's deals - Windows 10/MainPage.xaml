@@ -142,19 +142,6 @@
                                     <TextBlock x:Uid="Subscriptions" Foreground="White"/>
                                 </Button.Content>
                             </Button>
-
-                            <Grid BorderBrush="White" BorderThickness="0,0,1,0" Margin="15,0" Height="17"/>
-
-                            <Button x:Name="botonListaDeseados" Margin="0,0,10,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
-                                <Button.Content>
-                                    <TextBlock x:Uid="Wishlist" Foreground="White"/>
-                                </Button.Content>
-                            </Button>
-                            <Button x:Name="botonSorteos" Margin="0,0,10,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0" Visibility="Collapsed">
-                                <Button.Content>
-                                    <TextBlock x:Uid="Giveaways" Foreground="White"/>
-                                </Button.Content>
-                            </Button>
                         </StackPanel>
                     </Grid>
 
@@ -304,7 +291,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <Grid Grid.Row="0" Margin="20,10,20,20">
+                    <Grid Grid.Row="0" Margin="20,0,20,20">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
@@ -346,6 +333,26 @@
                             <TextBlock x:Uid="Export" Foreground="White" HorizontalAlignment="Center" FontSize="14"/>
 
                             <StackPanel Orientation="Horizontal" Margin="0,15,0,0">
+                                <Button x:Name="botonExportarTexto" BorderBrush="Transparent" Padding="15,10" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0" Margin="0,0,10,0">
+                                    <Button.Background>
+                                        <SolidColorBrush Color="{StaticResource ColorCuarto}" Opacity="0.8"/>
+                                    </Button.Background>
+
+                                    <Button.Content>
+                                        <TextBlock x:Uid="Text" Foreground="White" FontSize="14"/>
+                                    </Button.Content>
+                                </Button>
+
+                                <Button x:Name="botonExportarBBCode" BorderBrush="Transparent" Padding="15,10" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0" Margin="0,0,10,0">
+                                    <Button.Background>
+                                        <SolidColorBrush Color="{StaticResource ColorCuarto}" Opacity="0.8"/>
+                                    </Button.Background>
+
+                                    <Button.Content>
+                                        <TextBlock Text="BBCode" Foreground="White" FontSize="14"/>
+                                    </Button.Content>
+                                </Button>
+
                                 <Button x:Name="botonExportarReddit" BorderBrush="Transparent" Padding="15,10" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
                                     <Button.Background>
                                         <SolidColorBrush Color="{StaticResource ColorCuarto}" Opacity="0.8"/>
@@ -531,7 +538,11 @@
                                 <SolidColorBrush Color="{StaticResource ColorCuarto}" Opacity="0.8"/>
                             </StackPanel.Background>
 
-                            <TextBlock x:Uid="Deals" Foreground="White" TextWrapping="Wrap" FontSize="17"/>
+                            <TextBlock x:Uid="Wishlist2" Foreground="White" TextWrapping="Wrap" FontSize="17"/>
+
+                            <TextBlock x:Uid="ConfigWishlistMessage" Foreground="White" TextWrapping="Wrap" Margin="0,30,0,0"/>
+
+                            <TextBlock x:Uid="Notifications" Foreground="White" TextWrapping="Wrap" FontSize="17"/>
                             
                             
                         </StackPanel> 

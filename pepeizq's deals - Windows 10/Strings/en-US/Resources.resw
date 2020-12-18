@@ -132,6 +132,9 @@
   <data name="Config" xml:space="preserve">
     <value>Configuration</value>
   </data>
+  <data name="ConfigWishlistMessage.Text" xml:space="preserve">
+    <value>Select how your wishlist games will be filtered:</value>
+  </data>
   <data name="Deals.Text" xml:space="preserve">
     <value>Deals</value>
   </data>
@@ -141,8 +144,14 @@
   <data name="Export.Text" xml:space="preserve">
     <value>Export</value>
   </data>
+  <data name="ExportBBCodeMessage" xml:space="preserve">
+    <value>The deals in BBCode format has been copied to your Clipboard</value>
+  </data>
   <data name="ExportRedditMessage" xml:space="preserve">
     <value>The deals in Reddit format has been copied to your Clipboard</value>
+  </data>
+  <data name="ExportTextMessage" xml:space="preserve">
+    <value>The deals in text format has been copied to your Clipboard</value>
   </data>
   <data name="FollowDeals.Text" xml:space="preserve">
     <value>Follow the deals:</value>
@@ -216,6 +225,15 @@
   <data name="MoreThingsVideoDescription" xml:space="preserve">
     <value>In case you have questions about how to use the application, I have uploaded a video to Youtube.</value>
   </data>
+  <data name="NewGameAdded" xml:space="preserve">
+    <value>New Game Added</value>
+  </data>
+  <data name="NewGamesAdded" xml:space="preserve">
+    <value>New Games Added</value>
+  </data>
+  <data name="Notifications.Text" xml:space="preserve">
+    <value>Notifications</value>
+  </data>
   <data name="Open" xml:space="preserve">
     <value>Open</value>
   </data>
@@ -264,6 +282,9 @@
   <data name="Subscriptions2" xml:space="preserve">
     <value>Subscriptions</value>
   </data>
+  <data name="Text.Text" xml:space="preserve">
+    <value>Text</value>
+  </data>
   <data name="TrialBuy.Text" xml:space="preserve">
     <value>Buy App</value>
   </data>
@@ -282,7 +303,10 @@
   <data name="TrialInfo4.Text" xml:space="preserve">
     <value>If you are a European user, all prices calculated in Euro in the search engine.</value>
   </data>
-  <data name="Wishlist.Text" xml:space="preserve">
+  <data name="Wishlist" xml:space="preserve">
+    <value>Wishlist</value>
+  </data>
+  <data name="Wishlist2.Text" xml:space="preserve">
     <value>Wishlist</value>
   </data>
   <data name="WishlistFilter.Text" xml:space="preserve">

@@ -37,7 +37,6 @@ Module Trial
         If config.Values("Estado_App") = 1 Then
             If primeraVez = True Then
                 Divisas.Generar()
-                Push.Escuchar()
             End If
 
             spFiltroDeseados.Visibility = Visibility.Visible

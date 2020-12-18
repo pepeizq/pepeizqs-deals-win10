@@ -39,18 +39,6 @@ Namespace Interfaz
             AddHandler botonSuscripciones.PointerEntered, AddressOf Entra_Boton_Texto
             AddHandler botonSuscripciones.PointerExited, AddressOf Sale_Boton_Texto
 
-            Dim botonListaDeseados As Button = pagina.FindName("botonListaDeseados")
-
-            AddHandler botonListaDeseados.Click, AddressOf AbrirDeseadosClick
-            AddHandler botonListaDeseados.PointerEntered, AddressOf Entra_Boton_Texto
-            AddHandler botonListaDeseados.PointerExited, AddressOf Sale_Boton_Texto
-
-            Dim botonSorteos As Button = pagina.FindName("botonSorteos")
-
-            'AddHandler botonSorteos.Click, AddressOf AbrirSeccionClick
-            AddHandler botonSorteos.PointerEntered, AddressOf Entra_Boton_Texto
-            AddHandler botonSorteos.PointerExited, AddressOf Sale_Boton_Texto
-
             '-----------------------------------------------
 
             Dim botonTwitter As Button = pagina.FindName("botonTwitter")
@@ -94,17 +82,7 @@ Namespace Interfaz
         Private Sub AbrirSeccionClick(sender As Object, e As RoutedEventArgs)
 
             Dim boton As Button = sender
-            Wordpress.CargarEntradas(100, boton.Tag, False)
-
-        End Sub
-
-        Private Sub AbrirDeseadosClick(sender As Object, e As RoutedEventArgs)
-
-            Dim frame As Frame = Window.Current.Content
-            Dim pagina As Page = frame.Content
-
-            Dim gridDeseados As Grid = pagina.FindName("gridDeseados")
-            Pestañas.Visibilidad_Pestañas(gridDeseados, Nothing)
+            Wordpress.CargarEntradas(100, boton.Tag, False, False)
 
         End Sub
 

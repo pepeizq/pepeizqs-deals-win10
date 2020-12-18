@@ -10,39 +10,43 @@ Module Wordpress
     Dim categoriaS As String
     Dim categoriaN As Integer
     Dim actualizar As Boolean
+    Dim primeraVez As Boolean
     Dim entradas As New List(Of Entrada)
 
-    Public Sub CargarEntradas(paginas_ As Integer, categoria_ As String, actualizar_ As Boolean)
+    Public Sub CargarEntradas(paginas_ As Integer, categoria_ As String, actualizar_ As Boolean, primeraVez_ As Boolean)
 
         If bw.IsBusy = False Then
             paginas = paginas_
             categoriaS = categoria_
             actualizar = actualizar_
+            primeraVez = primeraVez_
 
             Trial.Detectar(False)
 
-            Dim frame As Frame = Window.Current.Content
-            Dim pagina As Page = frame.Content
+            If Not Window.Current Is Nothing Then
+                Dim frame As Frame = Window.Current.Content
+                Dim pagina As Page = frame.Content
 
-            Dim gridCarga As Grid = pagina.FindName("gridCarga")
-            Interfaz.Pestañas.Visibilidad_Pestañas(gridCarga, Nothing)
+                Dim gridCarga As Grid = pagina.FindName("gridCarga")
+                Interfaz.Pestañas.Visibilidad_Pestañas(gridCarga, Nothing)
 
-            Dim spEntradas As StackPanel = pagina.FindName("spEntradas")
-            spEntradas.Children.Clear()
+                Dim spEntradas As StackPanel = pagina.FindName("spEntradas")
+                spEntradas.Children.Clear()
 
-            Dim recursos As New Resources.ResourceLoader()
+                Dim recursos As New Resources.ResourceLoader()
 
-            If categoria_ = recursos.GetString("Bundles2") Then
-                categoriaN = 4
-            ElseIf categoria_ = recursos.GetString("Deals2") Then
-                categoriaN = 3
-            ElseIf categoria_ = recursos.GetString("Free2") Then
-                categoriaN = 12
-            ElseIf categoria_ = recursos.GetString("Subscriptions2") Then
-                categoriaN = 13
+                If categoria_ = recursos.GetString("Bundles2") Then
+                    categoriaN = 4
+                ElseIf categoria_ = recursos.GetString("Deals2") Then
+                    categoriaN = 3
+                ElseIf categoria_ = recursos.GetString("Free2") Then
+                    categoriaN = 12
+                ElseIf categoria_ = recursos.GetString("Subscriptions2") Then
+                    categoriaN = 13
+                End If
+
+                bw.RunWorkerAsync()
             End If
-
-            bw.RunWorkerAsync()
         End If
 
     End Sub
@@ -129,12 +133,14 @@ Module Wordpress
 
                     If spEntradas.Children.Count > 0 Then
                         For Each item In spEntradas.Children
-                            If TypeOf item Is DropShadowPanel Then
-                                Dim panel As DropShadowPanel = item
-                                Dim panelEntrada As Entrada = panel.Tag
+                            If TypeOf item Is Grid Then
+                                Dim grid As Grid = item
+                                Dim gridEntrada As Entrada = grid.Tag
 
-                                If entrada.Enlace = panelEntrada.Enlace Then
-                                    añadir = False
+                                If Not gridEntrada Is Nothing Then
+                                    If entrada.Enlace = gridEntrada.Enlace Then
+                                        añadir = False
+                                    End If
                                 End If
                             End If
                         Next
@@ -206,17 +212,15 @@ Module Wordpress
                             End Try
                         End If
 
-                        Dim botonSorteos As Button = pagina.FindName("botonSorteos")
                         Dim botonSorteosImagen As Button = pagina.FindName("botonSorteosImagen")
 
                         If entrada.Titulo.Texto.Contains("New Giveaways on SteamGifts • News") Then
-                            botonSorteos.Visibility = Visibility.Visible
                             botonSorteosImagen.Visibility = Visibility.Visible
+                            botonSorteosImagen.Tag = entrada
 
                             Dim imagenBotonSorteos As ImageEx = pagina.FindName("imagenBotonSorteos")
                             imagenBotonSorteos.Source = entrada.Imagen
                         Else
-                            botonSorteos.Visibility = Visibility.Collapsed
                             botonSorteosImagen.Visibility = Visibility.Collapsed
                         End If
                     End If
@@ -239,7 +243,15 @@ Module Wordpress
         Dim gridEntradas As Grid = pagina.FindName("gridEntradas")
         Interfaz.Pestañas.Visibilidad_Pestañas(gridEntradas, categoriaS)
 
-        Deseados.CargarUsuario()
+        If primeraVez = True Then
+            Deseados.CargarUsuario()
+
+            If config.Values("Estado_App") = 1 Then
+                If config.Values("Notificaciones") = 1 Then
+                    Push.Escuchar(entradas)
+                End If
+            End If
+        End If
 
     End Sub
 
@@ -260,6 +272,18 @@ Module Wordpress
         End Try
 
         Return resultados
+    End Function
+
+    Public Async Function RecuperarPagina(id As String) As Task(Of Entrada)
+
+        Dim cliente As New WordPressClient("https://pepeizqdeals.com/wp-json/") With {
+            .AuthMethod = Models.AuthMethod.JWT
+        }
+
+        Dim entrada As Entrada = Await cliente.CustomRequest.Get(Of Entrada)("wp/v2/pages/" + id)
+
+        Return entrada
+
     End Function
 
 End Module

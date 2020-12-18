@@ -1,8 +1,7 @@
-﻿Imports Microsoft.Toolkit.Uwp.UI.Animations
+﻿Imports System.Net
 Imports Microsoft.Toolkit.Uwp.UI.Controls
 Imports Newtonsoft.Json
 Imports Windows.Storage
-Imports Windows.UI.Core
 
 Module Deseados
 
@@ -106,40 +105,47 @@ Module Deseados
         Dim filtros As New List(Of FiltroDeseado)
 
         For Each juego In juegosDeseados
+            Dim listadoEncontrados As New List(Of FiltroEntradaDeseado)
+
             For Each entrada In entradas
-                Dim añadir As Boolean = False
+                If entrada.Categorias(0) = 3 Then
+                    If Not entrada.JsonExpandido = Nothing Then
+                        Dim json As EntradaOfertas = JsonConvert.DeserializeObject(Of EntradaOfertas)(entrada.JsonExpandido)
 
-                If Not entrada.Contenido Is Nothing Then
-                    If entrada.Contenido.Texto.Contains(">" + juego.Value.Titulo.Trim + "<") Then
-                        añadir = True
-
-                        Dim k As Integer = 0
-                        While k < filtros.Count
-                            If filtros(k).Titulo = juego.Value.Titulo Then
-                                añadir = False
-                                filtros(k).Enlaces.Add(entrada.Enlace)
+                        If Not json Is Nothing Then
+                            If Not json.Juegos Is Nothing Then
+                                For Each juego2 In json.Juegos
+                                    If Limpieza.Limpiar(juego2.Titulo) = Limpieza.Limpiar(WebUtility.HtmlDecode(juego.Value.Titulo)) Then
+                                        listadoEncontrados.Add(New FiltroEntradaDeseado(juego2, entrada))
+                                    End If
+                                Next
                             End If
-                            k += 1
-                        End While
+                        End If
                     End If
-                ElseIf Not entrada.Titulo Is Nothing Then
-                    If entrada.Titulo.Texto.Contains(juego.Value.Titulo.Trim + " •") Then
-                        añadir = True
-                    End If
-                ElseIf Not entrada.subTitulo = Nothing Then
-                    If entrada.SubTitulo.Contains(juego.Value.Titulo.Trim + " ,") Or entrada.SubTitulo.Contains(", " + juego.Value.Titulo.Trim) Or entrada.SubTitulo.Contains("and " + juego.Value.Titulo.Trim) Then
-                        añadir = True
-                    End If
-                End If
+                Else
+                    Dim añadir As Boolean = False
 
-                If añadir = True Then
-                    Dim enlaces As New List(Of String) From {
-                        entrada.Enlace
-                    }
+                    If Not entrada.Titulo Is Nothing Then
+                        If Limpieza.Limpiar(entrada.Titulo.Texto).Contains(Limpieza.Limpiar(juego.Value.Titulo.Trim)) Then
+                            añadir = True
+                        End If
+                    End If
 
-                    filtros.Add(New FiltroDeseado(juego.Value.Titulo, enlaces, juego.Value.Imagen))
+                    If Not entrada.SubTitulo = Nothing Then
+                        If Limpieza.Limpiar(entrada.SubTitulo).Contains(Limpieza.Limpiar(juego.Value.Titulo.Trim)) Then
+                            añadir = True
+                        End If
+                    End If
+
+                    If añadir = True Then
+                        listadoEncontrados.Add(New FiltroEntradaDeseado(Nothing, entrada))
+                    End If
                 End If
             Next
+
+            If listadoEncontrados.Count > 0 Then
+                filtros.Add(New FiltroDeseado(juego.Value.Titulo, listadoEncontrados, juego.Value.Imagen))
+            End If
         Next
 
         Dim tbDeseadosNoHay As TextBlock = pagina.FindName("tbJuegosDeseadosNoHay")
@@ -169,8 +175,8 @@ Module Deseados
                 }
 
                 AddHandler botonFiltro.Click, AddressOf AbrirFiltroClick
-                AddHandler botonFiltro.PointerEntered, AddressOf UsuarioEntraBoton
-                AddHandler botonFiltro.PointerExited, AddressOf UsuarioSaleBoton
+                AddHandler botonFiltro.PointerEntered, AddressOf Interfaz.EfectosHover.Entra_Boton_Imagen
+                AddHandler botonFiltro.PointerExited, AddressOf Interfaz.EfectosHover.Sale_Boton_Imagen
 
                 gvFiltro.Items.Add(botonFiltro)
             Next
@@ -189,29 +195,25 @@ Module Deseados
         Dim pagina As Page = frame.Content
 
         Dim spEntradas As StackPanel = pagina.FindName("spEntradas")
+        spEntradas.Children.Clear()
 
-        For Each grid In spEntradas.Children
-            If TypeOf grid Is Grid Then
-                Dim grid2 As Grid = grid
-                Dim entrada As Entrada = grid2.Tag
+        For Each entrada2 In filtro.Entradas
+            If Not entrada2.Juego Is Nothing Then
+                Dim listaJuegos As New List(Of EntradaOfertasJuego) From {
+                    entrada2.Juego
+                }
 
-                If Not entrada Is Nothing Then
-                    Dim visible As Boolean = False
+                Dim json As String = GenerarJsonOfertas(listaJuegos, Nothing)
 
-                    For Each enlace In filtro.Enlaces
-                        If entrada.Enlace = enlace Then
-                            visible = True
-                        End If
-                    Next
+                Dim entrada As New Entrada With {
+                    .TiendaLogo = entrada2.Entrada.TiendaLogo,
+                    .Json = json
+                }
+                entrada.Categorias = entrada2.Entrada.Categorias
 
-                    If visible = True Then
-                        grid2.Visibility = Visibility.Visible
-                    Else
-                        grid2.Visibility = Visibility.Collapsed
-                    End If
-                Else
-                    grid2.Visibility = Visibility.Collapsed
-                End If
+                spEntradas.Children.Add(Interfaz.Entradas.GenerarEntrada(entrada))
+            Else
+                spEntradas.Children.Add(Interfaz.Entradas.GenerarEntrada(entrada2.Entrada))
             End If
         Next
 
@@ -235,24 +237,65 @@ Module Deseados
 
     End Sub
 
-    Private Sub UsuarioEntraBoton(sender As Object, e As PointerRoutedEventArgs)
+    Private Function GenerarJsonOfertas(listaJuegos As List(Of EntradaOfertasJuego), comentario As String)
 
-        Dim boton As Button = sender
-        Dim imagen As ImageEx = boton.Content
-        imagen.Saturation(0.2).Start()
+        Dim contenido As String = String.Empty
 
-        Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Hand, 1)
+        contenido = "{" + ChrW(34) + "message" + ChrW(34) + ":"
 
-    End Sub
+        If Not comentario = Nothing Then
+            If comentario.Trim.Length > 0 Then
+                contenido = contenido + ChrW(34) + comentario.Trim + ChrW(34)
+            Else
+                contenido = contenido + "null"
+            End If
+        Else
+            contenido = contenido + "null"
+        End If
 
-    Private Sub UsuarioSaleBoton(sender As Object, e As PointerRoutedEventArgs)
+        contenido = contenido + "," + ChrW(34) + "games" + ChrW(34) + ":["
 
-        Dim boton As Button = sender
-        Dim imagen As ImageEx = boton.Content
-        imagen.Saturation(1).Start()
+        For Each juego In listaJuegos
+            Dim titulo As String = juego.Titulo
+            titulo = titulo.Replace(ChrW(34), Nothing)
 
-        Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Arrow, 1)
+            Dim imagen As String = juego.Imagen
 
-    End Sub
+            Dim drm As String = juego.DRM
+
+            If drm = String.Empty Then
+                drm = "null"
+            Else
+                drm = drm.Trim
+            End If
+
+            Dim analisisPorcentaje As String = "null"
+            Dim analisisCantidad As String = "null"
+            Dim analisisEnlace As String = "null"
+
+            If Not juego.AnalisisPorcentaje Is Nothing Then
+                analisisPorcentaje = juego.AnalisisPorcentaje
+                analisisCantidad = juego.AnalisisCantidad
+                analisisEnlace = juego.AnalisisEnlace
+            End If
+
+            contenido = contenido + "{" + ChrW(34) + "title" + ChrW(34) + ":" + ChrW(34) + titulo + ChrW(34) + "," +
+                                          ChrW(34) + "image" + ChrW(34) + ":" + ChrW(34) + imagen + ChrW(34) + "," +
+                                          ChrW(34) + "dscnt" + ChrW(34) + ":" + ChrW(34) + juego.Descuento + ChrW(34) + "," +
+                                          ChrW(34) + "price" + ChrW(34) + ":" + ChrW(34) + juego.Precio + ChrW(34) + "," +
+                                          ChrW(34) + "link" + ChrW(34) + ":" + ChrW(34) + juego.Enlace + ChrW(34) + "," +
+                                          ChrW(34) + "drm" + ChrW(34) + ":" + ChrW(34) + drm + ChrW(34) + "," +
+                                          ChrW(34) + "revw1" + ChrW(34) + ":" + ChrW(34) + analisisPorcentaje + ChrW(34) + "," +
+                                          ChrW(34) + "revw2" + ChrW(34) + ":" + ChrW(34) + analisisCantidad + ChrW(34) + "," +
+                                          ChrW(34) + "revw3" + ChrW(34) + ":" + ChrW(34) + analisisEnlace + ChrW(34) +
+                                    "},"
+        Next
+
+        contenido = contenido.Remove(contenido.Length - 1, 1)
+        contenido = contenido + "]}"
+
+        Return contenido
+
+    End Function
 
 End Module
