@@ -221,7 +221,8 @@ Namespace Interfaz
                             .MaxHeight = 150,
                             .Source = juego.Imagen,
                             .BorderBrush = New SolidColorBrush(App.Current.Resources("ColorCuarto")),
-                            .BorderThickness = New Thickness(1, 1, 1, 1)
+                            .BorderThickness = New Thickness(1, 1, 1, 1),
+                            .EnableLazyLoading = True
                         }
 
                         spIzquierda.Children.Add(imagenJuego)

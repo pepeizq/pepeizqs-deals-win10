@@ -57,7 +57,7 @@ Namespace Interfaz
 
         End Function
 
-        Public Function GenerarEntrada(entrada As Entrada)
+        Public Async Function GenerarEntrada(entrada As Entrada) As Task(Of Grid)
 
             Dim recursos As New Resources.ResourceLoader()
 
@@ -97,7 +97,33 @@ Namespace Interfaz
 
             spIzquierda.Children.Add(imagenTienda)
 
-            If entrada.Categorias(0) = 4 Then
+            If entrada.Categorias(0) = 3 Then
+                If entrada.JsonExpandido = String.Empty Then
+                    Dim json As EntradaOfertas = JsonConvert.DeserializeObject(Of EntradaOfertas)(entrada.Json)
+
+                    If Not json Is Nothing Then
+                        If Not json.Mensaje = Nothing Then
+                            If Not json.Mensaje = "null" Then
+                                json.Mensaje = json.Mensaje.Replace("* ", Nothing)
+                                json.Mensaje = json.Mensaje.Trim
+
+                                Dim tb As New TextBlock With {
+                                    .Text = json.Mensaje,
+                                    .Foreground = New SolidColorBrush(Colors.White),
+                                    .TextWrapping = TextWrapping.Wrap,
+                                    .HorizontalAlignment = HorizontalAlignment.Center,
+                                    .Margin = New Thickness(0, 30, 0, 0),
+                                    .FontSize = 16,
+                                    .FontWeight = Text.FontWeights.SemiBold,
+                                    .MaxWidth = 350
+                                }
+
+                                spIzquierda.Children.Add(tb)
+                            End If
+                        End If
+                    End If
+                End If
+            ElseIf entrada.Categorias(0) = 4 Then
                 Dim temp As String = entrada.Titulo.Texto
                 Dim int As Integer = temp.IndexOf("•")
                 temp = temp.Remove(0, int + 1)
@@ -204,7 +230,8 @@ Namespace Interfaz
                         .IsCacheEnabled = True,
                         .Source = juego.Imagen,
                         .MaxHeight = 200,
-                        .MaxWidth = 400
+                        .MaxWidth = 400,
+                        .EnableLazyLoading = True
                     }
 
                     spJuego.Children.Add(imagenJuego)
@@ -286,7 +313,8 @@ Namespace Interfaz
                         Dim textoAmpliar As New TextBlock With {
                             .Text = recursos.GetString("ShowDeals") + " (" + jsonExpandido.Juegos.Count.ToString + ")",
                             .Foreground = New SolidColorBrush(Colors.White),
-                            .FontSize = 17
+                            .FontSize = 19,
+                            .FontWeight = Text.FontWeights.SemiBold
                         }
 
                         Dim botonAmpliar As New Button With {

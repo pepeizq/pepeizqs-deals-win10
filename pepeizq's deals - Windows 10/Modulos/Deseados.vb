@@ -117,11 +117,11 @@ Module Deseados
                         If Not json Is Nothing Then
                             If Not json.Juegos Is Nothing Then
                                 For Each juego2 In json.Juegos
-                                    If config.Values("Deseados") = 0 Then
+                                    If config.Values("Deseados") = 1 Then
                                         If Limpieza.Limpiar(juego2.Titulo) = Limpieza.Limpiar(WebUtility.HtmlDecode(juego.Value.Titulo)) Then
                                             listadoEncontrados.Add(New FiltroEntradaDeseado(juego2, entrada))
                                         End If
-                                    ElseIf config.Values("Deseados") = 1 Then
+                                    ElseIf config.Values("Deseados") = 0 Then
                                         If Limpieza.Limpiar(juego2.Titulo).Contains(Limpieza.Limpiar(WebUtility.HtmlDecode(juego.Value.Titulo))) Then
                                             listadoEncontrados.Add(New FiltroEntradaDeseado(juego2, entrada))
                                         End If
@@ -194,7 +194,7 @@ Module Deseados
 
     End Sub
 
-    Private Sub AbrirFiltroClick(sender As Object, e As RoutedEventArgs)
+    Private Async Sub AbrirFiltroClick(sender As Object, e As RoutedEventArgs)
 
         Dim boton As Button = sender
         Dim filtro As FiltroDeseado = boton.Tag
@@ -219,9 +219,9 @@ Module Deseados
                 }
                 entrada.Categorias = entrada2.Entrada.Categorias
 
-                spEntradas.Children.Add(Interfaz.Entradas.GenerarEntrada(entrada))
+                spEntradas.Children.Add(Await Interfaz.Entradas.GenerarEntrada(entrada))
             Else
-                spEntradas.Children.Add(Interfaz.Entradas.GenerarEntrada(entrada2.Entrada))
+                spEntradas.Children.Add(Await Interfaz.Entradas.GenerarEntrada(entrada2.Entrada))
             End If
         Next
 

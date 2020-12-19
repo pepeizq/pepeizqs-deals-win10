@@ -50,7 +50,7 @@ Public NotInheritable Class MainPage
         'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "es-ES"
         'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "en-US"
 
-        CargarEntradas(100, Nothing, True, True)
+        Wordpress.CargarEntradas(100, Nothing, True, True)
 
         Deseados.Cargar()
         Trial.Detectar(True)

@@ -1,57 +1,70 @@
 ﻿Imports Microsoft.Toolkit.Uwp.Helpers
 Imports Microsoft.Toolkit.Uwp.UI.Controls
+Imports Windows.ApplicationModel.Core
 Imports Windows.Storage
+Imports Windows.UI.Core
 Imports WordPressPCL
 
 Module Wordpress
 
-    Dim WithEvents bw As New BackgroundWorker
-    Dim paginas As Integer
-    Dim categoriaS As String
-    Dim categoriaN As Integer
-    Dim actualizar As Boolean
-    Dim primeraVez As Boolean
     Dim entradas As New List(Of Entrada)
 
-    Public Sub CargarEntradas(paginas_ As Integer, categoria_ As String, actualizar_ As Boolean, primeraVez_ As Boolean)
+    Public Async Sub CargarEntradas(paginas As Integer, categoria As String, actualizar As Boolean, primeraVez As Boolean)
 
-        If bw.IsBusy = False Then
-            paginas = paginas_
-            categoriaS = categoria_
-            actualizar = actualizar_
-            primeraVez = primeraVez_
+        Dim frame As Frame = Window.Current.Content
+        Dim pagina As Page = frame.Content
 
-            Trial.Detectar(False)
+        Dim gridCarga As Grid = pagina.FindName("gridCarga")
+        Interfaz.Pestañas.Visibilidad_Pestañas(gridCarga, Nothing)
 
-            If Not Window.Current Is Nothing Then
-                Dim frame As Frame = Window.Current.Content
-                Dim pagina As Page = frame.Content
-
-                Dim gridCarga As Grid = pagina.FindName("gridCarga")
-                Interfaz.Pestañas.Visibilidad_Pestañas(gridCarga, Nothing)
-
-                Dim spEntradas As StackPanel = pagina.FindName("spEntradas")
-                spEntradas.Children.Clear()
-
-                Dim recursos As New Resources.ResourceLoader()
-
-                If categoria_ = recursos.GetString("Bundles2") Then
-                    categoriaN = 4
-                ElseIf categoria_ = recursos.GetString("Deals2") Then
-                    categoriaN = 3
-                ElseIf categoria_ = recursos.GetString("Free2") Then
-                    categoriaN = 12
-                ElseIf categoria_ = recursos.GetString("Subscriptions2") Then
-                    categoriaN = 13
-                End If
-
-                bw.RunWorkerAsync()
-            End If
-        End If
+        Await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, Sub()
+                                                                                                         CargarEntradas2(pagina, paginas, categoria, actualizar, primeraVez)
+                                                                                                     End Sub)
 
     End Sub
 
-    Private Sub Bw_DoWork(sender As Object, e As DoWorkEventArgs) Handles bw.DoWork
+    Private Async Sub CargarEntradas2(pagina As Page, paginas As Integer, categoria As String, actualizar As Boolean, primeraVez As Boolean)
+
+
+        Dim recursos As New Resources.ResourceLoader()
+
+        Dim spEntradas As StackPanel = pagina.FindName("spEntradas")
+
+        If spEntradas.Children.Count > 0 Then
+            For Each item In spEntradas.Children
+                If TypeOf item Is Grid Then
+                    Dim grid As Grid = item
+                    Dim gridEntrada As Entrada = grid.Tag
+
+                    If Not gridEntrada Is Nothing Then
+                        Dim añadir As Boolean = True
+
+                        For Each entrada In entradas
+                            If entrada.ID = gridEntrada.ID Then
+                                añadir = False
+                            End If
+                        Next
+
+                        If añadir = True Then
+                            entradas.Add(gridEntrada)
+                        End If
+                    End If
+                End If
+            Next
+        End If
+
+        spEntradas.Children.Clear()
+
+        Dim categoriaN As Integer = 0
+        If categoria = recursos.GetString("Bundles2") Then
+            categoriaN = 4
+        ElseIf categoria = recursos.GetString("Deals2") Then
+            categoriaN = 3
+        ElseIf categoria = recursos.GetString("Free2") Then
+            categoriaN = 12
+        ElseIf categoria = recursos.GetString("Subscriptions2") Then
+            categoriaN = 13
+        End If
 
         If actualizar = True Then
             Dim cliente As New WordPressClient("https://pepeizqdeals.com/wp-json/") With {
@@ -64,10 +77,9 @@ Module Wordpress
                 categoriaString = "&categories=" + categoriaN.ToString
             End If
 
-            Dim entradas_ As Task(Of List(Of Entrada)) = cliente.CustomRequest.Get(Of List(Of Entrada))("wp/v2/posts?per_page=" + paginas.ToString + categoriaString.ToString)
-            Dim entradas2 As List(Of Entrada) = entradas_.Result
+            entradas = Await cliente.CustomRequest.Get(Of List(Of Entrada))("wp/v2/posts?per_page=" + paginas.ToString + categoriaString.ToString)
 
-            For Each nuevaEntrada In entradas2
+            For Each nuevaEntrada In entradas
                 Dim añadir As Boolean = True
 
                 For Each viejaEntrada In entradas
@@ -82,48 +94,38 @@ Module Wordpress
             Next
         End If
 
-    End Sub
-
-    Private Async Sub Bw_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles bw.RunWorkerCompleted
-
-        Dim frame As Frame = Window.Current.Content
-        Dim pagina As Page = frame.Content
-
-        Dim recursos As New Resources.ResourceLoader()
-
         If Not entradas Is Nothing Then
             If entradas.Count > 0 Then
                 Dim fechas As New List(Of String)
-                Dim spEntradas As StackPanel = pagina.FindName("spEntradas")
 
                 For Each entrada In entradas
                     Dim añadir As Boolean = False
 
-                    If categoriaS = Nothing Then
+                    If categoria = Nothing Then
                         For Each categoriaN In entrada.Categorias
                             If categoriaN = 4 Or categoriaN = 3 Or categoriaN = 12 Or categoriaN = 13 Then
                                 añadir = True
                             End If
                         Next
-                    ElseIf categoriaS = recursos.GetString("Bundles2") Then
+                    ElseIf categoria = recursos.GetString("Bundles2") Then
                         For Each categoriaN In entrada.Categorias
                             If categoriaN = 4 Then
                                 añadir = True
                             End If
                         Next
-                    ElseIf categoriaS = recursos.GetString("Deals2") Then
+                    ElseIf categoria = recursos.GetString("Deals2") Then
                         For Each categoriaN In entrada.Categorias
                             If categoriaN = 3 Then
                                 añadir = True
                             End If
                         Next
-                    ElseIf categoriaS = recursos.GetString("Free2") Then
+                    ElseIf categoria = recursos.GetString("Free2") Then
                         For Each categoriaN In entrada.Categorias
                             If categoriaN = 12 Then
                                 añadir = True
                             End If
                         Next
-                    ElseIf categoriaS = recursos.GetString("Subscriptions2") Then
+                    ElseIf categoria = recursos.GetString("Subscriptions2") Then
                         For Each categoriaN In entrada.Categorias
                             If categoriaN = 13 Then
                                 añadir = True
@@ -138,7 +140,7 @@ Module Wordpress
                                 Dim gridEntrada As Entrada = grid.Tag
 
                                 If Not gridEntrada Is Nothing Then
-                                    If entrada.Enlace = gridEntrada.Enlace Then
+                                    If entrada.ID = gridEntrada.ID Then
                                         añadir = False
                                     End If
                                 End If
@@ -148,26 +150,34 @@ Module Wordpress
 
                     If añadir = True Then
                         Dim añadirFecha As Boolean = True
-                        Dim fecha As Date = Date.Parse(entrada.Fecha)
+                        Dim fecha As New Date
 
-                        If fechas.Count > 0 Then
-                            For Each fecha2 In fechas
-                                If fecha2 = fecha.Date.ToString Then
-                                    añadirFecha = False
-                                End If
-                            Next
-                        End If
+                        Try
+                            fecha = Date.Parse(entrada.Fecha)
+                        Catch ex As Exception
 
-                        If añadirFecha = True Then
-                            fechas.Add(fecha.Date.ToString)
-                        End If
+                        End Try
 
-                        If Not entrada.Json = String.Empty Then
-                            If añadirFecha = True Then
-                                spEntradas.Children.Add(Interfaz.Entradas.GenerarFecha(fecha.Date))
+                        If Not fecha = Nothing Then
+                            If fechas.Count > 0 Then
+                                For Each fecha2 In fechas
+                                    If fecha2 = fecha.Date.ToString Then
+                                        añadirFecha = False
+                                    End If
+                                Next
                             End If
 
-                            spEntradas.Children.Add(Interfaz.Entradas.GenerarEntrada(entrada))
+                            If añadirFecha = True Then
+                                fechas.Add(fecha.Date.ToString)
+                            End If
+
+                            If Not entrada.Json = String.Empty Then
+                                If añadirFecha = True Then
+                                    spEntradas.Children.Add(Interfaz.Entradas.GenerarFecha(fecha.Date))
+                                End If
+
+                                spEntradas.Children.Add(Await Interfaz.Entradas.GenerarEntrada(entrada))
+                            End If
                         End If
                     End If
 
@@ -199,6 +209,8 @@ Module Wordpress
                                     End If
                                 Next
                             End If
+                        Else
+                            listaAnuncios = New List(Of Anuncio)
                         End If
 
                         If mostrarAnuncio2 = True Then
@@ -240,9 +252,6 @@ Module Wordpress
             gvFiltroJuegosDeseados.Tag = entradas
         End If
 
-        Dim gridEntradas As Grid = pagina.FindName("gridEntradas")
-        Interfaz.Pestañas.Visibilidad_Pestañas(gridEntradas, categoriaS)
-
         If primeraVez = True Then
             Deseados.CargarUsuario()
 
@@ -252,6 +261,9 @@ Module Wordpress
                 End If
             End If
         End If
+
+        Dim gridEntradas As Grid = pagina.FindName("gridEntradas")
+        Interfaz.Pestañas.Visibilidad_Pestañas(gridEntradas, categoria)
 
     End Sub
 
