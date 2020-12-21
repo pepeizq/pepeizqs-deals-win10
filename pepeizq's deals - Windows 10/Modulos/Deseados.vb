@@ -129,6 +129,24 @@ Module Deseados
                                 Next
                             End If
                         End If
+                    Else
+                        Dim añadir As Boolean = False
+
+                        If Not entrada.Titulo Is Nothing Then
+                            If Limpieza.Limpiar(entrada.Titulo.Texto).Contains(Limpieza.Limpiar(juego.Value.Titulo.Trim)) Then
+                                añadir = True
+                            End If
+                        End If
+
+                        If Not entrada.SubTitulo = Nothing Then
+                            If Limpieza.Limpiar(entrada.SubTitulo).Contains(Limpieza.Limpiar(juego.Value.Titulo.Trim)) Then
+                                añadir = True
+                            End If
+                        End If
+
+                        If añadir = True Then
+                            listadoEncontrados.Add(New FiltroEntradaDeseado(Nothing, entrada))
+                        End If
                     End If
                 Else
                     Dim añadir As Boolean = False
@@ -213,6 +231,12 @@ Module Deseados
 
                 Dim json As String = GenerarJsonOfertas(listaJuegos, Nothing)
 
+                If entrada2.Juego Is Nothing Then
+                    If entrada2.Entrada.Categorias(0) = 3 Then
+                        json = entrada2.Entrada.Json
+                    End If
+                End If
+
                 Dim entrada As New Entrada With {
                     .TiendaLogo = entrada2.Entrada.TiendaLogo,
                     .Json = json
@@ -245,7 +269,7 @@ Module Deseados
 
     End Sub
 
-    Private Function GenerarJsonOfertas(listaJuegos As List(Of EntradaOfertasJuego), comentario As String)
+    Public Function GenerarJsonOfertas(listaJuegos As List(Of EntradaOfertasJuego), comentario As String)
 
         Dim contenido As String = String.Empty
 
@@ -264,39 +288,41 @@ Module Deseados
         contenido = contenido + "," + ChrW(34) + "games" + ChrW(34) + ":["
 
         For Each juego In listaJuegos
-            Dim titulo As String = juego.Titulo
-            titulo = titulo.Replace(ChrW(34), Nothing)
+            If Not juego Is Nothing Then
+                Dim titulo As String = juego.Titulo
+                titulo = titulo.Replace(ChrW(34), Nothing)
 
-            Dim imagen As String = juego.Imagen
+                Dim imagen As String = juego.Imagen
 
-            Dim drm As String = juego.DRM
+                Dim drm As String = juego.DRM
 
-            If drm = String.Empty Then
-                drm = "null"
-            Else
-                drm = drm.Trim
+                If drm = String.Empty Then
+                    drm = "null"
+                Else
+                    drm = drm.Trim
+                End If
+
+                Dim analisisPorcentaje As String = "null"
+                Dim analisisCantidad As String = "null"
+                Dim analisisEnlace As String = "null"
+
+                If Not juego.AnalisisPorcentaje Is Nothing Then
+                    analisisPorcentaje = juego.AnalisisPorcentaje
+                    analisisCantidad = juego.AnalisisCantidad
+                    analisisEnlace = juego.AnalisisEnlace
+                End If
+
+                contenido = contenido + "{" + ChrW(34) + "title" + ChrW(34) + ":" + ChrW(34) + titulo + ChrW(34) + "," +
+                                              ChrW(34) + "image" + ChrW(34) + ":" + ChrW(34) + imagen + ChrW(34) + "," +
+                                              ChrW(34) + "dscnt" + ChrW(34) + ":" + ChrW(34) + juego.Descuento + ChrW(34) + "," +
+                                              ChrW(34) + "price" + ChrW(34) + ":" + ChrW(34) + juego.Precio + ChrW(34) + "," +
+                                              ChrW(34) + "link" + ChrW(34) + ":" + ChrW(34) + juego.Enlace + ChrW(34) + "," +
+                                              ChrW(34) + "drm" + ChrW(34) + ":" + ChrW(34) + drm + ChrW(34) + "," +
+                                              ChrW(34) + "revw1" + ChrW(34) + ":" + ChrW(34) + analisisPorcentaje + ChrW(34) + "," +
+                                              ChrW(34) + "revw2" + ChrW(34) + ":" + ChrW(34) + analisisCantidad + ChrW(34) + "," +
+                                              ChrW(34) + "revw3" + ChrW(34) + ":" + ChrW(34) + analisisEnlace + ChrW(34) +
+                                        "},"
             End If
-
-            Dim analisisPorcentaje As String = "null"
-            Dim analisisCantidad As String = "null"
-            Dim analisisEnlace As String = "null"
-
-            If Not juego.AnalisisPorcentaje Is Nothing Then
-                analisisPorcentaje = juego.AnalisisPorcentaje
-                analisisCantidad = juego.AnalisisCantidad
-                analisisEnlace = juego.AnalisisEnlace
-            End If
-
-            contenido = contenido + "{" + ChrW(34) + "title" + ChrW(34) + ":" + ChrW(34) + titulo + ChrW(34) + "," +
-                                          ChrW(34) + "image" + ChrW(34) + ":" + ChrW(34) + imagen + ChrW(34) + "," +
-                                          ChrW(34) + "dscnt" + ChrW(34) + ":" + ChrW(34) + juego.Descuento + ChrW(34) + "," +
-                                          ChrW(34) + "price" + ChrW(34) + ":" + ChrW(34) + juego.Precio + ChrW(34) + "," +
-                                          ChrW(34) + "link" + ChrW(34) + ":" + ChrW(34) + juego.Enlace + ChrW(34) + "," +
-                                          ChrW(34) + "drm" + ChrW(34) + ":" + ChrW(34) + drm + ChrW(34) + "," +
-                                          ChrW(34) + "revw1" + ChrW(34) + ":" + ChrW(34) + analisisPorcentaje + ChrW(34) + "," +
-                                          ChrW(34) + "revw2" + ChrW(34) + ":" + ChrW(34) + analisisCantidad + ChrW(34) + "," +
-                                          ChrW(34) + "revw3" + ChrW(34) + ":" + ChrW(34) + analisisEnlace + ChrW(34) +
-                                    "},"
         Next
 
         contenido = contenido.Remove(contenido.Length - 1, 1)

@@ -142,6 +142,12 @@ Module Push
                                                                                                                                                                                                         Next
                                                                                                                                                                                                     End If
 
+                                                                                                                                                                                                    For Each entrada In entradas
+                                                                                                                                                                                                        If entrada.Enlace = enlace Then
+                                                                                                                                                                                                            notificar = False
+                                                                                                                                                                                                        End If
+                                                                                                                                                                                                    Next
+
                                                                                                                                                                                                     If notificar = True Then
                                                                                                                                                                                                         listaNotificaciones.Add(New MensajePush(args.Data))
 

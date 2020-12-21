@@ -20,80 +20,55 @@ Namespace Interfaz
             Dim tbBuscador As TextBox = pagina.FindName("tbBuscador")
             tbBuscador.PlaceholderText = recursos.GetString("SearchGame")
 
-            AddHandler tbBuscador.TextChanged, AddressOf Motor.BuscarWebSteam
+            AddHandler tbBuscador.TextChanged, AddressOf Motor.Buscar
+
+            Dim botonBusquedaWeb As Button = pagina.FindName("botonBusquedaWeb")
+
+            AddHandler botonBusquedaWeb.Click, AddressOf MostrarResultadosWeb
+            AddHandler botonBusquedaWeb.PointerEntered, AddressOf EfectosHover.Entra_Boton2
+            AddHandler botonBusquedaWeb.PointerExited, AddressOf EfectosHover.Sale_Boton2
+
+            Dim botonBusquedaSteam As Button = pagina.FindName("botonBusquedaSteam")
+
+            AddHandler botonBusquedaSteam.Click, AddressOf MostrarResultadosSteam
+            AddHandler botonBusquedaSteam.PointerEntered, AddressOf EfectosHover.Entra_Boton2
+            AddHandler botonBusquedaSteam.PointerExited, AddressOf EfectosHover.Sale_Boton2
 
         End Sub
 
-        Public Function ResultadoWeb(resultado As pepeizqdeals)
+        Private Sub MostrarResultadosWeb(sender As Object, e As RoutedEventArgs)
 
-            Dim spJuego As New StackPanel With {
-                .BorderBrush = New SolidColorBrush(Colors.Transparent),
-                .BorderThickness = New Thickness(0, 0, 0, 2),
-                .Orientation = Orientation.Vertical,
-                .Padding = New Thickness(5, 0, 5, 0)
-            }
+            Dim frame As Frame = Window.Current.Content
+            Dim pagina As Page = frame.Content
 
-            Dim tbPrecio As New TextBlock With {
-                .Text = WebUtility.HtmlDecode(resultado.Titulo),
-                .Foreground = New SolidColorBrush(Colors.White),
-                .HorizontalAlignment = HorizontalAlignment.Stretch,
-                .FontSize = 16,
-                .Margin = New Thickness(5, 8, 5, 8),
-                .TextWrapping = TextWrapping.Wrap
-            }
+            Dim spResultados As StackPanel = pagina.FindName("spBusquedaEntradasResultados")
+            Dim iconoBusquedaWeb As FontAwesome5.FontAwesome = pagina.FindName("iconoBusquedaWeb")
 
-            spJuego.Children.Add(tbPrecio)
-
-            Dim boton As New Button With {
-                .Background = New SolidColorBrush(Colors.Transparent),
-                .Padding = New Thickness(0, 0, 0, 0),
-                .BorderThickness = New Thickness(0, 0, 0, 0),
-                .Tag = resultado,
-                .Margin = New Thickness(5, 10, 5, 10),
-                .Content = spJuego,
-                .Style = App.Current.Resources("ButtonRevealStyle")
-            }
-
-            AddHandler boton.Click, AddressOf AbrirEnlaceClick
-            AddHandler boton.PointerEntered, AddressOf UsuarioEntraBotonBusquedaWeb
-            AddHandler boton.PointerExited, AddressOf UsuarioSaleBotonBusquedaWeb
-
-            Return boton
-
-        End Function
-
-        Private Async Sub AbrirEnlaceClick(sender As Object, e As RoutedEventArgs)
-
-            Dim boton As Button = sender
-            Dim resultado As pepeizqdeals = boton.Tag
-
-            Await Launcher.LaunchUriAsync(New Uri(resultado.Enlace))
+            If spResultados.Visibility = Visibility.Visible Then
+                spResultados.Visibility = Visibility.Collapsed
+                iconoBusquedaWeb.Icon = FontAwesome5.EFontAwesomeIcon.Solid_CaretUp
+            Else
+                spResultados.Visibility = Visibility.Visible
+                iconoBusquedaWeb.Icon = FontAwesome5.EFontAwesomeIcon.Solid_CaretDown
+            End If
 
         End Sub
 
-        Public Sub UsuarioEntraBotonBusquedaWeb(sender As Object, e As PointerRoutedEventArgs)
+        Private Sub MostrarResultadosSteam(sender As Object, e As RoutedEventArgs)
 
-            Dim boton As Button = sender
-            Dim sp As StackPanel = boton.Content
-            sp.BorderBrush = New SolidColorBrush(Colors.White)
+            Dim frame As Frame = Window.Current.Content
+            Dim pagina As Page = frame.Content
 
-            Dim tb As TextBlock = sp.Children(0)
-            tb.Saturation(1).Scale(1.05, 1.05, boton.ActualWidth / 2, boton.ActualHeight / 2).Start()
+            Dim gvResultados As AdaptiveGridView = pagina.FindName("gvBuscadorJuegos")
+            Dim iconoBusquedaSteam As FontAwesome5.FontAwesome = pagina.FindName("iconoBusquedaSteam")
 
-            Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Hand, 1)
-
-        End Sub
-
-        Public Sub UsuarioSaleBotonBusquedaWeb(sender As Object, e As PointerRoutedEventArgs)
-
-            Dim boton As Button = sender
-            Dim sp As StackPanel = boton.Content
-            sp.BorderBrush = New SolidColorBrush(Colors.Transparent)
-
-            Dim tb As TextBlock = sp.Children(0)
-            tb.Saturation(1).Scale(1, 1, boton.ActualWidth / 2, boton.ActualHeight / 2).Start()
-
-            Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Arrow, 1)
+            If gvResultados.Visibility = Visibility.Visible Then
+                gvResultados.Visibility = Visibility.Collapsed
+                iconoBusquedaSteam.Icon = FontAwesome5.EFontAwesomeIcon.Solid_CaretUp
+            Else
+                gvResultados.Visibility = Visibility.Visible
+                iconoBusquedaSteam.Icon = FontAwesome5.EFontAwesomeIcon.Solid_CaretDown
+            End If
 
         End Sub
 

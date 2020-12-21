@@ -135,6 +135,18 @@
   <data name="ConfigNotificationsMessage.Text" xml:space="preserve">
     <value>Selecciona si deseas recibir notificaciones push mientras tengas abierta la aplicación:</value>
   </data>
+  <data name="ConfigSearchMessage.Text" xml:space="preserve">
+    <value>Selecciona el modo en que se buscarán los resultados:</value>
+  </data>
+  <data name="ConfigSearchMode1" xml:space="preserve">
+    <value>Exacto. Se buscarán los juegos por su nombre exacto y no aparecerán DLCs o Season Pass.</value>
+  </data>
+  <data name="ConfigSearchMode2" xml:space="preserve">
+    <value>Parcial. No se buscarán los juegos por su nombre exacto y aparecerán DLCs o Season Pass.</value>
+  </data>
+  <data name="ConfigSearchSteam.Text" xml:space="preserve">
+    <value>Selecciona si deseas que aparezcan resultados de Steam cuando uses el buscador:</value>
+  </data>
   <data name="ConfigTrialMessage.Text" xml:space="preserve">
     <value>Estas usando la versión de prueba de la aplicación, debido a eso algunas opciones están bloqueadas.</value>
   </data>
@@ -263,6 +275,9 @@
   </data>
   <data name="Search" xml:space="preserve">
     <value>Buscar</value>
+  </data>
+  <data name="Search2.Text" xml:space="preserve">
+    <value>Búsqueda</value>
   </data>
   <data name="SearchGame" xml:space="preserve">
     <value>Busca un juego</value>

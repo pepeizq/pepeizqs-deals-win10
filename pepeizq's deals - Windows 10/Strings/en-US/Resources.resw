@@ -135,6 +135,18 @@
   <data name="ConfigNotificationsMessage.Text" xml:space="preserve">
     <value>Select if you want to receive push notifications while you have the application open:</value>
   </data>
+  <data name="ConfigSearchMessage.Text" xml:space="preserve">
+    <value>Select how the results will be searched:</value>
+  </data>
+  <data name="ConfigSearchMode1" xml:space="preserve">
+    <value>Exact. Games will be searched by exact name, and DLCs or Season Pass will not appear.</value>
+  </data>
+  <data name="ConfigSearchMode2" xml:space="preserve">
+    <value>Partial. Games will not be searched by exact name and DLCs or Season Pass will appear.</value>
+  </data>
+  <data name="ConfigSearchSteam.Text" xml:space="preserve">
+    <value>Select if you want Steam results to appear when you use the search:</value>
+  </data>
   <data name="ConfigTrialMessage.Text" xml:space="preserve">
     <value>You are using the trial version of the application, because of that some options are blocked.</value>
   </data>
@@ -262,6 +274,9 @@
     <value>Reviews</value>
   </data>
   <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Search2.Text" xml:space="preserve">
     <value>Search</value>
   </data>
   <data name="SearchGame" xml:space="preserve">

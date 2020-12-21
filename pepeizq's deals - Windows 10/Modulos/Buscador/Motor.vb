@@ -1,4 +1,6 @@
-﻿Imports Microsoft.Toolkit.Uwp.UI.Controls
+﻿Imports System.Net
+Imports Microsoft.Toolkit.Uwp.UI.Controls
+Imports Newtonsoft.Json
 Imports pepeizq_s_deals___Windows_10.Buscador.Tiendas
 Imports Windows.Storage
 
@@ -7,7 +9,7 @@ Namespace Buscador
 
         Dim busqueda As String
 
-        Public Async Sub BuscarWebSteam(sender As Object, e As TextChangedEventArgs)
+        Public Async Sub Buscar(sender As Object, e As TextChangedEventArgs)
 
             Dim tb As TextBox = sender
             Dim arrancar As Boolean = True
@@ -23,42 +25,143 @@ Namespace Buscador
             End If
 
             If arrancar = True Then
+                Dim config As ApplicationDataContainer = ApplicationData.Current.LocalSettings
+
                 Dim frame As Frame = Window.Current.Content
                 Dim pagina As Page = frame.Content
 
+                Dim spEntradas As StackPanel = pagina.FindName("spEntradas")
                 Dim spCarga As StackPanel = pagina.FindName("spBusquedaCarga")
-                Dim spEntradas As StackPanel = pagina.FindName("spBusquedaEntradas")
+                Dim spBusquedaWeb As StackPanel = pagina.FindName("spBusquedaEntradas")
 
                 If tb.Text.Trim.Length > 0 Then
                     Dim gridBusqueda As Grid = pagina.FindName("gridBusqueda")
                     Interfaz.Pestañas.Visibilidad_Pestañas(gridBusqueda, Nothing)
 
                     spCarga.Visibility = Visibility.Visible
-                    spEntradas.Visibility = Visibility.Collapsed
+                    spBusquedaWeb.Visibility = Visibility.Collapsed
+
+                    Dim listadoEncontrados As New List(Of FiltroEntradaDeseado)
+                    Dim entradas As New List(Of Entrada)
+
+                    For Each grid In spEntradas.Children
+                        If TypeOf grid Is Grid Then
+                            Dim grid2 As Grid = grid
+                            Dim entrada As Entrada = grid2.Tag
+
+                            If Not entrada Is Nothing Then
+                                entradas.Add(entrada)
+                            End If
+                        End If
+                    Next
 
                     Dim spResultados As StackPanel = pagina.FindName("spBusquedaEntradasResultados")
                     spResultados.Children.Clear()
 
-                    Dim resultadosWeb As List(Of pepeizqdeals) = Await Wordpress.Buscar(tb.Text.Trim)
+                    For Each entrada In entradas
+                        If entrada.Categorias(0) = 3 Then
+                            If Not entrada.JsonExpandido = Nothing Then
+                                Dim json As EntradaOfertas = JsonConvert.DeserializeObject(Of EntradaOfertas)(entrada.JsonExpandido)
+
+                                If Not json Is Nothing Then
+                                    If Not json.Juegos Is Nothing Then
+                                        For Each juego2 In json.Juegos
+                                            If config.Values("Busqueda") = 1 Then
+                                                If Limpieza.Limpiar(juego2.Titulo) = Limpieza.Limpiar(WebUtility.HtmlDecode(busqueda)) Then
+                                                    listadoEncontrados.Add(New FiltroEntradaDeseado(juego2, entrada))
+                                                End If
+                                            ElseIf config.Values("Busqueda") = 0 Then
+                                                If Limpieza.Limpiar(juego2.Titulo).Contains(Limpieza.Limpiar(WebUtility.HtmlDecode(busqueda))) Then
+                                                    listadoEncontrados.Add(New FiltroEntradaDeseado(juego2, entrada))
+                                                End If
+                                            End If
+                                        Next
+                                    End If
+                                End If
+                            Else
+                                Dim añadir As Boolean = False
+
+                                If Not entrada.Titulo Is Nothing Then
+                                    If Limpieza.Limpiar(entrada.Titulo.Texto).Contains(Limpieza.Limpiar(busqueda)) Then
+                                        añadir = True
+                                    End If
+                                End If
+
+                                If Not entrada.SubTitulo = Nothing Then
+                                    If Limpieza.Limpiar(entrada.SubTitulo).Contains(Limpieza.Limpiar(busqueda)) Then
+                                        añadir = True
+                                    End If
+                                End If
+
+                                If añadir = True Then
+                                    listadoEncontrados.Add(New FiltroEntradaDeseado(Nothing, entrada))
+                                End If
+                            End If
+                        Else
+                            Dim añadir As Boolean = False
+
+                            If Not entrada.Titulo Is Nothing Then
+                                If Limpieza.Limpiar(entrada.Titulo.Texto).Contains(Limpieza.Limpiar(busqueda)) Then
+                                    añadir = True
+                                End If
+                            End If
+
+                            If Not entrada.SubTitulo = Nothing Then
+                                If Limpieza.Limpiar(entrada.SubTitulo).Contains(Limpieza.Limpiar(busqueda)) Then
+                                    añadir = True
+                                End If
+                            End If
+
+                            If añadir = True Then
+                                listadoEncontrados.Add(New FiltroEntradaDeseado(Nothing, entrada))
+                            End If
+                        End If
+                    Next
 
                     spCarga.Visibility = Visibility.Collapsed
 
-                    If resultadosWeb.Count > 0 Then
+                    If listadoEncontrados.Count > 0 Then
                         spResultados.Children.Clear()
 
-                        For Each resultado In resultadosWeb
-                            spResultados.Children.Add(Interfaz.Buscador.ResultadoWeb(resultado))
+                        For Each resultado In listadoEncontrados
+                            Dim listaJuegos As New List(Of EntradaOfertasJuego) From {
+                                resultado.Juego
+                            }
+
+                            Dim json As String = GenerarJsonOfertas(listaJuegos, Nothing)
+
+                            If resultado.Juego Is Nothing Then
+                                If resultado.Entrada.Categorias(0) = 3 Then
+                                    json = resultado.Entrada.Json
+                                End If
+                            End If
+
+                            Dim entrada As New Entrada With {
+                                .TiendaLogo = resultado.Entrada.TiendaLogo,
+                                .Json = json
+                            }
+                            entrada.Categorias = resultado.Entrada.Categorias
+
+                            spResultados.Children.Add(Await Interfaz.Entradas.GenerarEntrada(entrada))
                         Next
 
-                        spEntradas.Visibility = Visibility.Visible
+                        spBusquedaWeb.Visibility = Visibility.Visible
                     Else
-                        spEntradas.Visibility = Visibility.Collapsed
+                        spBusquedaWeb.Visibility = Visibility.Collapsed
                     End If
 
-                    Dim gvResultados As AdaptiveGridView = pagina.FindName("gvBuscadorJuegos")
-                    gvResultados.Items.Clear()
+                    Dim spBusquedaSteam As StackPanel = pagina.FindName("spBusquedaSteam")
 
-                    Steam.Buscar(tb.Text.Trim)
+                    If config.Values("BusquedaSteam") = 1 Then
+                        spBusquedaSteam.Visibility = Visibility.Visible
+
+                        Dim gvResultados As AdaptiveGridView = pagina.FindName("gvBuscadorJuegos")
+                        gvResultados.Items.Clear()
+
+                        Steam.Buscar(tb.Text.Trim)
+                    Else
+                        spBusquedaSteam.Visibility = Visibility.Collapsed
+                    End If
                 End If
             End If
 

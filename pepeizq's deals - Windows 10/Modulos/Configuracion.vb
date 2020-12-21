@@ -48,6 +48,44 @@ Module Configuracion
         AddHandler tsConfigNotificaciones.PointerEntered, AddressOf Interfaz.EfectosHover.Entra_Basico
         AddHandler tsConfigNotificaciones.PointerExited, AddressOf Interfaz.EfectosHover.Sale_Basico
 
+        Dim tsConfigBusqueda As ToggleSwitch = pagina.FindName("tsConfigBusqueda")
+        tsConfigBusqueda.OnContent = recursos.GetString("ConfigSearchMode1")
+        tsConfigBusqueda.OffContent = recursos.GetString("ConfigSearchMode2")
+
+        If Not config.Values("Busqueda") Is Nothing Then
+            If config.Values("Busqueda") = 1 Then
+                tsConfigBusqueda.IsOn = True
+            ElseIf config.Values("Busqueda") = 0 Then
+                tsConfigBusqueda.IsOn = False
+            End If
+        Else
+            config.Values("Busqueda") = 0
+            tsConfigBusqueda.IsOn = False
+        End If
+
+        AddHandler tsConfigBusqueda.Toggled, AddressOf BusquedaSwitch
+        AddHandler tsConfigBusqueda.PointerEntered, AddressOf Interfaz.EfectosHover.Entra_Basico
+        AddHandler tsConfigBusqueda.PointerExited, AddressOf Interfaz.EfectosHover.Sale_Basico
+
+        Dim tsConfigBusquedaSteam As ToggleSwitch = pagina.FindName("tsConfigBusquedaSteam")
+        tsConfigBusquedaSteam.OnContent = recursos.GetString("Yes")
+        tsConfigBusquedaSteam.OffContent = recursos.GetString("No")
+
+        If Not config.Values("BusquedaSteam") Is Nothing Then
+            If config.Values("BusquedaSteam") = 1 Then
+                tsConfigBusquedaSteam.IsOn = True
+            ElseIf config.Values("BusquedaSteam") = 0 Then
+                tsConfigBusquedaSteam.IsOn = False
+            End If
+        Else
+            config.Values("BusquedaSteam") = 1
+            tsConfigBusquedaSteam.IsOn = True
+        End If
+
+        AddHandler tsConfigBusquedaSteam.Toggled, AddressOf BusquedaSteamSwitch
+        AddHandler tsConfigBusquedaSteam.PointerEntered, AddressOf Interfaz.EfectosHover.Entra_Basico
+        AddHandler tsConfigBusquedaSteam.PointerExited, AddressOf Interfaz.EfectosHover.Sale_Basico
+
     End Sub
 
     Private Sub DeseadosSwitch(sender As Object, e As RoutedEventArgs)
@@ -72,6 +110,32 @@ Module Configuracion
             config.Values("Notificaciones") = 1
         Else
             config.Values("Notificaciones") = 0
+        End If
+
+    End Sub
+
+    Private Sub BusquedaSwitch(sender As Object, e As RoutedEventArgs)
+
+        Dim config As ApplicationDataContainer = ApplicationData.Current.LocalSettings
+        Dim ts As ToggleSwitch = sender
+
+        If ts.IsOn = True Then
+            config.Values("Busqueda") = 1
+        Else
+            config.Values("Busqueda") = 0
+        End If
+
+    End Sub
+
+    Private Sub BusquedaSteamSwitch(sender As Object, e As RoutedEventArgs)
+
+        Dim config As ApplicationDataContainer = ApplicationData.Current.LocalSettings
+        Dim ts As ToggleSwitch = sender
+
+        If ts.IsOn = True Then
+            config.Values("BusquedaSteam") = 1
+        Else
+            config.Values("BusquedaSteam") = 0
         End If
 
     End Sub

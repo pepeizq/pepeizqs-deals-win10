@@ -391,37 +391,38 @@
 
                 <Grid x:Name="gridBusqueda" Visibility="Collapsed" Padding="20">
                     <ScrollViewer VerticalScrollBarVisibility="Visible" Padding="0,0,30,0">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-
-                            <StackPanel x:Name="spBusquedaEntradas" Grid.Row="0" Orientation="Vertical">
-                                <Grid BorderBrush="White" BorderThickness="0,1,0,0" Margin="0,30,0,30"/>
-
-                                <StackPanel Orientation="Horizontal" Margin="10,0,0,20">
-                                    <TextBlock x:Uid="Resultspepeizqdeals" Foreground="White" FontSize="17"/>
-                                </StackPanel>
-
-                                <StackPanel x:Name="spBusquedaEntradasResultados" Orientation="Vertical" Padding="0,10,0,10"/>
-                            </StackPanel>
-
-                            <StackPanel x:Name="spBusquedaCarga" Grid.Row="1" Orientation="Vertical" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel x:Name="spBusquedaCarga" Orientation="Vertical" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,30">
                                 <TextBlock x:Uid="Searching" FontSize="17" Foreground="White" Margin="0,0,0,20" HorizontalAlignment="Center"/>
                                 <ProgressRing Width="40" Height="40" IsActive="True" Foreground="White" HorizontalAlignment="Center"/>
                             </StackPanel>
 
-                            <StackPanel Grid.Row="1" Orientation="Vertical" Padding="0,30,0,30">
-                                <Grid BorderBrush="White" BorderThickness="0,1,0,0" Margin="0,0,0,30"/>
+                            <StackPanel x:Name="spBusquedaEntradas" Orientation="Vertical">
+                                <Button x:Name="botonBusquedaWeb" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Padding="30,20" Background="Transparent" BorderBrush="White" BorderThickness="0,1,0,0">
+                                    <Button.Content>
+                                        <Grid>
+                                            <TextBlock x:Uid="Resultspepeizqdeals" Foreground="White" FontSize="17" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                            <iconos:FontAwesome x:Name="iconoBusquedaWeb" Icon="Solid_CaretDown" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </Button.Content>
+                                </Button>
 
-                                <StackPanel Orientation="Horizontal" Margin="10,0,0,30">
-                                    <TextBlock x:Uid="ResultsSteam" Foreground="White" FontSize="17"/>
-                                </StackPanel>
-
-                                <controls:AdaptiveGridView x:Name="gvBuscadorJuegos" ItemHeight="350"/>
+                                <StackPanel x:Name="spBusquedaEntradasResultados" Orientation="Vertical" Padding="0,10,0,10"/>
                             </StackPanel>
-                        </Grid>
+
+                            <StackPanel x:Name="spBusquedaSteam" Orientation="Vertical">
+                                <Button x:Name="botonBusquedaSteam" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Padding="30,20" Background="Transparent" BorderBrush="White" BorderThickness="0,1,0,0">
+                                    <Button.Content>
+                                        <Grid>
+                                            <TextBlock x:Uid="ResultsSteam" Foreground="White" FontSize="17" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                            <iconos:FontAwesome x:Name="iconoBusquedaSteam" Icon="Solid_CaretDown" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </Button.Content>
+                                </Button>
+
+                                <controls:AdaptiveGridView x:Name="gvBuscadorJuegos" ItemHeight="350" Margin="0,10,0,0"/>
+                            </StackPanel>
+                        </StackPanel>
                     </ScrollViewer>
                 </Grid>
 
@@ -556,6 +557,14 @@
 
                             <TextBlock x:Uid="ConfigNotificationsMessage" Foreground="White" TextWrapping="Wrap" Margin="0,30,0,0"/>
                             <ToggleSwitch x:Name="tsConfigNotificaciones" RequestedTheme="Dark" Margin="0,20,0,0"/>
+
+                            <TextBlock x:Uid="Search2" Foreground="White" TextWrapping="Wrap" FontSize="17" Margin="0,50,0,0"/>
+
+                            <TextBlock x:Uid="ConfigSearchMessage" Foreground="White" TextWrapping="Wrap" Margin="0,30,0,0"/>
+                            <ToggleSwitch x:Name="tsConfigBusqueda" RequestedTheme="Dark" Margin="0,20,0,0"/>
+
+                            <TextBlock x:Uid="ConfigSearchSteam" Foreground="White" TextWrapping="Wrap" Margin="0,30,0,0"/>
+                            <ToggleSwitch x:Name="tsConfigBusquedaSteam" RequestedTheme="Dark" Margin="0,20,0,0"/>
                         </StackPanel> 
                     </ScrollViewer> 
                 </Grid>
