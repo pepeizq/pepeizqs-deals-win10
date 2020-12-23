@@ -25,7 +25,6 @@ Module Wordpress
 
     Private Async Sub CargarEntradas2(pagina As Page, paginas As Integer, categoria As String, actualizar As Boolean, primeraVez As Boolean)
 
-
         Dim recursos As New Resources.ResourceLoader()
 
         Dim spEntradas As StackPanel = pagina.FindName("spEntradas")
@@ -97,6 +96,7 @@ Module Wordpress
         If Not entradas Is Nothing Then
             If entradas.Count > 0 Then
                 Dim fechas As New List(Of String)
+                spEntradas.Tag = entradas
 
                 For Each entrada In entradas
                     Dim añadir As Boolean = False
@@ -176,7 +176,7 @@ Module Wordpress
                                     spEntradas.Children.Add(Interfaz.Entradas.GenerarFecha(fecha.Date))
                                 End If
 
-                                spEntradas.Children.Add(Await Interfaz.Entradas.GenerarEntrada(entrada))
+                                spEntradas.Children.Add(Interfaz.Entradas.GenerarEntrada(entrada))
                             End If
                         End If
                     End If

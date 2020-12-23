@@ -77,9 +77,17 @@ Module Deseados
 
     End Function
 
-    Private Sub CargarFiltro(juegosDeseados As Dictionary(Of String, SteamJuegoDeseado))
+    Dim WithEvents bw As New BackgroundWorker
+    Dim usuarioDeseados As String
+    Dim entradas As List(Of Entrada)
+    Dim juegosDeseados As Dictionary(Of String, SteamJuegoDeseado)
+
+    Private Sub CargarFiltro(juegosDeseados_ As Dictionary(Of String, SteamJuegoDeseado))
+
+        juegosDeseados = juegosDeseados_
 
         Dim config As ApplicationDataContainer = ApplicationData.Current.LocalSettings
+        usuarioDeseados = config.Values("Deseados")
 
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
@@ -90,26 +98,29 @@ Module Deseados
         Dim gvFiltro As AdaptiveGridView = pagina.FindName("gvFiltroJuegosDeseados")
         gvFiltro.Items.Clear()
 
-        Dim entradas As New List(Of Entrada)
         Dim spEntradas As StackPanel = pagina.FindName("spEntradas")
+        entradas = spEntradas.Tag
 
-        For Each grid In spEntradas.Children
-            If TypeOf grid Is Grid Then
-                Dim grid2 As Grid = grid
-                Dim entrada As Entrada = grid2.Tag
+        If entradas Is Nothing Then
+            entradas = New List(Of Entrada)
+        End If
 
-                If Not entrada Is Nothing Then
-                    entradas.Add(entrada)
-                End If
-            End If
-        Next
+        If bw.IsBusy = False Then
+            bw.RunWorkerAsync()
+        End If
 
-        Dim filtros As New List(Of FiltroDeseado)
+    End Sub
 
-        For Each juego In juegosDeseados
-            Dim listadoEncontrados As New List(Of FiltroEntradaDeseado)
+    Dim filtros As New List(Of FiltroDeseado)
 
-            For Each entrada In entradas
+    Private Sub Bw_DoWork(ByVal sender As Object, ByVal e As DoWorkEventArgs) Handles bw.DoWork
+
+        filtros.Clear()
+
+        For Each entrada In entradas
+            For Each juego In juegosDeseados
+                Dim listadoEncontrados As New List(Of FiltroEntradaDeseado)
+
                 If entrada.Categorias(0) = 3 Then
                     If Not entrada.JsonExpandido = Nothing Then
                         Dim json As EntradaOfertas = JsonConvert.DeserializeObject(Of EntradaOfertas)(entrada.JsonExpandido)
@@ -117,11 +128,12 @@ Module Deseados
                         If Not json Is Nothing Then
                             If Not json.Juegos Is Nothing Then
                                 For Each juego2 In json.Juegos
-                                    If config.Values("Deseados") = 1 Then
+                                    If usuarioDeseados = 1 Then
                                         If Limpieza.Limpiar(juego2.Titulo) = Limpieza.Limpiar(WebUtility.HtmlDecode(juego.Value.Titulo)) Then
                                             listadoEncontrados.Add(New FiltroEntradaDeseado(juego2, entrada))
+                                            Exit For
                                         End If
-                                    ElseIf config.Values("Deseados") = 0 Then
+                                    ElseIf usuarioDeseados = 0 Then
                                         If Limpieza.Limpiar(juego2.Titulo).Contains(Limpieza.Limpiar(WebUtility.HtmlDecode(juego.Value.Titulo))) Then
                                             listadoEncontrados.Add(New FiltroEntradaDeseado(juego2, entrada))
                                         End If
@@ -167,14 +179,35 @@ Module Deseados
                         listadoEncontrados.Add(New FiltroEntradaDeseado(Nothing, entrada))
                     End If
                 End If
-            Next
 
-            If listadoEncontrados.Count > 0 Then
-                filtros.Add(New FiltroDeseado(juego.Value.Titulo, listadoEncontrados, juego.Value.Imagen))
-            End If
+                If listadoEncontrados.Count > 0 Then
+                    Dim encontrado As Boolean = False
+
+                    For Each filtro In filtros
+                        If filtro.Titulo = juego.Value.Titulo Then
+                            filtro.Entradas.Add(New FiltroEntradaDeseado(listadoEncontrados(0).Juego, listadoEncontrados(0).Entrada))
+                            encontrado = True
+                        End If
+                    Next
+
+                    If encontrado = False Then
+                        filtros.Add(New FiltroDeseado(juego.Value.Titulo, listadoEncontrados, juego.Value.Imagen))
+                    End If
+                End If
+            Next
         Next
 
+    End Sub
+
+    Private Sub Bw_RunWorkerCompleted(ByVal sender As Object, ByVal e As RunWorkerCompletedEventArgs) Handles bw.RunWorkerCompleted
+
+        Dim frame As Frame = Window.Current.Content
+        Dim pagina As Page = frame.Content
+
+        Dim pr As ProgressRing = pagina.FindName("prDeseados")
+        Dim gvFiltro As AdaptiveGridView = pagina.FindName("gvFiltroJuegosDeseados")
         Dim tbDeseadosNoHay As TextBlock = pagina.FindName("tbJuegosDeseadosNoHay")
+
         pr.Visibility = Visibility.Collapsed
 
         If filtros.Count > 0 Then
@@ -212,7 +245,7 @@ Module Deseados
 
     End Sub
 
-    Private Async Sub AbrirFiltroClick(sender As Object, e As RoutedEventArgs)
+    Private Sub AbrirFiltroClick(sender As Object, e As RoutedEventArgs)
 
         Dim boton As Button = sender
         Dim filtro As FiltroDeseado = boton.Tag
@@ -243,9 +276,9 @@ Module Deseados
                 }
                 entrada.Categorias = entrada2.Entrada.Categorias
 
-                spEntradas.Children.Add(Await Interfaz.Entradas.GenerarEntrada(entrada))
+                spEntradas.Children.Add(Interfaz.Entradas.GenerarEntrada(entrada))
             Else
-                spEntradas.Children.Add(Await Interfaz.Entradas.GenerarEntrada(entrada2.Entrada))
+                spEntradas.Children.Add(Interfaz.Entradas.GenerarEntrada(entrada2.Entrada))
             End If
         Next
 

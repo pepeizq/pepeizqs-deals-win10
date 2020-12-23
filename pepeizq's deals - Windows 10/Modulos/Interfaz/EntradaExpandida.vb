@@ -292,6 +292,8 @@ Namespace Interfaz
                                 imagenOrigen = "Assets/DRM/steam.png"
                             ElseIf juego.DRM.ToLower.Contains("ubi") Or juego.DRM.ToLower.Contains("uplay") Then
                                 imagenOrigen = "Assets/DRM/ubi.png"
+                            ElseIf juego.DRM.ToLower.Contains("bethesda") Then
+                                imagenOrigen = "Assets/DRM/bethesda.png"
                             End If
 
                             If Not imagenOrigen = String.Empty Then

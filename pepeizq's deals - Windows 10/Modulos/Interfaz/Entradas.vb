@@ -57,7 +57,7 @@ Namespace Interfaz
 
         End Function
 
-        Public Async Function GenerarEntrada(entrada As Entrada) As Task(Of Grid)
+        Public Function GenerarEntrada(entrada As Entrada)
 
             Dim recursos As New Resources.ResourceLoader()
 
@@ -67,7 +67,6 @@ Namespace Interfaz
             }
 
             Dim gridMaestro As New Grid With {
-                .Tag = entrada,
                 .Margin = New Thickness(0, 0, 0, 60),
                 .Background = fondoMaestro,
                 .Padding = New Thickness(20, 20, 20, 20)

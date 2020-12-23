@@ -142,7 +142,7 @@ Namespace Buscador
                             }
                             entrada.Categorias = resultado.Entrada.Categorias
 
-                            spResultados.Children.Add(Await Interfaz.Entradas.GenerarEntrada(entrada))
+                            spResultados.Children.Add(Interfaz.Entradas.GenerarEntrada(entrada))
                         Next
 
                         spBusquedaWeb.Visibility = Visibility.Visible

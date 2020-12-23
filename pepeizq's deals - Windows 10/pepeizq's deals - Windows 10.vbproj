@@ -200,6 +200,7 @@
     <Content Include="Assets\Comparadores\isthereanydeal.png" />
     <Content Include="Assets\Comparadores\ggdeals.png" />
     <Content Include="Assets\Comparadores\steamdb.ico" />
+    <Content Include="Assets\DRM\bethesda.png" />
     <Content Include="Assets\DRM\steam.png" />
     <Content Include="Assets\DRM\ubi.png" />
     <Content Include="Assets\Logos\LargeTile.scale-100.png" />
