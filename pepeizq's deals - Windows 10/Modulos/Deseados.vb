@@ -32,7 +32,7 @@ Module Deseados
         Dim config As ApplicationDataContainer = ApplicationData.Current.LocalSettings
         config.Values("Cuenta_Steam") = tbCuentaSteam.Text.Trim
 
-        Dim juegosDeseados As Dictionary(Of String, SteamJuegoDeseado) = Await CargarJuegosDeseados(tbCuentaSteam.Text)
+        Dim juegosDeseados As List(Of SteamJuegoDeseado2) = Await CargarJuegosDeseados(tbCuentaSteam.Text)
 
         If Not juegosDeseados Is Nothing Then
             If juegosDeseados.Count > 0 Then
@@ -46,9 +46,17 @@ Module Deseados
 
     End Sub
 
-    Private Async Function CargarJuegosDeseados(usuario As String) As Task(Of Dictionary(Of String, SteamJuegoDeseado))
+    Private Async Function CargarJuegosDeseados(usuario As String) As Task(Of List(Of SteamJuegoDeseado2))
 
         If Not usuario = String.Empty Then
+            Dim tipo As Integer = 0
+
+            If usuario.Contains("/id/") Then
+                tipo = 1
+            ElseIf usuario.Contains("/profiles/") Then
+                tipo = 2
+            End If
+
             usuario = usuario.Replace("https://steamcommunity.com/id/", Nothing)
             usuario = usuario.Replace("http://steamcommunity.com/id/", Nothing)
             usuario = usuario.Replace("https://steamcommunity.com/profiles/", Nothing)
@@ -56,21 +64,49 @@ Module Deseados
             usuario = usuario.Replace("/", Nothing)
             usuario = usuario.Trim
 
-            Dim htmlUsuario As String = Await Decompiladores.HttpClient(New Uri("https://store.steampowered.com/wishlist/id/" + usuario + "/wishlistdata/"))
+            Dim juegosDeseadosFinal As New List(Of SteamJuegoDeseado2)
+            Dim i As Integer = 0
+            While i < 10
+                Dim htmlUsuario As String = String.Empty
 
-            If Not htmlUsuario = Nothing Then
-                Dim juegosDeseados As Dictionary(Of String, SteamJuegoDeseado) = JsonConvert.DeserializeObject(Of Dictionary(Of String, SteamJuegoDeseado))(htmlUsuario)
+                If tipo = 1 Then
+                    htmlUsuario = Await Decompiladores.HttpClient(New Uri("https://store.steampowered.com/wishlist/id/" + usuario + "/wishlistdata/?p=" + i.ToString))
+                ElseIf tipo = 2 Then
+                    htmlUsuario = Await Decompiladores.HttpClient(New Uri("https://store.steampowered.com/wishlist/profiles/" + usuario + "/wishlistdata/?p=" + i.ToString))
+                End If
 
-                If juegosDeseados.Count = 0 Then
-                    Dim htmlUsuario2 As String = Await Decompiladores.HttpClient(New Uri("https://store.steampowered.com/wishlist/profiles/" + usuario + "/wishlistdata/"))
+                If Not htmlUsuario = Nothing Then
+                    Dim juegosDeseados As New Dictionary(Of String, SteamJuegoDeseado)
 
-                    If Not htmlUsuario2 = Nothing Then
-                        juegosDeseados = JsonConvert.DeserializeObject(Of Dictionary(Of String, SteamJuegoDeseado))(htmlUsuario2)
+                    Try
+                        juegosDeseados = JsonConvert.DeserializeObject(Of Dictionary(Of String, SteamJuegoDeseado))(htmlUsuario)
+                    Catch ex As Exception
+                        Exit While
+                    End Try
+
+                    If Not juegosDeseados Is Nothing Then
+                        If juegosDeseados.Count > 0 Then
+                            For Each deseado In juegosDeseados
+                                Dim añadir As Boolean = True
+
+                                For Each deseadoFinal In juegosDeseadosFinal
+                                    If deseadoFinal.ID = deseado.Key Then
+                                        añadir = False
+                                    End If
+                                Next
+
+                                If añadir = True Then
+                                    juegosDeseadosFinal.Add(New SteamJuegoDeseado2(deseado.Value.Titulo, deseado.Value.Imagen, deseado.Key))
+                                End If
+                            Next
+                        End If
                     End If
                 End If
 
-                Return juegosDeseados
-            End If
+                i += 1
+            End While
+
+            Return juegosDeseadosFinal
         End If
 
         Return Nothing
@@ -80,9 +116,9 @@ Module Deseados
     Dim WithEvents bw As New BackgroundWorker
     Dim usuarioDeseados As String
     Dim entradas As List(Of Entrada)
-    Dim juegosDeseados As Dictionary(Of String, SteamJuegoDeseado)
+    Dim juegosDeseados As List(Of SteamJuegoDeseado2)
 
-    Private Sub CargarFiltro(juegosDeseados_ As Dictionary(Of String, SteamJuegoDeseado))
+    Private Sub CargarFiltro(juegosDeseados_ As List(Of SteamJuegoDeseado2))
 
         juegosDeseados = juegosDeseados_
 
@@ -129,12 +165,12 @@ Module Deseados
                             If Not json.Juegos Is Nothing Then
                                 For Each juego2 In json.Juegos
                                     If usuarioDeseados = 1 Then
-                                        If Limpieza.Limpiar(juego2.Titulo) = Limpieza.Limpiar(WebUtility.HtmlDecode(juego.Value.Titulo)) Then
+                                        If Limpieza.Limpiar(juego2.Titulo) = Limpieza.Limpiar(WebUtility.HtmlDecode(juego.Titulo)) Then
                                             listadoEncontrados.Add(New FiltroEntradaDeseado(juego2, entrada))
                                             Exit For
                                         End If
                                     ElseIf usuarioDeseados = 0 Then
-                                        If Limpieza.Limpiar(juego2.Titulo).Contains(Limpieza.Limpiar(WebUtility.HtmlDecode(juego.Value.Titulo))) Then
+                                        If Limpieza.Limpiar(juego2.Titulo).Contains(Limpieza.Limpiar(WebUtility.HtmlDecode(juego.Titulo))) Then
                                             listadoEncontrados.Add(New FiltroEntradaDeseado(juego2, entrada))
                                         End If
                                     End If
@@ -145,13 +181,13 @@ Module Deseados
                         Dim añadir As Boolean = False
 
                         If Not entrada.Titulo Is Nothing Then
-                            If Limpieza.Limpiar(entrada.Titulo.Texto).Contains(Limpieza.Limpiar(juego.Value.Titulo.Trim)) Then
+                            If Limpieza.Limpiar(entrada.Titulo.Texto).Contains(Limpieza.Limpiar(juego.Titulo)) Then
                                 añadir = True
                             End If
                         End If
 
                         If Not entrada.SubTitulo = Nothing Then
-                            If Limpieza.Limpiar(entrada.SubTitulo).Contains(Limpieza.Limpiar(juego.Value.Titulo.Trim)) Then
+                            If Limpieza.Limpiar(entrada.SubTitulo).Contains(Limpieza.Limpiar(juego.Titulo)) Then
                                 añadir = True
                             End If
                         End If
@@ -164,13 +200,13 @@ Module Deseados
                     Dim añadir As Boolean = False
 
                     If Not entrada.Titulo Is Nothing Then
-                        If Limpieza.Limpiar(entrada.Titulo.Texto).Contains(Limpieza.Limpiar(juego.Value.Titulo.Trim)) Then
+                        If Limpieza.Limpiar(entrada.Titulo.Texto).Contains(Limpieza.Limpiar(juego.Titulo)) Then
                             añadir = True
                         End If
                     End If
 
                     If Not entrada.SubTitulo = Nothing Then
-                        If Limpieza.Limpiar(entrada.SubTitulo).Contains(Limpieza.Limpiar(juego.Value.Titulo.Trim)) Then
+                        If Limpieza.Limpiar(entrada.SubTitulo).Contains(Limpieza.Limpiar(juego.Titulo)) Then
                             añadir = True
                         End If
                     End If
@@ -184,14 +220,14 @@ Module Deseados
                     Dim encontrado As Boolean = False
 
                     For Each filtro In filtros
-                        If filtro.Titulo = juego.Value.Titulo Then
+                        If filtro.Titulo = juego.Titulo Then
                             filtro.Entradas.Add(New FiltroEntradaDeseado(listadoEncontrados(0).Juego, listadoEncontrados(0).Entrada))
                             encontrado = True
                         End If
                     Next
 
                     If encontrado = False Then
-                        filtros.Add(New FiltroDeseado(juego.Value.Titulo, listadoEncontrados, juego.Value.Imagen))
+                        filtros.Add(New FiltroDeseado(juego.Titulo, listadoEncontrados, juego.Imagen))
                     End If
                 End If
             Next
@@ -284,7 +320,7 @@ Module Deseados
 
     End Sub
 
-    Private Sub CargarJuegosDeseados2(juegosDeseados As Dictionary(Of String, SteamJuegoDeseado))
+    Private Sub CargarJuegosDeseados2(juegosDeseados As List(Of SteamJuegoDeseado2))
 
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
@@ -292,11 +328,19 @@ Module Deseados
         Dim gvJuegos As AdaptiveGridView = pagina.FindName("gvDeseadosJuegos")
         gvJuegos.Items.Clear()
 
+        juegosDeseados.Sort(Function(x As SteamJuegoDeseado2, y As SteamJuegoDeseado2)
+                                Dim resultado As Integer = x.Titulo.CompareTo(y.Titulo)
+                                If resultado = 0 Then
+                                    resultado = x.Titulo.CompareTo(y.Titulo)
+                                End If
+                                Return resultado
+                            End Function)
+
         For Each juego In juegosDeseados
-            Dim imagen As String = juego.Value.Imagen
+            Dim imagen As String = juego.Imagen
             imagen = imagen.Replace("header_292x136", "library_600x900")
 
-            Dim resultado As New Buscador.SteamWeb(juego.Key, juego.Value.Titulo, imagen)
+            Dim resultado As New Buscador.SteamWeb(juego.ID, juego.Titulo, imagen)
             gvJuegos.Items.Add(Interfaz.Buscador.ResultadoSteam(resultado))
         Next
 
