@@ -11,7 +11,7 @@ Namespace Interfaz
             Dim pagina As Page = frame.Content
 
             Dim gridEntradaExpandida As Grid = pagina.FindName("gridEntradaExpandida")
-            Pestañas.Visibilidad_Pestañas(gridEntradaExpandida, Nothing)
+            Pestañas.Visibilidad(gridEntradaExpandida, Nothing, Nothing)
 
             Dim botonVolver As Button = pagina.FindName("botonVolver")
 
@@ -383,7 +383,7 @@ Namespace Interfaz
             Dim pagina As Page = frame.Content
 
             Dim gridEntradas As Grid = pagina.FindName("gridEntradas")
-            Pestañas.Visibilidad_Pestañas(gridEntradas, Nothing)
+            Pestañas.Visibilidad(gridEntradas, Nothing, Nothing)
 
         End Sub
 

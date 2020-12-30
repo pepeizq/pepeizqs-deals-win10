@@ -24,8 +24,36 @@
                         AlwaysShowHeader="False" IsSettingsVisible="False" PaneDisplayMode="Top" IsBackButtonVisible="Collapsed">
 
             <NavigationView.Resources>
-                <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="{StaticResource ColorPrimario}" />
+                <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="{StaticResource ColorPrimario}"/>
             </NavigationView.Resources>
+
+            <NavigationView.PaneCustomContent>
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="botonMasCosas">
+                        <Button.Flyout>
+                            <Flyout>
+                                <Flyout.FlyoutPresenterStyle>
+                                    <Style TargetType="FlyoutPresenter">
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Setter Property="Padding" Value="0"/>
+                                        <Setter Property="BorderThickness" Value="0"/>
+                                    </Style>
+                                </Flyout.FlyoutPresenterStyle>
+
+                                <Grid Padding="10" MaxHeight="500">
+                                    <Grid.Background>
+                                        <SolidColorBrush Color="{StaticResource ColorCuarto}" Opacity="0.9"/>
+                                    </Grid.Background>
+
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                        <StackPanel x:Name="spMasCosas" Orientation="Vertical" Margin="5" Padding="0,0,15,0"/>
+                                    </ScrollViewer>
+                                </Grid>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                </StackPanel>
+            </NavigationView.PaneCustomContent>
 
             <NavigationView.PaneFooter>
                 <StackPanel x:Name="spBusqueda" Orientation="Horizontal">
@@ -565,11 +593,14 @@
 
                             <TextBlock x:Uid="ConfigSearchSteam" Foreground="White" TextWrapping="Wrap" Margin="0,30,0,0"/>
                             <ToggleSwitch x:Name="tsConfigBusquedaSteam" RequestedTheme="Dark" Margin="0,20,0,0"/>
+
+                            <TextBlock x:Uid="Giveaways" Foreground="White" TextWrapping="Wrap" FontSize="17" Margin="0,50,0,0"/>
+
+                            <TextBlock x:Uid="ConfigGiveaways" Foreground="White" TextWrapping="Wrap" Margin="0,30,0,0"/>
+                            <ToggleSwitch x:Name="tsConfigSorteos" RequestedTheme="Dark" Margin="0,20,0,0"/>
                         </StackPanel> 
                     </ScrollViewer> 
                 </Grid>
-
-                <Grid x:Name="gridMasCosas" Visibility="Collapsed" Padding="20"/>
 
                 <Grid Visibility="Collapsed">
                     <WebView x:Name="wvSteamDB"/>

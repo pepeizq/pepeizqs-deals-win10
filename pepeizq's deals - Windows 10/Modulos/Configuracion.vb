@@ -86,6 +86,25 @@ Module Configuracion
         AddHandler tsConfigBusquedaSteam.PointerEntered, AddressOf Interfaz.EfectosHover.Entra_Basico
         AddHandler tsConfigBusquedaSteam.PointerExited, AddressOf Interfaz.EfectosHover.Sale_Basico
 
+        Dim tsConfigSorteos As ToggleSwitch = pagina.FindName("tsConfigSorteos")
+        tsConfigSorteos.OnContent = recursos.GetString("Yes")
+        tsConfigSorteos.OffContent = recursos.GetString("No")
+
+        If Not config.Values("Sorteos") Is Nothing Then
+            If config.Values("Sorteos") = 1 Then
+                tsConfigSorteos.IsOn = True
+            ElseIf config.Values("Sorteos") = 0 Then
+                tsConfigSorteos.IsOn = False
+            End If
+        Else
+            config.Values("Sorteos") = 1
+            tsConfigSorteos.IsOn = True
+        End If
+
+        AddHandler tsConfigSorteos.Toggled, AddressOf SorteosSwitch
+        AddHandler tsConfigSorteos.PointerEntered, AddressOf Interfaz.EfectosHover.Entra_Basico
+        AddHandler tsConfigSorteos.PointerExited, AddressOf Interfaz.EfectosHover.Sale_Basico
+
     End Sub
 
     Private Sub DeseadosSwitch(sender As Object, e As RoutedEventArgs)
@@ -140,6 +159,19 @@ Module Configuracion
 
     End Sub
 
+    Private Sub SorteosSwitch(sender As Object, e As RoutedEventArgs)
+
+        Dim config As ApplicationDataContainer = ApplicationData.Current.LocalSettings
+        Dim ts As ToggleSwitch = sender
+
+        If ts.IsOn = True Then
+            config.Values("Sorteos") = 1
+        Else
+            config.Values("Sorteos") = 0
+        End If
+
+    End Sub
+
     Public Sub Trial(estado As Boolean)
 
         Dim frame As Frame = Window.Current.Content
@@ -158,6 +190,9 @@ Module Configuracion
 
         Dim tsConfigNotificaciones As ToggleSwitch = pagina.FindName("tsConfigNotificaciones")
         tsConfigNotificaciones.IsEnabled = estado
+
+        Dim tsConfigSorteos As ToggleSwitch = pagina.FindName("tsConfigSorteos")
+        tsConfigSorteos.IsEnabled = estado
 
     End Sub
 

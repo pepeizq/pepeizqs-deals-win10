@@ -15,7 +15,7 @@ Module Wordpress
         Dim pagina As Page = frame.Content
 
         Dim gridCarga As Grid = pagina.FindName("gridCarga")
-        Interfaz.Pestañas.Visibilidad_Pestañas(gridCarga, Nothing)
+        Interfaz.Pestañas.Visibilidad(gridCarga, Nothing, Nothing)
 
         Await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, Sub()
                                                                                                          CargarEntradas2(pagina, paginas, categoria, actualizar, primeraVez)
@@ -26,6 +26,7 @@ Module Wordpress
     Private Async Sub CargarEntradas2(pagina As Page, paginas As Integer, categoria As String, actualizar As Boolean, primeraVez As Boolean)
 
         Dim recursos As New Resources.ResourceLoader()
+        Dim config As ApplicationDataContainer = ApplicationData.Current.LocalSettings
 
         Dim spEntradas As StackPanel = pagina.FindName("spEntradas")
 
@@ -226,12 +227,16 @@ Module Wordpress
 
                         Dim botonSorteosImagen As Button = pagina.FindName("botonSorteosImagen")
 
-                        If entrada.Titulo.Texto.Contains("New Giveaways on SteamGifts • News") Then
-                            botonSorteosImagen.Visibility = Visibility.Visible
-                            botonSorteosImagen.Tag = entrada
+                        If config.Values("Sorteos") = 1 Then
+                            If entrada.Titulo.Texto.Contains("New Giveaways on SteamGifts • News") Then
+                                botonSorteosImagen.Visibility = Visibility.Visible
+                                botonSorteosImagen.Tag = entrada
 
-                            Dim imagenBotonSorteos As ImageEx = pagina.FindName("imagenBotonSorteos")
-                            imagenBotonSorteos.Source = entrada.Imagen
+                                Dim imagenBotonSorteos As ImageEx = pagina.FindName("imagenBotonSorteos")
+                                imagenBotonSorteos.Source = entrada.Imagen
+                            Else
+                                botonSorteosImagen.Visibility = Visibility.Collapsed
+                            End If
                         Else
                             botonSorteosImagen.Visibility = Visibility.Collapsed
                         End If
@@ -244,8 +249,6 @@ Module Wordpress
                 End If
             End If
         End If
-
-        Dim config As ApplicationDataContainer = ApplicationData.Current.LocalSettings
 
         If config.Values("Estado_App") = 1 Then
             Dim gvFiltroJuegosDeseados As AdaptiveGridView = pagina.FindName("gvFiltroJuegosDeseados")
@@ -263,7 +266,7 @@ Module Wordpress
         End If
 
         Dim gridEntradas As Grid = pagina.FindName("gridEntradas")
-        Interfaz.Pestañas.Visibilidad_Pestañas(gridEntradas, categoria)
+        Interfaz.Pestañas.Visibilidad(gridEntradas, categoria, Nothing)
 
     End Sub
 

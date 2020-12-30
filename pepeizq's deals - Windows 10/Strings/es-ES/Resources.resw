@@ -132,6 +132,9 @@
   <data name="Config" xml:space="preserve">
     <value>Configuración</value>
   </data>
+  <data name="ConfigGiveaways.Text" xml:space="preserve">
+    <value>Selecciona si deseas que se muestre información sobre los sorteos:</value>
+  </data>
   <data name="ConfigNotificationsMessage.Text" xml:space="preserve">
     <value>Selecciona si deseas recibir notificaciones push mientras tengas abierta la aplicación:</value>
   </data>
