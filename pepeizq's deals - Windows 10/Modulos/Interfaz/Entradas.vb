@@ -337,6 +337,10 @@ Namespace Interfaz
             ElseIf entrada.Categorias(0) = 4 Then
                 Dim json As EntradaBundles = JsonConvert.DeserializeObject(Of EntradaBundles)(entrada.Json)
 
+                Dim sp As New StackPanel With {
+                    .Orientation = Orientation.Vertical
+                }
+
                 Dim gv As New AdaptiveGridView With {
                     .DesiredWidth = 250,
                     .Padding = New Thickness(5, 5, 0, 0),
@@ -357,13 +361,32 @@ Namespace Interfaz
                     gv.Items.Add(imagenJuego)
                 Next
 
+                sp.Children.Add(gv)
+
+                Dim subTitulo As String = entrada.SubTitulo
+
+                If Not subTitulo = Nothing Then
+                    If subTitulo.ToLower.Contains("and more games") Then
+                        Dim tb As New TextBlock With {
+                            .Text = recursos.GetString("AndMoreGames"),
+                            .Foreground = New SolidColorBrush(Colors.White),
+                            .HorizontalAlignment = HorizontalAlignment.Center,
+                            .FontSize = 17,
+                            .FontWeight = Text.FontWeights.SemiBold,
+                            .Margin = New Thickness(0, 10, 0, 25)
+                        }
+
+                        sp.Children.Add(tb)
+                    End If
+                End If
+
                 Dim fondoBundle As New SolidColorBrush With {
                     .Color = App.Current.Resources("ColorCuarto"),
                     .Opacity = 0.2
                 }
 
                 Dim boton As New Button With {
-                    .Content = gv,
+                    .Content = sp,
                     .HorizontalAlignment = HorizontalAlignment.Stretch,
                     .HorizontalContentAlignment = HorizontalAlignment.Stretch,
                     .Background = fondoBundle,
@@ -426,7 +449,7 @@ Namespace Interfaz
                 If json.Juegos.Count = 1 Then
                     gv.DesiredWidth = 400
                 ElseIf json.Juegos.Count > 1 Then
-                    gv.DesiredWidth = 250
+                    gv.DesiredWidth = 150
                 End If
 
                 For Each juego In json.Juegos
@@ -435,12 +458,15 @@ Namespace Interfaz
                         .Source = juego.Imagen,
                         .MaxHeight = 250,
                         .MaxWidth = 400,
-                        .MinHeight = 200,
-                        .MinWidth = 160,
                         .Margin = New Thickness(10, 10, 10, 10),
                         .BorderBrush = New SolidColorBrush(App.Current.Resources("ColorCuarto")),
                         .BorderThickness = New Thickness(1, 1, 1, 1)
                     }
+
+                    If json.Juegos.Count = 1 Then
+                        imagenJuego.MinHeight = 200
+                        imagenJuego.MinWidth = 160
+                    End If
 
                     gv.Items.Add(imagenJuego)
                 Next

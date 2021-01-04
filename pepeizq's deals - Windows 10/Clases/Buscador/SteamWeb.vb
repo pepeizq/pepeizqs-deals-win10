@@ -5,7 +5,7 @@
         Public Property Titulo As String
         Public Property Imagen As String
 
-        Public Sub New(ByVal id As String, ByVal titulo As String, ByVal imagen As String)
+        Public Sub New(id As String, titulo As String, imagen As String)
             Me.ID = id
             Me.Titulo = titulo
             Me.Imagen = imagen

@@ -120,6 +120,9 @@
   <data name="All.Text" xml:space="preserve">
     <value>All</value>
   </data>
+  <data name="AndMoreGames" xml:space="preserve">
+    <value>And More Games</value>
+  </data>
   <data name="Back.Text" xml:space="preserve">
     <value>Back</value>
   </data>
@@ -266,6 +269,15 @@
   </data>
   <data name="Open" xml:space="preserve">
     <value>Open</value>
+  </data>
+  <data name="OpenIsthereanydeal" xml:space="preserve">
+    <value>Open the game on Isthereanydeal</value>
+  </data>
+  <data name="OpenSearch" xml:space="preserve">
+    <value>Open the game in the App Searcher</value>
+  </data>
+  <data name="OpenSteamDB" xml:space="preserve">
+    <value>Open the game on SteamDB</value>
   </data>
   <data name="Resultspepeizqdeals.Text" xml:space="preserve">
     <value>Results on pepeizqdeals.com</value>

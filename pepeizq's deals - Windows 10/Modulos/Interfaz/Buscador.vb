@@ -1,5 +1,4 @@
-﻿Imports System.Net
-Imports Microsoft.Toolkit.Uwp.UI.Animations
+﻿Imports Microsoft.Toolkit.Uwp.UI.Animations
 Imports Microsoft.Toolkit.Uwp.UI.Controls
 Imports pepeizq_s_deals___Windows_10.Buscador
 Imports Windows.Storage
@@ -76,6 +75,8 @@ Namespace Interfaz
 
         Public Function ResultadoSteam(resultado As SteamWeb)
 
+            Dim recursos As New Resources.ResourceLoader
+
             Dim imagen As New ImageEx With {
                 .Source = resultado.Imagen,
                 .IsCacheEnabled = True,
@@ -87,16 +88,106 @@ Namespace Interfaz
             Dim boton As New Button With {
                 .Background = New SolidColorBrush(Colors.Transparent),
                 .Padding = New Thickness(0, 0, 0, 0),
-                .BorderThickness = New Thickness(0, 0, 0, 0),
                 .Tag = resultado,
-                .Margin = New Thickness(5, 5, 5, 5),
+                .Margin = New Thickness(8, 8, 8, 8),
                 .Content = imagen,
-                .Style = App.Current.Resources("ButtonRevealStyle")
+                .Style = App.Current.Resources("ButtonRevealStyle"),
+                .BorderBrush = New SolidColorBrush(App.Current.Resources("ColorPrimario")),
+                .BorderThickness = New Thickness(1, 1, 1, 1)
             }
 
-            AddHandler boton.Click, AddressOf AbrirJuegoClick
+            AddHandler boton.Tapped, AddressOf AbrirJuegoClick
             AddHandler boton.PointerEntered, AddressOf Entra_Boton_Imagen
             AddHandler boton.PointerExited, AddressOf Sale_Boton_Imagen
+
+            '------------------------------------------------
+
+            Dim estilo As New Style(GetType(FlyoutPresenter))
+            estilo.Setters.Add(New Setter(FlyoutPresenter.PaddingProperty, 0))
+            estilo.Setters.Add(New Setter(FlyoutPresenter.BorderThicknessProperty, 0))
+            estilo.Setters.Add(New Setter(FlyoutPresenter.BackgroundProperty, Colors.Transparent))
+
+            Dim menu As New Flyout With {
+                .ShowMode = FlyoutShowMode.Transient,
+                .Placement = FlyoutPlacementMode.Bottom,
+                .FlyoutPresenterStyle = estilo
+            }
+
+            Dim fondoSpMenu As New SolidColorBrush With {
+                .Color = App.Current.Resources("ColorCuarto"),
+                .Opacity = 0.95
+            }
+
+            Dim spMenu As New StackPanel With {
+                .Orientation = Orientation.Vertical,
+                .Background = fondoSpMenu,
+                .Padding = New Thickness(15, 15, 15, 15)
+            }
+
+            Dim tbBuscador As New TextBlock With {
+                .Text = recursos.GetString("OpenSearch"),
+                .Foreground = New SolidColorBrush(Colors.White)
+            }
+
+            Dim botonBuscador As New Button With {
+                .Content = tbBuscador,
+                .Padding = New Thickness(15, 12, 15, 12),
+                .BorderBrush = New SolidColorBrush(Colors.Transparent),
+                .BorderThickness = New Thickness(0, 0, 0, 0),
+                .Background = New SolidColorBrush(App.Current.Resources("ColorCuarto")),
+                .Tag = resultado,
+                .HorizontalAlignment = HorizontalAlignment.Stretch
+            }
+            spMenu.Children.Add(botonBuscador)
+
+            AddHandler botonBuscador.Click, AddressOf AbrirBuscadorClick
+            AddHandler botonBuscador.PointerEntered, AddressOf EfectosHover.Entra_Boton2
+            AddHandler botonBuscador.PointerExited, AddressOf EfectosHover.Sale_Boton2
+
+            Dim tbSteamDB As New TextBlock With {
+                .Text = recursos.GetString("OpenSteamDB"),
+                .Foreground = New SolidColorBrush(Colors.White)
+            }
+
+            Dim botonSteamDB As New Button With {
+                .Content = tbSteamDB,
+                .Padding = New Thickness(15, 12, 15, 12),
+                .BorderBrush = New SolidColorBrush(Colors.Transparent),
+                .BorderThickness = New Thickness(0, 0, 0, 0),
+                .Background = New SolidColorBrush(App.Current.Resources("ColorCuarto")),
+                .Margin = New Thickness(0, 10, 0, 0),
+                .Tag = resultado.ID,
+                .HorizontalAlignment = HorizontalAlignment.Stretch
+            }
+            spMenu.Children.Add(botonSteamDB)
+
+            AddHandler botonSteamDB.Click, AddressOf AbrirSteamDBClick
+            AddHandler botonSteamDB.PointerEntered, AddressOf EfectosHover.Entra_Boton2
+            AddHandler botonSteamDB.PointerExited, AddressOf EfectosHover.Sale_Boton2
+
+            Dim tbIsthereanydeal As New TextBlock With {
+                .Text = recursos.GetString("OpenIsthereanydeal"),
+                .Foreground = New SolidColorBrush(Colors.White)
+            }
+
+            Dim botonIsthereanydeal As New Button With {
+                .Content = tbIsthereanydeal,
+                .Padding = New Thickness(15, 12, 15, 12),
+                .BorderBrush = New SolidColorBrush(Colors.Transparent),
+                .BorderThickness = New Thickness(0, 0, 0, 0),
+                .Background = New SolidColorBrush(App.Current.Resources("ColorCuarto")),
+                .Margin = New Thickness(0, 10, 0, 0),
+                .Tag = resultado.ID,
+                .HorizontalAlignment = HorizontalAlignment.Stretch
+            }
+            spMenu.Children.Add(botonIsthereanydeal)
+
+            AddHandler botonIsthereanydeal.Click, AddressOf AbrirIsthereanydealClick
+            AddHandler botonIsthereanydeal.PointerEntered, AddressOf EfectosHover.Entra_Boton2
+            AddHandler botonIsthereanydeal.PointerExited, AddressOf EfectosHover.Sale_Boton2
+
+            menu.Content = spMenu
+            FlyoutBase.SetAttachedFlyout(boton, menu)
 
             Return boton
 
@@ -147,10 +238,34 @@ Namespace Interfaz
 
         Private Sub AbrirJuegoClick(sender As Object, e As RoutedEventArgs)
 
+            FlyoutBase.ShowAttachedFlyout(sender)
+
+        End Sub
+
+        Private Sub AbrirBuscadorClick(sender As Object, e As RoutedEventArgs)
+
             Dim boton As Button = sender
             Dim resultado As SteamWeb = boton.Tag
 
             BuscarJuego(resultado)
+
+        End Sub
+
+        Private Async Sub AbrirSteamDBClick(sender As Object, e As RoutedEventArgs)
+
+            Dim boton As Button = sender
+            Dim id As String = boton.Tag
+
+            Await Launcher.LaunchUriAsync(New Uri("https://steamdb.info/app/" + id + "/"))
+
+        End Sub
+
+        Private Async Sub AbrirIsthereanydealClick(sender As Object, e As RoutedEventArgs)
+
+            Dim boton As Button = sender
+            Dim id As String = boton.Tag
+
+            Await Launcher.LaunchUriAsync(New Uri("https://new.isthereanydeal.com/steam/app/" + id))
 
         End Sub
 

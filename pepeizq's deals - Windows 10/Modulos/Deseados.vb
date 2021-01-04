@@ -338,7 +338,6 @@ Module Deseados
 
         For Each juego In juegosDeseados
             Dim imagen As String = juego.Imagen
-            imagen = imagen.Replace("header_292x136", "library_600x900")
 
             Dim resultado As New Buscador.SteamWeb(juego.ID, juego.Titulo, imagen)
             gvJuegos.Items.Add(Interfaz.Buscador.ResultadoSteam(resultado))

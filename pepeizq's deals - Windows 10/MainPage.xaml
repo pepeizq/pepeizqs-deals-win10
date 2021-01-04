@@ -530,7 +530,7 @@
                     </ScrollViewer>
                 </Grid>
 
-                <Grid x:Name="gridDeseados" Visibility="Collapsed" Padding="20">
+                <Grid x:Name="gridDeseados" Visibility="Collapsed">
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <StackPanel Orientation="Vertical">
                             <Grid BorderBrush="White" BorderThickness="0,1,0,0" Margin="40,40,40,30"/>
@@ -555,7 +555,7 @@
                             <TextBlock x:Uid="WishlistGamesInfo" Foreground="White" FontSize="15" Margin="60,0,60,20" TextWrapping="Wrap"/>
 
                             <Grid Padding="40,20">
-                                <controls:AdaptiveGridView x:Name="gvDeseadosJuegos" DesiredWidth="200"/>
+                                <controls:AdaptiveGridView x:Name="gvDeseadosJuegos" DesiredWidth="300"/>
                             </Grid>
                         </StackPanel>
                     </ScrollViewer>
