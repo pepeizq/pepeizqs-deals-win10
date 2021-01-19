@@ -24,14 +24,14 @@ Namespace Interfaz
             Dim botonBusquedaWeb As Button = pagina.FindName("botonBusquedaWeb")
 
             AddHandler botonBusquedaWeb.Click, AddressOf MostrarResultadosWeb
-            AddHandler botonBusquedaWeb.PointerEntered, AddressOf EfectosHover.Entra_Boton2
-            AddHandler botonBusquedaWeb.PointerExited, AddressOf EfectosHover.Sale_Boton2
+            AddHandler botonBusquedaWeb.PointerEntered, AddressOf EfectosHover.Entra_Boton_1_02
+            AddHandler botonBusquedaWeb.PointerExited, AddressOf EfectosHover.Sale_Boton_1_02
 
             Dim botonBusquedaSteam As Button = pagina.FindName("botonBusquedaSteam")
 
             AddHandler botonBusquedaSteam.Click, AddressOf MostrarResultadosSteam
-            AddHandler botonBusquedaSteam.PointerEntered, AddressOf EfectosHover.Entra_Boton2
-            AddHandler botonBusquedaSteam.PointerExited, AddressOf EfectosHover.Sale_Boton2
+            AddHandler botonBusquedaSteam.PointerEntered, AddressOf EfectosHover.Entra_Boton_1_02
+            AddHandler botonBusquedaSteam.PointerExited, AddressOf EfectosHover.Sale_Boton_1_02
 
         End Sub
 
@@ -136,13 +136,14 @@ Namespace Interfaz
                 .BorderThickness = New Thickness(0, 0, 0, 0),
                 .Background = New SolidColorBrush(App.Current.Resources("ColorCuarto")),
                 .Tag = resultado,
-                .HorizontalAlignment = HorizontalAlignment.Stretch
+                .HorizontalAlignment = HorizontalAlignment.Stretch,
+                .Flyout = menu
             }
             spMenu.Children.Add(botonBuscador)
 
             AddHandler botonBuscador.Click, AddressOf AbrirBuscadorClick
-            AddHandler botonBuscador.PointerEntered, AddressOf EfectosHover.Entra_Boton2
-            AddHandler botonBuscador.PointerExited, AddressOf EfectosHover.Sale_Boton2
+            AddHandler botonBuscador.PointerEntered, AddressOf EfectosHover.Entra_Boton_1_02
+            AddHandler botonBuscador.PointerExited, AddressOf EfectosHover.Sale_Boton_1_02
 
             Dim tbSteamDB As New TextBlock With {
                 .Text = recursos.GetString("OpenSteamDB"),
@@ -162,8 +163,8 @@ Namespace Interfaz
             spMenu.Children.Add(botonSteamDB)
 
             AddHandler botonSteamDB.Click, AddressOf AbrirSteamDBClick
-            AddHandler botonSteamDB.PointerEntered, AddressOf EfectosHover.Entra_Boton2
-            AddHandler botonSteamDB.PointerExited, AddressOf EfectosHover.Sale_Boton2
+            AddHandler botonSteamDB.PointerEntered, AddressOf EfectosHover.Entra_Boton_1_02
+            AddHandler botonSteamDB.PointerExited, AddressOf EfectosHover.Sale_Boton_1_02
 
             Dim tbIsthereanydeal As New TextBlock With {
                 .Text = recursos.GetString("OpenIsthereanydeal"),
@@ -183,8 +184,8 @@ Namespace Interfaz
             spMenu.Children.Add(botonIsthereanydeal)
 
             AddHandler botonIsthereanydeal.Click, AddressOf AbrirIsthereanydealClick
-            AddHandler botonIsthereanydeal.PointerEntered, AddressOf EfectosHover.Entra_Boton2
-            AddHandler botonIsthereanydeal.PointerExited, AddressOf EfectosHover.Sale_Boton2
+            AddHandler botonIsthereanydeal.PointerEntered, AddressOf EfectosHover.Entra_Boton_1_02
+            AddHandler botonIsthereanydeal.PointerExited, AddressOf EfectosHover.Sale_Boton_1_02
 
             menu.Content = spMenu
             FlyoutBase.SetAttachedFlyout(boton, menu)
@@ -245,6 +246,9 @@ Namespace Interfaz
         Private Sub AbrirBuscadorClick(sender As Object, e As RoutedEventArgs)
 
             Dim boton As Button = sender
+            Dim menu As Flyout = boton.Flyout
+            menu.Hide()
+
             Dim resultado As SteamWeb = boton.Tag
 
             BuscarJuego(resultado)
@@ -390,8 +394,8 @@ Namespace Interfaz
                     }
 
                     AddHandler boton.Click, AddressOf AbrirTiendaClick
-                    AddHandler boton.PointerEntered, AddressOf UsuarioEntraBotonBusquedaTienda
-                    AddHandler boton.PointerExited, AddressOf UsuarioSaleBotonBusquedaTienda
+                    AddHandler boton.PointerEntered, AddressOf EfectosHover.Entra_Boton_1_02
+                    AddHandler boton.PointerExited, AddressOf EfectosHover.Sale_Boton_1_02
 
                     If Not tienda.Mensaje = Nothing Then
                         Dim tbMensaje As New TextBlock With {

@@ -242,56 +242,78 @@ Namespace Interfaz
 
         End Sub
 
-        Public Sub Entra_Boton_Grid(sender As Object, e As PointerRoutedEventArgs)
+        Public Sub Entra_Boton_IconoTexto_Grid(sender As Object, e As PointerRoutedEventArgs)
 
             Dim boton As Button = sender
             Dim grid As Grid = boton.Content
-            grid.Saturation(1).Scale(1.03, 1.03, grid.ActualWidth / 2, grid.ActualHeight / 2).Start()
+
+            Dim texto As TextBlock = grid.Children(0)
+            texto.Saturation(1).Scale(1.05, 1.05, texto.ActualWidth / 2, texto.ActualHeight / 2).Start()
+
+            Dim icono As FontAwesome5.FontAwesome = grid.Children(1)
+            icono.Saturation(1).Scale(1.2, 1.2, icono.ActualWidth / 2, icono.ActualHeight / 2).Start()
 
             Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Hand, 1)
 
         End Sub
 
-        Public Sub Sale_Boton_Grid(sender As Object, e As PointerRoutedEventArgs)
+        Public Sub Sale_Boton_IconoTexto_Grid(sender As Object, e As PointerRoutedEventArgs)
 
             Dim boton As Button = sender
             Dim grid As Grid = boton.Content
-            grid.Saturation(1).Scale(1, 1, grid.ActualWidth / 2, grid.ActualHeight / 2).Start()
+
+            Dim texto As TextBlock = grid.Children(0)
+            texto.Saturation(1).Scale(1, 1, texto.ActualWidth / 2, texto.ActualHeight / 2).Start()
+
+            Dim icono As FontAwesome5.FontAwesome = grid.Children(1)
+            icono.Saturation(1).Scale(1, 1, icono.ActualWidth / 2, icono.ActualHeight / 2).Start()
 
             Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Arrow, 1)
 
         End Sub
 
-        Public Sub Entra_Boton_Stackpanel(sender As Object, e As PointerRoutedEventArgs)
+        Public Sub Entra_Boton_GridIcono(sender As Object, e As PointerRoutedEventArgs)
 
             Dim boton As Button = sender
-            Dim sp As StackPanel = boton.Content
-            sp.Saturation(1).Scale(1.03, 1.03, sp.ActualWidth / 2, sp.ActualHeight / 2).Start()
+            Dim grid As Grid = boton.Content
+
+            Dim sp As StackPanel = grid.Children(0)
+            Dim subgrid As Grid = sp.Children(0)
+            subgrid.Saturation(1).Scale(1.02, 1.02, subgrid.ActualWidth / 2, subgrid.ActualHeight / 2).Start()
+
+            Dim icono As FontAwesome5.FontAwesome = grid.Children(1)
+            icono.Saturation(1).Scale(1.2, 1.2, icono.ActualWidth / 2, icono.ActualHeight / 2).Start()
 
             Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Hand, 1)
 
         End Sub
 
-        Public Sub Sale_Boton_Stackpanel(sender As Object, e As PointerRoutedEventArgs)
+        Public Sub Sale_Boton_GridIcono(sender As Object, e As PointerRoutedEventArgs)
 
             Dim boton As Button = sender
-            Dim sp As StackPanel = boton.Content
-            sp.Saturation(1).Scale(1, 1, sp.ActualWidth / 2, sp.ActualHeight / 2).Start()
+            Dim grid As Grid = boton.Content
+
+            Dim sp As StackPanel = grid.Children(0)
+            Dim subgrid As Grid = sp.Children(0)
+            subgrid.Saturation(1).Scale(1, 1, subgrid.ActualWidth / 2, subgrid.ActualHeight / 2).Start()
+
+            Dim icono As FontAwesome5.FontAwesome = grid.Children(1)
+            icono.Saturation(1).Scale(1, 1, icono.ActualWidth / 2, icono.ActualHeight / 2).Start()
 
             Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Arrow, 1)
 
         End Sub
 
-        Public Sub Entra_Boton(sender As Object, e As PointerRoutedEventArgs)
+        Public Sub Entra_Boton_1_05(sender As Object, e As PointerRoutedEventArgs)
 
             Dim boton As Button = sender
-            boton.Saturation(1).Scale(1.03, 1.03, boton.ActualWidth / 2, boton.ActualHeight / 2).Start()
+            boton.Saturation(1).Scale(1.05, 1.05, boton.ActualWidth / 2, boton.ActualHeight / 2).Start()
 
             Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Hand, 1)
 
         End Sub
 
-        Public Sub Sale_Boton(sender As Object, e As PointerRoutedEventArgs)
+        Public Sub Sale_Boton_1_05(sender As Object, e As PointerRoutedEventArgs)
 
             Dim boton As Button = sender
             boton.Saturation(1).Scale(1, 1, boton.ActualWidth / 2, boton.ActualHeight / 2).Start()
@@ -300,7 +322,7 @@ Namespace Interfaz
 
         End Sub
 
-        Public Sub Entra_Boton2(sender As Object, e As PointerRoutedEventArgs)
+        Public Sub Entra_Boton_1_02(sender As Object, e As PointerRoutedEventArgs)
 
             Dim boton As Button = sender
             boton.Saturation(1).Scale(1.02, 1.02, boton.ActualWidth / 2, boton.ActualHeight / 2).Start()
@@ -309,7 +331,7 @@ Namespace Interfaz
 
         End Sub
 
-        Public Sub Sale_Boton2(sender As Object, e As PointerRoutedEventArgs)
+        Public Sub Sale_Boton_1_02(sender As Object, e As PointerRoutedEventArgs)
 
             Dim boton As Button = sender
             boton.Saturation(1).Scale(1, 1, boton.ActualWidth / 2, boton.ActualHeight / 2).Start()

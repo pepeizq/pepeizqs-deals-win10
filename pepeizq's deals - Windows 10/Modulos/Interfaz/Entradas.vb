@@ -292,8 +292,8 @@ Namespace Interfaz
                     End If
 
                     AddHandler boton.Click, AddressOf AbrirEnlaceClick
-                    AddHandler boton.PointerEntered, AddressOf EfectosHover.Entra_Boton
-                    AddHandler boton.PointerExited, AddressOf EfectosHover.Sale_Boton
+                    AddHandler boton.PointerEntered, AddressOf EfectosHover.Entra_Boton_1_02
+                    AddHandler boton.PointerExited, AddressOf EfectosHover.Sale_Boton_1_02
 
                     gv.Items.Add(boton)
                 Next
@@ -328,8 +328,8 @@ Namespace Interfaz
                         }
 
                         AddHandler botonAmpliar.Click, AddressOf AbrirEntradaExpandidaClick
-                        AddHandler botonAmpliar.PointerEntered, AddressOf EfectosHover.Entra_Boton
-                        AddHandler botonAmpliar.PointerExited, AddressOf EfectosHover.Sale_Boton
+                        AddHandler botonAmpliar.PointerEntered, AddressOf EfectosHover.Entra_Boton_1_02
+                        AddHandler botonAmpliar.PointerExited, AddressOf EfectosHover.Sale_Boton_1_02
 
                         spDerecha.Children.Add(botonAmpliar)
                     End If
@@ -397,8 +397,8 @@ Namespace Interfaz
                 }
 
                 AddHandler boton.Click, AddressOf AbrirEnlaceClick
-                AddHandler boton.PointerEntered, AddressOf EfectosHover.Entra_Boton
-                AddHandler boton.PointerExited, AddressOf EfectosHover.Sale_Boton
+                AddHandler boton.PointerEntered, AddressOf EfectosHover.Entra_Boton_1_02
+                AddHandler boton.PointerExited, AddressOf EfectosHover.Sale_Boton_1_02
 
                 spDerecha.Children.Add(boton)
 
@@ -432,8 +432,8 @@ Namespace Interfaz
                 }
 
                 AddHandler boton.Click, AddressOf AbrirEnlaceClick
-                AddHandler boton.PointerEntered, AddressOf EfectosHover.Entra_Boton
-                AddHandler boton.PointerExited, AddressOf EfectosHover.Sale_Boton
+                AddHandler boton.PointerEntered, AddressOf EfectosHover.Entra_Boton_1_02
+                AddHandler boton.PointerExited, AddressOf EfectosHover.Sale_Boton_1_02
 
                 gv.Items.Add(boton)
 
@@ -488,8 +488,8 @@ Namespace Interfaz
                 }
 
                 AddHandler boton.Click, AddressOf AbrirEnlaceClick
-                AddHandler boton.PointerEntered, AddressOf EfectosHover.Entra_Boton
-                AddHandler boton.PointerExited, AddressOf EfectosHover.Sale_Boton
+                AddHandler boton.PointerEntered, AddressOf EfectosHover.Entra_Boton_1_02
+                AddHandler boton.PointerExited, AddressOf EfectosHover.Sale_Boton_1_02
 
                 spDerecha.Children.Add(boton)
             End If

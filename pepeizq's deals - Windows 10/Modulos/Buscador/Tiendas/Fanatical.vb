@@ -34,10 +34,11 @@ Namespace Buscador.Tiendas
 
                 If Not html = Nothing Then
                     html = "[" + html + "]"
-                    html = html.Replace("{" + ChrW(34) + "features", ",{" + ChrW(34) + "features")
+                    html = html.Replace("{" + ChrW(34) + "title" + ChrW(34) + ":", ",{" + ChrW(34) + "title" + ChrW(34) + ":" + ChrW(34))
+                    html = html.Replace("[,{" + ChrW(34) + "title" + ChrW(34) + ":", "[{" + ChrW(34) + "title" + ChrW(34) + ":" + ChrW(34))
 
-                    Dim int3 As Integer = html.IndexOf(",")
-                    html = html.Remove(int3, 1)
+                    html = html.Replace(ChrW(34) + "title" + ChrW(34) + ":" + ChrW(34) + ChrW(34), ChrW(34) + "title" + ChrW(34) + ":" + ChrW(34))
+                    html = html.Replace(ChrW(34) + "title" + ChrW(34) + ":" + ChrW(34), ChrW(34) + "title" + ChrW(34) + ":")
 
                     Dim listaJuegos As List(Of FanaticalJuego) = JsonConvert.DeserializeObject(Of List(Of FanaticalJuego))(html)
 

@@ -360,8 +360,8 @@ Namespace Interfaz
                         }
 
                         AddHandler boton.Click, AddressOf AbrirEnlaceClick
-                        AddHandler boton.PointerEntered, AddressOf EfectosHover.Entra_Boton2
-                        AddHandler boton.PointerExited, AddressOf EfectosHover.Sale_Boton2
+                        AddHandler boton.PointerEntered, AddressOf EfectosHover.Entra_Boton_1_02
+                        AddHandler boton.PointerExited, AddressOf EfectosHover.Sale_Boton_1_02
 
                         spEntradaExpandida.Children.Add(boton)
                     End If

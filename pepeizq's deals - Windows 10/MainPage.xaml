@@ -454,7 +454,7 @@
                     </ScrollViewer>
                 </Grid>
 
-                <Grid x:Name="gridBusquedaJuego" Visibility="Collapsed" Padding="20" Margin="20" BorderBrush="{StaticResource ColorPrimario}" BorderThickness="1">
+                <Grid x:Name="gridBusquedaJuego" Visibility="Collapsed" Padding="30" BorderBrush="{StaticResource ColorPrimario}" BorderThickness="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>

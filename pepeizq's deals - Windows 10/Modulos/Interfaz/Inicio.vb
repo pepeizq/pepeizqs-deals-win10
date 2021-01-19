@@ -31,8 +31,8 @@ Namespace Interfaz
             Dim botonSorteos As Button = pagina.FindName("botonSorteosImagen")
 
             AddHandler botonSorteos.Click, AddressOf AbrirSorteosClick
-            AddHandler botonSorteos.PointerEntered, AddressOf Entra_Boton_Grid
-            AddHandler botonSorteos.PointerExited, AddressOf Sale_Boton_Grid
+            AddHandler botonSorteos.PointerEntered, AddressOf Entra_Boton_1_02
+            AddHandler botonSorteos.PointerExited, AddressOf Sale_Boton_1_02
 
         End Sub
 
@@ -139,8 +139,8 @@ Namespace Interfaz
                         }
 
                         AddHandler boton.Click, AddressOf AbrirSorteoClick
-                        AddHandler boton.PointerEntered, AddressOf EfectosHover.Entra_Boton2
-                        AddHandler boton.PointerExited, AddressOf EfectosHover.Sale_Boton2
+                        AddHandler boton.PointerEntered, AddressOf EfectosHover.Entra_Boton_1_02
+                        AddHandler boton.PointerExited, AddressOf EfectosHover.Sale_Boton_1_02
 
                         spEntradas.Children.Add(boton)
                     Next
