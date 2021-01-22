@@ -195,6 +195,12 @@
   <data name="Giveaways.Text" xml:space="preserve">
     <value>Sorteos</value>
   </data>
+  <data name="GiveawaysMessage" xml:space="preserve">
+    <value>Los únicos requisitos para participar en estos sorteos son: tener una cuenta en SteamGifts, vivir en un país europeo y unirse al grupo de Steam.</value>
+  </data>
+  <data name="GiveawaysOpenSteam" xml:space="preserve">
+    <value>Abrir Grupo de Steam</value>
+  </data>
   <data name="Home" xml:space="preserve">
     <value>Inicio</value>
   </data>

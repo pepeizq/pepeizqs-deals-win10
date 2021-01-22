@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.Toolkit.Uwp.UI.Controls
 Imports Windows.System
+Imports Windows.UI
 
 Namespace Interfaz
 
@@ -116,16 +117,70 @@ Namespace Interfaz
                 End While
 
                 If listaSorteos.Count > 0 Then
+                    Dim recursos As New Resources.ResourceLoader
+
+                    Dim gridMensaje As New Grid With {
+                        .Margin = New Thickness(0, 0, 0, 20),
+                        .HorizontalAlignment = HorizontalAlignment.Center
+                    }
+
+                    Dim col1 As New ColumnDefinition
+                    Dim col2 As New ColumnDefinition
+
+                    col1.Width = New GridLength(1, GridUnitType.Star)
+                    col2.Width = New GridLength(1, GridUnitType.Auto)
+
+                    gridMensaje.ColumnDefinitions.Add(col1)
+                    gridMensaje.ColumnDefinitions.Add(col2)
+
+                    Dim tbMensaje As New TextBlock With {
+                        .Text = recursos.GetString("GiveawaysMessage"),
+                        .Foreground = New SolidColorBrush(Colors.White),
+                        .HorizontalAlignment = HorizontalAlignment.Center,
+                        .Margin = New Thickness(10, 10, 40, 10),
+                        .TextWrapping = TextWrapping.Wrap
+                    }
+
+                    tbMensaje.SetValue(Grid.ColumnProperty, 0)
+
+                    gridMensaje.Children.Add(tbMensaje)
+
+                    Dim tbAbrirGrupoSteam As New TextBlock With {
+                        .Text = recursos.GetString("GiveawaysOpenSteam"),
+                        .Foreground = New SolidColorBrush(Colors.White)
+                    }
+
+                    Dim fondo As New SolidColorBrush With {
+                        .Color = App.Current.Resources("ColorCuarto"),
+                        .Opacity = 0.2
+                    }
+
+                    Dim botonMensaje As New Button With {
+                        .Content = tbAbrirGrupoSteam,
+                        .Background = fondo,
+                        .BorderBrush = New SolidColorBrush(App.Current.Resources("ColorCuarto")),
+                        .BorderThickness = New Thickness(1, 1, 1, 1),
+                        .HorizontalAlignment = HorizontalAlignment.Center,
+                        .Padding = New Thickness(15, 12, 15, 12)
+                    }
+
+                    botonMensaje.SetValue(Grid.ColumnProperty, 1)
+
+                    AddHandler botonMensaje.Click, AddressOf AbrirGrupoSteamClick
+                    AddHandler botonMensaje.PointerEntered, AddressOf EfectosHover.Entra_Boton_1_02
+                    AddHandler botonMensaje.PointerExited, AddressOf EfectosHover.Sale_Boton_1_02
+
+                    gridMensaje.Children.Add(botonMensaje)
+
+                    spEntradas.Children.Add(gridMensaje)
+
+                    '-----------------------------------------------
+
                     For Each sorteo In listaSorteos
                         Dim imagen As New ImageEx With {
-                            .IsCacheEnabled = True,
                             .Source = sorteo + "/signature.png",
-                            .MaxWidth = 500
-                        }
-
-                        Dim fondo As New SolidColorBrush With {
-                            .Color = App.Current.Resources("ColorCuarto"),
-                            .Opacity = 0.2
+                            .MaxWidth = 500,
+                            .EnableLazyLoading = True
                         }
 
                         Dim boton As New Button With {
@@ -160,6 +215,12 @@ Namespace Interfaz
             Dim enlace As String = boton.Tag
 
             Await Launcher.LaunchUriAsync(New Uri(enlace))
+
+        End Sub
+
+        Private Async Sub AbrirGrupoSteamClick(sender As Object, e As RoutedEventArgs)
+
+            Await Launcher.LaunchUriAsync(New Uri("https://steamcommunity.com/groups/pepeizqdeals"))
 
         End Sub
 

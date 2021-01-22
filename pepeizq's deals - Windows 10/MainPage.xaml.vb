@@ -8,7 +8,7 @@ Public NotInheritable Class MainPage
 
     Private Sub Nv_Loaded(sender As Object, e As RoutedEventArgs)
 
-        Dim recursos As New Resources.ResourceLoader()
+        Dim recursos As New Resources.ResourceLoader
 
         nvPrincipal.MenuItems.Add(Interfaz.NavigationViewItems.Generar(recursos.GetString("Home"), FontAwesome5.EFontAwesomeIcon.Solid_Home))
         nvPrincipal.MenuItems.Add(Interfaz.NavigationViewItems.Generar(recursos.GetString("Wishlist"), FontAwesome5.EFontAwesomeIcon.Solid_Star))
@@ -19,7 +19,7 @@ Public NotInheritable Class MainPage
 
     Private Sub Nv_ItemInvoked(sender As NavigationView, args As NavigationViewItemInvokedEventArgs)
 
-        Dim recursos As New Resources.ResourceLoader()
+        Dim recursos As New Resources.ResourceLoader
 
         If gridCarga.Visibility = Visibility.Collapsed Then
             If TypeOf args.InvokedItem Is TextBlock Then
