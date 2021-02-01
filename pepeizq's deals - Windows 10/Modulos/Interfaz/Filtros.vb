@@ -61,11 +61,11 @@ Namespace Interfaz
             Dim gvFiltroTiendas As AdaptiveGridView = pagina.FindName("gvFiltroTiendas")
 
             If gvFiltroTiendas.Visibility = Visibility.Visible Then
-                config.Values("FiltroDeseados") = 0
+                config.Values("FiltroTiendas") = 0
                 iconoFiltroTiendas.Icon = FontAwesome5.EFontAwesomeIcon.Solid_AngleUp
                 gvFiltroTiendas.Visibility = Visibility.Collapsed
             Else
-                config.Values("FiltroDeseados") = 1
+                config.Values("FiltroTiendas") = 1
                 iconoFiltroTiendas.Icon = FontAwesome5.EFontAwesomeIcon.Solid_AngleDown
                 gvFiltroTiendas.Visibility = Visibility.Visible
             End If
@@ -303,17 +303,31 @@ Namespace Interfaz
                     listaTiendas.Sort()
 
                     For Each tienda In listaTiendas
+                        Dim entradasTienda As New List(Of Entrada)
+
+                        For Each entrada In entradas
+                            If tienda = entrada.Tienda Then
+                                entradasTienda.Add(entrada)
+                            End If
+                        Next
+
+                        Dim fondoFiltro As New SolidColorBrush With {
+                            .Color = App.Current.Resources("ColorCuarto"),
+                            .Opacity = 0.4
+                        }
+
                         Dim tbFiltro As New TextBlock With {
                             .Text = tienda,
                             .Foreground = New SolidColorBrush(Colors.White)
                         }
 
                         Dim botonFiltro As New Button With {
-                            .Tag = entradas,
+                            .Tag = entradasTienda,
                             .Padding = New Thickness(0, 0, 0, 0),
                             .Content = tbFiltro,
                             .HorizontalAlignment = HorizontalAlignment.Stretch,
-                            .VerticalAlignment = VerticalAlignment.Stretch
+                            .VerticalAlignment = VerticalAlignment.Stretch,
+                            .Background = fondoFiltro
                         }
 
                         AddHandler botonFiltro.Click, AddressOf AbrirFiltroTiendaClick
@@ -370,6 +384,18 @@ Namespace Interfaz
 
         Private Sub AbrirFiltroTiendaClick(sender As Object, e As RoutedEventArgs)
 
+            Dim boton As Button = sender
+            Dim entradas As List(Of Entrada) = boton.Tag
+
+            Dim frame As Frame = Window.Current.Content
+            Dim pagina As Page = frame.Content
+
+            Dim spEntradas As StackPanel = pagina.FindName("spEntradas")
+            spEntradas.Children.Clear()
+
+            For Each entrada In entradas
+                spEntradas.Children.Add(Interfaz.Entradas.GenerarEntrada(entrada))
+            Next
         End Sub
 
     End Module
