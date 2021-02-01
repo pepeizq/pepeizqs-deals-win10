@@ -29,7 +29,7 @@ Module Trial
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
-        Dim spFiltroDeseados As StackPanel = pagina.FindName("spFiltroDeseados")
+        Dim spFiltros As StackPanel = pagina.FindName("spFiltros")
         Dim panelComparadores As DropShadowPanel = pagina.FindName("panelComparadores")
         Dim spExportarEntradaExpandida As StackPanel = pagina.FindName("spExportarEntradaExpandida")
         Dim spComprarApp As StackPanel = pagina.FindName("spComprarApp")
@@ -39,7 +39,7 @@ Module Trial
                 Divisas.Generar()
             End If
 
-            spFiltroDeseados.Visibility = Visibility.Visible
+            spFiltros.Visibility = Visibility.Visible
             panelComparadores.Visibility = Visibility.Visible
             spExportarEntradaExpandida.Visibility = Visibility.Visible
 
@@ -47,7 +47,7 @@ Module Trial
 
             Configuracion.Trial(True)
         Else
-            spFiltroDeseados.Visibility = Visibility.Collapsed
+            spFiltros.Visibility = Visibility.Collapsed
             panelComparadores.Visibility = Visibility.Collapsed
             spExportarEntradaExpandida.Visibility = Visibility.Collapsed
 

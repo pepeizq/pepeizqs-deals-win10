@@ -178,7 +178,8 @@
     <Compile Include="Modulos\Interfaz\EntradaExpandida.vb" />
     <Compile Include="Modulos\Interfaz\Entradas.vb" />
     <Compile Include="Modulos\Interfaz\EfectosHover.vb" />
-    <Compile Include="Modulos\Interfaz\Inicio.vb" />
+    <Compile Include="Modulos\Interfaz\Filtros.vb" />
+    <Compile Include="Modulos\Interfaz\EntradasBotones.vb" />
     <Compile Include="Modulos\Interfaz\NavigationViewItems.vb" />
     <Compile Include="Modulos\Interfaz\Pestañas.vb" />
     <Compile Include="Modulos\Interfaz\Submenu.vb" />

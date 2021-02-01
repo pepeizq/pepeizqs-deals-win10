@@ -63,7 +63,7 @@ Namespace Interfaz
 
             Dim fondoMaestro As New SolidColorBrush With {
                 .Color = App.Current.Resources("ColorCuarto"),
-                .Opacity = 0.3
+                .Opacity = 0.4
             }
 
             Dim gridMaestro As New Grid With {
@@ -104,6 +104,8 @@ Namespace Interfaz
                         If Not json.Mensaje = Nothing Then
                             If Not json.Mensaje = "null" Then
                                 json.Mensaje = json.Mensaje.Replace("* ", Nothing)
+                                json.Mensaje = json.Mensaje.Replace("<b>", Nothing)
+                                json.Mensaje = json.Mensaje.Replace("</b>", Nothing)
                                 json.Mensaje = json.Mensaje.Trim
 
                                 Dim tb As New TextBlock With {
@@ -111,10 +113,12 @@ Namespace Interfaz
                                     .Foreground = New SolidColorBrush(Colors.White),
                                     .TextWrapping = TextWrapping.Wrap,
                                     .HorizontalAlignment = HorizontalAlignment.Center,
+                                    .HorizontalTextAlignment = TextAlignment.Center,
                                     .Margin = New Thickness(0, 30, 0, 0),
                                     .FontSize = 16,
                                     .FontWeight = Text.FontWeights.SemiBold,
-                                    .MaxWidth = 350
+                                    .MaxWidth = 300,
+                                    .LineHeight = 26
                                 }
 
                                 spIzquierda.Children.Add(tb)

@@ -51,9 +51,10 @@ Public NotInheritable Class MainPage
 
         Deseados.Cargar()
         Trial.Detectar(True)
-        Interfaz.Inicio.Cargar()
+        Interfaz.EntradasBotones.Cargar()
         Interfaz.Buscador.Cargar()
         Interfaz.Submenu.Cargar()
+        Interfaz.Filtros.Cargar()
         Configuracion.Cargar()
         MasCosas.Cargar()
 

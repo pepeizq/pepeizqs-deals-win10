@@ -327,6 +327,9 @@
   <data name="SteamAccount.Text" xml:space="preserve">
     <value>Cuenta de Steam</value>
   </data>
+  <data name="StoresFilter.Text" xml:space="preserve">
+    <value>Filtro de Tiendas</value>
+  </data>
   <data name="Subscriptions.Text" xml:space="preserve">
     <value>Suscripciones</value>
   </data>
@@ -368,9 +371,6 @@
   </data>
   <data name="WishlistGamesInfo.Text" xml:space="preserve">
     <value>Haz click en los juegos para ver en que tiendas esta disponible.</value>
-  </data>
-  <data name="WishlistNoGames.Text" xml:space="preserve">
-    <value>No hay juegos de tu lista de deseados.</value>
   </data>
   <data name="WishlistSteamAccount.Text" xml:space="preserve">
     <value>Si pones un enlace a tu perfil de Steam la app leerá tus juegos en deseados y podrá cargar un filtro en las entradas.</value>

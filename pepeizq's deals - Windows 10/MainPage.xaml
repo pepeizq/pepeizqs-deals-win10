@@ -205,22 +205,60 @@
 
                             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
                                 <StackPanel Orientation="Vertical">
-                                    <StackPanel x:Name="spFiltroDeseados" Orientation="Vertical">
-                                        <Grid BorderBrush="White" BorderThickness="0,1,0,0"/>
+                                    <StackPanel x:Name="spFiltros" Orientation="Vertical">
+                                        <StackPanel x:Name="spFiltroDeseados" Orientation="Vertical" Visibility="Collapsed">
+                                            <Button x:Name="botonFiltroDeseados" Background="Transparent" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" BorderBrush="White" BorderThickness="0,1,0,0">
+                                                <Button.Content>
+                                                    <Grid Padding="0,10,0,10">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        
+                                                        <TextBlock x:Uid="WishlistFilter" Grid.Column="0" Foreground="White" FontSize="16" HorizontalAlignment="Center"/>
+                                                        <iconos:FontAwesome x:Name="iconoFiltroDeseados" Icon="Solid_AngleDown" Grid.Column="1" Foreground="White" FontSize="16" Margin="0,0,5,0"/>
+                                                    </Grid>
+                                                </Button.Content>
+                                            </Button>
 
-                                        <TextBlock x:Uid="WishlistFilter" Foreground="White" FontSize="16" HorizontalAlignment="Center" Margin="0,20,0,10"/>
+                                            <controls:AdaptiveGridView x:Name="gvFiltroJuegosDeseados" DesiredWidth="155" Padding="15">
+                                                <GridView.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <ItemsWrapGrid MaximumRowsOrColumns="2" Orientation="Horizontal"/>
+                                                    </ItemsPanelTemplate>
+                                                </GridView.ItemsPanel>
+                                            </controls:AdaptiveGridView>
+                                        </StackPanel>
 
-                                        <controls:AdaptiveGridView x:Name="gvFiltroJuegosDeseados" DesiredWidth="155" Padding="15">
-                                            <GridView.ItemsPanel>
-                                                <ItemsPanelTemplate>
-                                                    <ItemsWrapGrid MaximumRowsOrColumns="2" Orientation="Horizontal"/>
-                                                </ItemsPanelTemplate>
-                                            </GridView.ItemsPanel>
-                                        </controls:AdaptiveGridView>
+                                        <StackPanel x:Name="spFiltroTiendas" Orientation="Vertical" Visibility="Collapsed">
+                                            <Button x:Name="botonFiltroTiendas" Background="Transparent" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" BorderBrush="White" BorderThickness="0,1,0,0">
+                                                <Button.Content>
+                                                    <Grid Padding="0,10,0,10">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
 
-                                        <ProgressRing x:Name="prDeseados" Foreground="White" Margin="15" HorizontalAlignment="Center" IsActive="True" Visibility="Collapsed"/>
+                                                        <TextBlock x:Uid="StoresFilter" Grid.Column="0" Foreground="White" FontSize="16" HorizontalAlignment="Center"/>
+                                                        <iconos:FontAwesome x:Name="iconoFiltroTiendas" Icon="Solid_AngleDown" Grid.Column="1" Foreground="White" FontSize="16" Margin="0,0,5,0"/>
+                                                    </Grid>
+                                                </Button.Content>
+                                            </Button>
 
-                                        <TextBlock x:Name="tbJuegosDeseadosNoHay" x:Uid="WishlistNoGames" Padding="15" FontSize="16" LineHeight="25" Foreground="White" Visibility="Collapsed" MaxWidth="340" TextWrapping="Wrap" HorizontalAlignment="Center"/>
+                                            <controls:AdaptiveGridView x:Name="gvFiltroTiendas" DesiredWidth="155" Padding="15">
+                                                <GridView.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <ItemsWrapGrid MaximumRowsOrColumns="2" Orientation="Horizontal"/>
+                                                    </ItemsPanelTemplate>
+                                                </GridView.ItemsPanel>
+                                            </controls:AdaptiveGridView>
+                                        </StackPanel>
+
+                                        <StackPanel x:Name="spFiltroFechas" Orientation="Vertical" Visibility="Collapsed">
+
+                                        </StackPanel>
+
+                                        <ProgressRing x:Name="prFiltros" Foreground="White" Margin="15,40,15,15" Width="40" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center" IsActive="True" Visibility="Collapsed"/>
                                     </StackPanel>
                                 </StackPanel>
                             </ScrollViewer>

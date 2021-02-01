@@ -4,7 +4,7 @@ Imports Windows.UI
 
 Namespace Interfaz
 
-    Module Inicio
+    Module EntradasBotones
 
         Public Sub Cargar()
 
