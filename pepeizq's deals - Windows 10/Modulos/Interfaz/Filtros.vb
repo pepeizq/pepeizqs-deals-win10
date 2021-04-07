@@ -118,7 +118,8 @@ Namespace Interfaz
             filtros.Clear()
 
             For Each entrada In entradas
-                For Each juego In juegosDeseados
+                Dim i As Integer = 0
+                While i < juegosDeseados.Count
                     Dim listadoEncontrados As New List(Of FiltroEntradaDeseado)
 
                     If entrada.Categorias(0) = 3 Then
@@ -129,12 +130,12 @@ Namespace Interfaz
                                 If Not json.Juegos Is Nothing Then
                                     For Each juego2 In json.Juegos
                                         If usuarioDeseados = 1 Then
-                                            If Limpieza.Limpiar(juego2.Titulo) = Limpieza.Limpiar(WebUtility.HtmlDecode(juego.Titulo)) Then
+                                            If Limpieza.Limpiar(juego2.Titulo) = Limpieza.Limpiar(WebUtility.HtmlDecode(juegosDeseados(i).Titulo)) Then
                                                 listadoEncontrados.Add(New FiltroEntradaDeseado(juego2, entrada))
                                                 Exit For
                                             End If
                                         ElseIf usuarioDeseados = 0 Then
-                                            If Limpieza.Limpiar(juego2.Titulo).Contains(Limpieza.Limpiar(WebUtility.HtmlDecode(juego.Titulo))) Then
+                                            If Limpieza.Limpiar(juego2.Titulo).Contains(Limpieza.Limpiar(WebUtility.HtmlDecode(juegosDeseados(i).Titulo))) Then
                                                 listadoEncontrados.Add(New FiltroEntradaDeseado(juego2, entrada))
                                             End If
                                         End If
@@ -145,13 +146,13 @@ Namespace Interfaz
                             Dim añadir As Boolean = False
 
                             If Not entrada.Titulo Is Nothing Then
-                                If Limpieza.Limpiar(entrada.Titulo.Texto).Contains(Limpieza.Limpiar(juego.Titulo)) Then
+                                If Limpieza.Limpiar(entrada.Titulo.Texto).Contains(Limpieza.Limpiar(juegosDeseados(i).Titulo)) Then
                                     añadir = True
                                 End If
                             End If
 
                             If Not entrada.SubTitulo = Nothing Then
-                                If Limpieza.Limpiar(entrada.SubTitulo).Contains(Limpieza.Limpiar(juego.Titulo)) Then
+                                If Limpieza.Limpiar(entrada.SubTitulo).Contains(Limpieza.Limpiar(juegosDeseados(i).Titulo)) Then
                                     añadir = True
                                 End If
                             End If
@@ -164,13 +165,13 @@ Namespace Interfaz
                         Dim añadir As Boolean = False
 
                         If Not entrada.Titulo Is Nothing Then
-                            If Limpieza.Limpiar(entrada.Titulo.Texto).Contains(Limpieza.Limpiar(juego.Titulo)) Then
+                            If Limpieza.Limpiar(entrada.Titulo.Texto).Contains(Limpieza.Limpiar(juegosDeseados(i).Titulo)) Then
                                 añadir = True
                             End If
                         End If
 
                         If Not entrada.SubTitulo = Nothing Then
-                            If Limpieza.Limpiar(entrada.SubTitulo).Contains(Limpieza.Limpiar(juego.Titulo)) Then
+                            If Limpieza.Limpiar(entrada.SubTitulo).Contains(Limpieza.Limpiar(juegosDeseados(i).Titulo)) Then
                                 añadir = True
                             End If
                         End If
@@ -184,17 +185,18 @@ Namespace Interfaz
                         Dim encontrado As Boolean = False
 
                         For Each filtro In filtros
-                            If filtro.Titulo = juego.Titulo Then
+                            If filtro.Titulo = juegosDeseados(i).Titulo Then
                                 filtro.Entradas.Add(New FiltroEntradaDeseado(listadoEncontrados(0).Juego, listadoEncontrados(0).Entrada))
                                 encontrado = True
                             End If
                         Next
 
                         If encontrado = False Then
-                            filtros.Add(New FiltroDeseado(juego.Titulo, listadoEncontrados, juego.Imagen))
+                            filtros.Add(New FiltroDeseado(juegosDeseados(i).Titulo, listadoEncontrados, juegosDeseados(i).Imagen))
                         End If
                     End If
-                Next
+                    i += 1
+                End While
             Next
 
         End Sub

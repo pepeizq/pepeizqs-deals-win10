@@ -98,6 +98,9 @@ Public Class EntradaOfertasJuego
     <JsonProperty("price")>
     Public Precio As String
 
+    <JsonProperty("price2")>
+    Public Precio2 As String
+
     <JsonProperty("drm")>
     Public DRM As String
 

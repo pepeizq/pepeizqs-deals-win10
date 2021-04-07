@@ -285,6 +285,27 @@ Namespace Interfaz
 
                         spDatos.Children.Add(spPrecio)
 
+                        If Not juego.Precio2 = Nothing Then
+                            If juego.Precio2.Length > 0 Then
+                                Dim tbPrecio2 As New TextBlock With {
+                                    .Text = juego.Precio2,
+                                    .Foreground = New SolidColorBrush(Colors.White),
+                                    .FontSize = 17,
+                                    .FontWeight = Text.FontWeights.SemiBold
+                                }
+
+                                Dim spPrecio2 As New StackPanel With {
+                                    .Background = New SolidColorBrush(Colors.Black),
+                                    .Padding = New Thickness(10, 6, 8, 8),
+                                    .Margin = New Thickness(20, 0, 0, 0)
+                                }
+
+                                spPrecio2.Children.Add(tbPrecio2)
+
+                                spDatos.Children.Add(spPrecio2)
+                            End If
+                        End If
+
                         If Not juego.DRM = Nothing Then
                             Dim imagenOrigen As String = String.Empty
 
