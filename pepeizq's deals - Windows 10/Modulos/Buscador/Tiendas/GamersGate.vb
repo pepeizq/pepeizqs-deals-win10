@@ -28,7 +28,7 @@ Namespace Buscador.Tiendas
 
             Try
                 Dim pais As New Windows.Globalization.GeographicRegion
-                Dim html_ As Task(Of String) = HttpClient(New Uri("https://www.gamersgate.com/feeds/products?country=" + pais.CodeThreeLetter.ToLower + "&q=" + titulo))
+                Dim html_ As Task(Of String) = HttpClient(New Uri("https://www.gamersgate.com/feeds/products?country=DEU&aff=6704538"))
                 Dim html As String = html_.Result
 
                 If Not html = Nothing Then

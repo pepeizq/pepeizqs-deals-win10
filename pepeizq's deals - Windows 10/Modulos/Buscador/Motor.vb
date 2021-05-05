@@ -251,18 +251,6 @@ Namespace Buscador
 
             End Try
 
-            Dim pais As New Windows.Globalization.GeographicRegion
-
-            If Not pais.CodeTwoLetter.ToLower = "uk" Then
-                Try
-                    Await Task.Delay(100)
-                    i += 1
-                    GamersGateUK.Buscar(tiendas, juego.Titulo)
-                Catch ex As Exception
-
-                End Try
-            End If
-
             Try
                 Await Task.Delay(100)
                 i += 1

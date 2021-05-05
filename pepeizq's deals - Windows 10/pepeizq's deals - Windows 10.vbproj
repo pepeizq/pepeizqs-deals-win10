@@ -159,7 +159,6 @@
     <Compile Include="Modulos\Buscador\Tiendas\Allyouplay.vb" />
     <Compile Include="Modulos\Buscador\Tiendas\Fanatical.vb" />
     <Compile Include="Modulos\Buscador\Tiendas\GamersGate.vb" />
-    <Compile Include="Modulos\Buscador\Tiendas\GamersGateUK.vb" />
     <Compile Include="Modulos\Buscador\Tiendas\GamesplanetDE.vb" />
     <Compile Include="Modulos\Buscador\Tiendas\GamesplanetFR.vb" />
     <Compile Include="Modulos\Buscador\Tiendas\GamesplanetUK.vb" />
