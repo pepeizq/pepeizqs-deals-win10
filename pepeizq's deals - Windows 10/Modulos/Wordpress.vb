@@ -228,14 +228,24 @@ Module Wordpress
                         Dim botonSorteosImagen As Button = pagina.FindName("botonSorteosImagen")
 
                         If config.Values("Sorteos") = 1 Then
-                            If entrada.Titulo.Texto.Contains("New Giveaways on SteamGifts • News") Then
+                            Dim esSorteo As Boolean = False
+
+                            For Each categoria In entrada.Categorias
+                                If categoria = 1208 Then
+                                    If entrada.Titulo.Texto.ToLower.Contains("giveaways") = True And entrada.Titulo.Texto.ToLower.Contains("steamgifts") = True Then
+                                        esSorteo = True
+                                    End If
+                                End If
+                            Next
+
+                            If esSorteo = True Then
                                 botonSorteosImagen.Visibility = Visibility.Visible
                                 botonSorteosImagen.Tag = entrada
 
                                 Dim imagenBotonSorteos As ImageEx = pagina.FindName("imagenBotonSorteos")
-                                imagenBotonSorteos.Source = entrada.Imagen
-                            Else
-                                botonSorteosImagen.Visibility = Visibility.Collapsed
+                                Dim imagen As String = entrada.Imagen
+                                imagen = imagen.Replace(".webp", ".png")
+                                imagenBotonSorteos.Source = imagen
                             End If
                         Else
                             botonSorteosImagen.Visibility = Visibility.Collapsed

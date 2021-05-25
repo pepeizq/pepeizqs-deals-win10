@@ -195,12 +195,6 @@
   <data name="Giveaways.Text" xml:space="preserve">
     <value>Giveaways</value>
   </data>
-  <data name="GiveawaysMessage" xml:space="preserve">
-    <value>The only requirements to enter these giveaways are: have an account on SteamGifts, live in a European country and joining the Steam group.</value>
-  </data>
-  <data name="GiveawaysOpenSteam" xml:space="preserve">
-    <value>Open Steam Group</value>
-  </data>
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
