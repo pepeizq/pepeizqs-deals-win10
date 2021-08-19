@@ -183,8 +183,8 @@
   <data name="ExportTextMessage" xml:space="preserve">
     <value>The deals in text format has been copied to your Clipboard</value>
   </data>
-  <data name="FollowDeals.Text" xml:space="preserve">
-    <value>Follow the deals:</value>
+  <data name="FollowDeals" xml:space="preserve">
+    <value>Follow the Deals</value>
   </data>
   <data name="Free.Text" xml:space="preserve">
     <value>Free</value>

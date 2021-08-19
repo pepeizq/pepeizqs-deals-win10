@@ -91,65 +91,6 @@
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Grid.Column="0" Orientation="Horizontal">
-                            <TextBlock x:Uid="FollowDeals" Foreground="White" Margin="7,0,12,0" VerticalAlignment="Center"/>
-
-                            <Button x:Name="botonTwitter" Margin="0,0,5,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
-                                <ToolTipService.ToolTip>
-                                    <TextBlock Text="Twitter"/>
-                                </ToolTipService.ToolTip>
-                                
-                                <Button.Content>
-                                    <iconos:FontAwesome Icon="Brands_Twitter" Foreground="White" FontSize="17"/>
-                                </Button.Content>
-                            </Button>
-                            <Button x:Name="botonSteam" Margin="0,0,5,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
-                                <ToolTipService.ToolTip>
-                                    <TextBlock Text="Steam"/>
-                                </ToolTipService.ToolTip>
-
-                                <Button.Content>
-                                    <iconos:FontAwesome Icon="Brands_Steam" Foreground="White" FontSize="17"/>
-                                </Button.Content>
-                            </Button>
-                            <Button x:Name="botonReddit" Margin="0,0,5,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
-                                <ToolTipService.ToolTip>
-                                    <TextBlock Text="Reddit"/>
-                                </ToolTipService.ToolTip>
-
-                                <Button.Content>
-                                    <iconos:FontAwesome Icon="Brands_Reddit" Foreground="White" FontSize="17"/>
-                                </Button.Content>
-                            </Button>
-                            <Button x:Name="botonDiscord" Margin="0,0,5,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
-                                <ToolTipService.ToolTip>
-                                    <TextBlock Text="Discord"/>
-                                </ToolTipService.ToolTip>
-
-                                <Button.Content>
-                                    <iconos:FontAwesome Icon="Brands_Discord" Foreground="White" FontSize="17"/>
-                                </Button.Content>
-                            </Button>
-                            <Button x:Name="botonTelegram" Margin="0,0,5,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
-                                <ToolTipService.ToolTip>
-                                    <TextBlock Text="Telegram"/>
-                                </ToolTipService.ToolTip>
-
-                                <Button.Content>
-                                    <iconos:FontAwesome Icon="Brands_Telegram" Foreground="White" FontSize="17"/>
-                                </Button.Content>
-                            </Button>
-                            <Button x:Name="botonRSS" Margin="0,0,10,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
-                                <ToolTipService.ToolTip>
-                                    <TextBlock Text="RSS"/>
-                                </ToolTipService.ToolTip>
-
-                                <Button.Content>
-                                    <iconos:FontAwesome Icon="Solid_Rss" Foreground="White" FontSize="17"/>
-                                </Button.Content>
-                            </Button>
-                        </StackPanel>
-
-                        <StackPanel Grid.Column="2" Orientation="Horizontal">
                             <Button x:Name="botonOfertas" Margin="0,0,10,0" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Style="{StaticResource ButtonRevealStyle}" BorderThickness="0">
                                 <Button.Content>
                                     <TextBlock x:Uid="Deals" Foreground="White"/>

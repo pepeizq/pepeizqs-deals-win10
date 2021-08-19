@@ -1,5 +1,6 @@
 ﻿Imports Windows.ApplicationModel.Core
 Imports Windows.Storage
+Imports Windows.System
 Imports Windows.System.Threading
 Imports Windows.UI.Core
 
@@ -11,6 +12,7 @@ Public NotInheritable Class MainPage
         Dim recursos As New Resources.ResourceLoader
 
         nvPrincipal.MenuItems.Add(Interfaz.NavigationViewItems.Generar(recursos.GetString("Home"), FontAwesome5.EFontAwesomeIcon.Solid_Home))
+        nvPrincipal.MenuItems.Add(Interfaz.NavigationViewItems.Generar(recursos.GetString("FollowDeals"), FontAwesome5.EFontAwesomeIcon.Brands_Twitter))
         nvPrincipal.MenuItems.Add(Interfaz.NavigationViewItems.Generar(recursos.GetString("Wishlist"), FontAwesome5.EFontAwesomeIcon.Solid_Star))
         nvPrincipal.MenuItems.Add(Interfaz.NavigationViewItems.Generar(recursos.GetString("Config"), FontAwesome5.EFontAwesomeIcon.Solid_Cog))
         nvPrincipal.MenuItems.Add(New NavigationViewItemSeparator)
@@ -31,6 +33,8 @@ Public NotInheritable Class MainPage
                 If Not item Is Nothing Then
                     If item.Text = recursos.GetString("Home") Then
                         CargarEntradas(100, Nothing, False, False)
+                    ElseIf item.Text = recursos.GetString("FollowDeals") Then
+                        SeguirOfertasClick()
                     ElseIf item.Text = recursos.GetString("Wishlist") Then
                         Interfaz.Pestañas.Visibilidad(gridDeseados, item.Text, item)
                     ElseIf item.Text = recursos.GetString("Config") Then
@@ -53,7 +57,6 @@ Public NotInheritable Class MainPage
         Trial.Detectar(True)
         Interfaz.EntradasBotones.Cargar()
         Interfaz.Buscador.Cargar()
-        Interfaz.Submenu.Cargar()
         Interfaz.Filtros.Cargar()
         Configuracion.Cargar()
         MasCosas.Cargar()
@@ -93,6 +96,12 @@ Public NotInheritable Class MainPage
             gridEntradasSubmenu.Visibility = Visibility.Visible
             botonSubir.Visibility = Visibility.Collapsed
         End If
+
+    End Sub
+
+    Private Async Sub SeguirOfertasClick()
+
+        Await Launcher.LaunchUriAsync(New Uri("https://pepeizqdeals.com/follow-the-deals/"))
 
     End Sub
 

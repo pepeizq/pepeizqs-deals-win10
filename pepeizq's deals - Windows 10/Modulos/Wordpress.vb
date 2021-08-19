@@ -244,7 +244,6 @@ Module Wordpress
 
                                 Dim imagenBotonSorteos As ImageEx = pagina.FindName("imagenBotonSorteos")
                                 Dim imagen As String = entrada.Imagen
-                                imagen = imagen.Replace(".webp", ".png")
                                 imagenBotonSorteos.Source = imagen
                             End If
                         Else

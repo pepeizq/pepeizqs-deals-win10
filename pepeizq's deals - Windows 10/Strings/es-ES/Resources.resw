@@ -183,8 +183,8 @@
   <data name="ExportTextMessage" xml:space="preserve">
     <value>Se ha copiado a tu Portapapeles las ofertas en formato texto</value>
   </data>
-  <data name="FollowDeals.Text" xml:space="preserve">
-    <value>Sigue las ofertas:</value>
+  <data name="FollowDeals" xml:space="preserve">
+    <value>Sigue las Ofertas</value>
   </data>
   <data name="Free.Text" xml:space="preserve">
     <value>Gratis</value>
