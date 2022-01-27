@@ -23,7 +23,13 @@
 
             Dim wv As WebView = sender
 
-            Dim html As String = Await wv.InvokeScriptAsync("eval", New String() {"document.documentElement.outerHTML;"})
+            Dim html As String = String.Empty
+
+            Try
+                html = Await wv.InvokeScriptAsync("eval", New String() {"document.documentElement.outerHTML;"})
+            Catch ex As Exception
+
+            End Try
 
             If Not html = Nothing Then
                 Dim paisBuscar As String = String.Empty

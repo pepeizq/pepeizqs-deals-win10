@@ -79,7 +79,7 @@
                 If Not enlace.Contains(referido) Then
                     enlace = enlace + referido
                 End If
-            ElseIf enlace.Contains("yuplay.ru") Then
+            ElseIf enlace.Contains("yuplay.com") Then
                 Dim referido As String = "?partner=19b1d908fe49e597"
 
                 If Not enlace.Contains(referido) Then

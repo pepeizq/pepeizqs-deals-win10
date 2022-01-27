@@ -9,7 +9,7 @@ Module Wordpress
 
     Dim entradas As New List(Of Entrada)
 
-    Public Async Sub CargarEntradas(paginas As Integer, categoria As String, actualizar As Boolean, primeraVez As Boolean)
+    Public Async Sub CargarEntradas(numeroEntradas As Integer, categoria As String, actualizar As Boolean, primeraVez As Boolean)
 
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
@@ -18,12 +18,12 @@ Module Wordpress
         Interfaz.Pestañas.Visibilidad(gridCarga, Nothing, Nothing)
 
         Await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, Sub()
-                                                                                                         CargarEntradas2(pagina, paginas, categoria, actualizar, primeraVez)
+                                                                                                         CargarEntradas2(pagina, numeroEntradas, categoria, actualizar, primeraVez)
                                                                                                      End Sub)
 
     End Sub
 
-    Private Async Sub CargarEntradas2(pagina As Page, paginas As Integer, categoria As String, actualizar As Boolean, primeraVez As Boolean)
+    Private Async Sub CargarEntradas2(pagina As Page, numeroEntradas As Integer, categoria As String, actualizar As Boolean, primeraVez As Boolean)
 
         Dim recursos As New Resources.ResourceLoader()
         Dim config As ApplicationDataContainer = ApplicationData.Current.LocalSettings
@@ -75,9 +75,11 @@ Module Wordpress
 
             If Not categoriaN = Nothing Then
                 categoriaString = "&categories=" + categoriaN.ToString
+            Else
+                categoriaString = "&categories=3,4,12,13,1208"
             End If
 
-            entradas = Await cliente.CustomRequest.Get(Of List(Of Entrada))("wp/v2/posts?per_page=" + paginas.ToString + categoriaString.ToString)
+            entradas = Await cliente.CustomRequest.Get(Of List(Of Entrada))("wp/v2/posts?per_page=" + numeroEntradas.ToString + categoriaString)
 
             For Each nuevaEntrada In entradas
                 Dim añadir As Boolean = True

@@ -134,30 +134,34 @@ Module Push
                                                                                                                                                                                                         notificar = False
                                                                                                                                                                                                     End If
 
-                                                                                                                                                                                                    If listaNotificaciones.Count > 0 Then
-                                                                                                                                                                                                        For Each notificacion In listaNotificaciones
-                                                                                                                                                                                                            If notificacion.Datos = args.Data Then
-                                                                                                                                                                                                                notificar = False
-                                                                                                                                                                                                            End If
-                                                                                                                                                                                                        Next
-                                                                                                                                                                                                    End If
-
                                                                                                                                                                                                     For Each entrada In entradas
                                                                                                                                                                                                         If entrada.Enlace = enlace Then
-                                                                                                                                                                                                            notificar = False
+                                                                                                                                                                                                            notificar = True
                                                                                                                                                                                                         End If
                                                                                                                                                                                                     Next
 
                                                                                                                                                                                                     If notificar = True Then
-                                                                                                                                                                                                        listaNotificaciones.Add(New MensajePush(args.Data))
+                                                                                                                                                                                                        Dim notificar2 As Boolean = True
 
-                                                                                                                                                                                                        Try
-                                                                                                                                                                                                            Await helper.SaveFileAsync(Of List(Of MensajePush))("listaNotificaciones", listaNotificaciones)
-                                                                                                                                                                                                        Catch ex As Exception
+                                                                                                                                                                                                        If listaNotificaciones.Count > 0 Then
+                                                                                                                                                                                                            For Each notificacion In listaNotificaciones
+                                                                                                                                                                                                                If notificacion.Datos = args.Data Then
+                                                                                                                                                                                                                    notificar = False
+                                                                                                                                                                                                                End If
+                                                                                                                                                                                                            Next
+                                                                                                                                                                                                        End If
 
-                                                                                                                                                                                                        End Try
+                                                                                                                                                                                                        If notificar = True Then
+                                                                                                                                                                                                            listaNotificaciones.Add(New MensajePush(args.Data))
 
-                                                                                                                                                                                                        Notificaciones.ToastOferta(titulo, enlace, imagen)
+                                                                                                                                                                                                            Try
+                                                                                                                                                                                                                Await helper.SaveFileAsync(Of List(Of MensajePush))("listaNotificaciones", listaNotificaciones)
+                                                                                                                                                                                                            Catch ex As Exception
+
+                                                                                                                                                                                                            End Try
+
+                                                                                                                                                                                                            Notificaciones.ToastOferta(titulo, enlace, imagen)
+                                                                                                                                                                                                        End If
                                                                                                                                                                                                     End If
                                                                                                                                                                                                 End If
                                                                                                                                                                                             End If
@@ -172,7 +176,7 @@ End Module
 
         Public Datos As String
 
-        Public Sub New(ByVal datos As String)
+        Public Sub New(datos As String)
             Me.Datos = datos
         End Sub
 

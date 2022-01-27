@@ -12,7 +12,9 @@ Namespace Interfaz
             tbTitulo.Text = Package.Current.DisplayName + " (" + Package.Current.Id.Version.Major.ToString + "." + Package.Current.Id.Version.Minor.ToString + "." + Package.Current.Id.Version.Build.ToString + "." + Package.Current.Id.Version.Revision.ToString + ")"
 
             If Not tag = Nothing Then
-                tbTitulo.Text = tbTitulo.Text + " • " + tag
+                If Not tag = 1208 Then
+                    tbTitulo.Text = tbTitulo.Text + " • " + tag
+                End If
             End If
 
             Dim gridCarga As Grid = pagina.FindName("gridCarga")

@@ -582,6 +582,7 @@
                 </Grid>
 
                 <Grid Visibility="Collapsed">
+                    <WebView x:Name="wvWeb"/>
                     <WebView x:Name="wvSteamDB"/>
                     <WebView x:Name="wvIsthereanydeal"/>
                     <WebView x:Name="wvGGdeals"/>

@@ -1,6 +1,4 @@
-﻿Imports Windows.System
-
-Namespace Interfaz
+﻿Namespace Interfaz
 
     Module Submenu
 
@@ -44,7 +42,7 @@ Namespace Interfaz
         Private Sub AbrirSeccionClick(sender As Object, e As RoutedEventArgs)
 
             Dim boton As Button = sender
-            Wordpress.CargarEntradas(100, boton.Tag, False, False)
+            Wordpress.CargarEntradas(100, boton.Tag, True, False)
 
         End Sub
 

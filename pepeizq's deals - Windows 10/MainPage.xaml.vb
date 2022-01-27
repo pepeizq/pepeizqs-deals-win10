@@ -51,6 +51,9 @@ Public NotInheritable Class MainPage
         'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "es-ES"
         'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "en-US"
 
+        wvWeb.Navigate(New Uri("https://pepeizqdeals.com/"))
+        wvWeb.Navigate(New Uri("https://www.google.com/search?q=pepeizq's+deals"))
+
         Wordpress.CargarEntradas(100, Nothing, True, True)
 
         Deseados.Cargar()
@@ -58,6 +61,7 @@ Public NotInheritable Class MainPage
         Interfaz.EntradasBotones.Cargar()
         Interfaz.Buscador.Cargar()
         Interfaz.Filtros.Cargar()
+        Interfaz.Submenu.Cargar()
         Configuracion.Cargar()
         MasCosas.Cargar()
 

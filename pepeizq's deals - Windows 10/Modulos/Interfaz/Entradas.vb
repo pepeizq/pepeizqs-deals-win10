@@ -346,7 +346,7 @@ Namespace Interfaz
                 }
 
                 Dim gv As New AdaptiveGridView With {
-                    .DesiredWidth = 250,
+                    .DesiredWidth = 150,
                     .Padding = New Thickness(5, 5, 0, 0),
                     .IsHitTestVisible = False
                 }
